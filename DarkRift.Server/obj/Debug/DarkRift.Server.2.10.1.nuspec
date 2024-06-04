@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>DarkRift.Server</id>
+    <version>2.10.1</version>
+    <authors>DarkRift.Server</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="699348018a0ef97936e5d8bdbced17cbed2f368d" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.1">
+        <dependency id="DarkRift.Client" version="2.10.1" exclude="Build,Analyzers" />
+        <dependency id="DarkRift" version="2.10.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server\bin\Debug\net471\DarkRift.Server.dll" target="lib\net471\DarkRift.Server.dll" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server\bin\Debug\net471\DarkRift.Server.xml" target="lib\net471\DarkRift.Server.xml" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\README.md" target="README.md" />
+  </files>
+</package>

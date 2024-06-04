@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DarkRift.Server.Console": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

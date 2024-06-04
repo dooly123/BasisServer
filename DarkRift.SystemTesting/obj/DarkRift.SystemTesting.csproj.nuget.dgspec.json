@@ -1,0 +1,266 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.SystemTesting\\DarkRift.SystemTesting.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+      "version": "2.10.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
+        "projectName": "DarkRift.Client",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
+        "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\doola\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "targetAlias": "net471",
+            "projectReferences": {
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "targetAlias": "net471",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
+      "version": "2.10.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
+        "projectName": "DarkRift.Server",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
+        "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\doola\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "targetAlias": "net471",
+            "projectReferences": {
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
+              },
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "targetAlias": "net471",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.SystemTesting\\DarkRift.SystemTesting.csproj": {
+      "version": "2.10.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.SystemTesting\\DarkRift.SystemTesting.csproj",
+        "projectName": "DarkRift.SystemTesting",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.SystemTesting\\DarkRift.SystemTesting.csproj",
+        "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.SystemTesting\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "configFilePaths": [
+          "C:\\Users\\doola\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
+              },
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj"
+              },
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.4.0, )"
+            },
+            "SpecFlow": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            },
+            "SpecFlow.MsTest": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            },
+            "SpecFlow.Tools.MsBuild.Generation": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.29, 6.0.29]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.29, 6.0.29]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.29, 6.0.29]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
+      "version": "2.10.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj",
+        "projectName": "DarkRift",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj",
+        "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\BasisServer\\DarkRift\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\doola\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "targetAlias": "net471",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "targetAlias": "net471",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\unordinal\dr-build\DarkRift.Server.Console\bin\Debug\net471\Server.config
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\unordinal\dr-build\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.exe.config
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\unordinal\dr-build\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.exe
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\unordinal\dr-build\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.pdb
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.csproj.AssemblyReference.cache
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.AssemblyInfoInputs.cache
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.AssemblyInfo.cs
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.csproj.CoreCompileInputs.cache
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.sourcelink.json
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.0CB8D120.Up2Date
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.exe
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\DarkRift.Server.Console\obj\Debug\net471\DarkRift.Server.Console.pdb
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server.Console\bin\Debug\net471\Server.config
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.exe.config
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.exe
+C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Server.Console\bin\Debug\net471\DarkRift.Server.Console.pdb
