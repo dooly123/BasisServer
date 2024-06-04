@@ -9,10 +9,10 @@
 a framework for social VR
 <br/>
 <br/>
-<a href=""><strong>Explore the docs »</strong></a>
+<a href="https://discord.gg/F35u3cUMqt"><strong>Join The Discord!»</strong></a>
 <br/>
 <br/>
-<a href="">View Demo .</a>  
+<a href="https://github.com/dooly123/Basis/releases">Grab Latest Release .</a>  
 <a href="https://github.com/dooly123/Basis/issues/new?labels=bug&template=bug-report---.md">Report Bug .</a>
 <a href="https://github.com/dooly123/Basis/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
 </p>
@@ -58,7 +58,7 @@ other version will work with minor changes required.
 
 Currently, only OPENXR is supported.
 
-
+Currently, the project is buggy but working. (we got work todo!)
 
  ### Installation
 
@@ -92,5 +92,15 @@ luke dooly - [@lukedooly](https://x.com/lukedooly) - doolanl208@gmail.com
 Discord: [Doolys Discord Account](https://discord.com/users/170859544782700544)
 
 Thank you to everyone who has helped Basis become something remarkable.
-
 <img src="https://img.shields.io/liberapay/receives/dooly.svg?logo=liberapay">
+## Third-Party Code and Trademarks
+
+This project includes third-party code licensed under the Apache License 2.0:
+
+- [SteamAudio](https://github.com/ValveSoftware/steam-audio)
+
+For more details, see `Assets/third_party/plugins/SteamAudio/LICENSE`.
+
+This project also includes third-party trademarks as described in `Assets/third_party/plugins/SteamAudio/TRADEMARK_RIGHTS.md`. For more details, see `Assets/third_party/plugins/SteamAudio/TRADEMARK_RIGHTS.md`.
+
+"Valve", "Steam", and the associated figurative images are trademarks and/or registered trademarks of Valve Corporation in the US and in various other jurisdictions. All rights reserved. Use of these trademarks must comply with the guidelines set forth in `Assets/third_party/plugins/SteamAudio/TRADEMARK_RIGHTS.md`.
