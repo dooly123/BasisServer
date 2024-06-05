@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['bichannel_0',['Bichannel',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_listeners_1_1_bichannel.html',1,'DarkRift::Server::Plugins::Listeners']]],
+  ['chat_1',['Chat',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_chat.html',1,'DarkRift::Server::Plugins']]],
+  ['client_2',['Client',['../namespace_dark_rift_1_1_client.html',1,'DarkRift']]],
+  ['commands_3',['Commands',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_commands.html',1,'DarkRift::Server::Plugins']]],
+  ['configuration_4',['Configuration',['../namespace_dark_rift_1_1_server_1_1_configuration.html',1,'DarkRift::Server']]],
+  ['console_5',['Console',['../namespace_dark_rift_1_1_server_1_1_console.html',1,'DarkRift::Server']]],
+  ['darkrift_6',['DarkRift',['../namespace_dark_rift.html',1,'']]],
+  ['datastructures_7',['DataStructures',['../namespace_dark_rift_1_1_data_structures.html',1,'DarkRift']]],
+  ['dispatching_8',['Dispatching',['../namespace_dark_rift_1_1_dispatching.html',1,'DarkRift.Dispatching'],['../namespace_dark_rift_1_1_testing_1_1_dispatching.html',1,'DarkRift.Testing.Dispatching']]],
+  ['healthcheck_9',['HealthCheck',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_health_check.html',1,'DarkRift::Server::Plugins']]],
+  ['listeners_10',['Listeners',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_listeners.html',1,'DarkRift::Server::Plugins']]],
+  ['logwriters_11',['LogWriters',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_log_writers.html',1,'DarkRift::Server::Plugins']]],
+  ['matchmaking_12',['Matchmaking',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_matchmaking.html',1,'DarkRift.Server.Plugins.Matchmaking'],['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_rooms_1_1_tests_1_1_plugins_1_1_matchmaking.html',1,'DarkRift.Server.Plugins.Rooms.Tests.Plugins.Matchmaking']]],
+  ['metrics_13',['Metrics',['../namespace_dark_rift_1_1_server_1_1_metrics.html',1,'DarkRift.Server.Metrics'],['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_metrics.html',1,'DarkRift.Server.Plugins.Metrics']]],
+  ['performance_14',['Performance',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_performance.html',1,'DarkRift::Server::Plugins']]],
+  ['plugins_15',['Plugins',['../namespace_dark_rift_1_1_server_1_1_plugins.html',1,'DarkRift.Server.Plugins'],['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_rooms_1_1_tests_1_1_plugins.html',1,'DarkRift.Server.Plugins.Rooms.Tests.Plugins'],['../namespace_dark_rift_1_1_system_testing_1_1_plugins.html',1,'DarkRift.SystemTesting.Plugins']]],
+  ['prometheus_16',['Prometheus',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_metrics_1_1_prometheus.html',1,'DarkRift::Server::Plugins::Metrics']]],
+  ['rooms_17',['Rooms',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_rooms.html',1,'DarkRift::Server::Plugins']]],
+  ['server_18',['Server',['../namespace_dark_rift_1_1_server.html',1,'DarkRift']]],
+  ['systemtesting_19',['SystemTesting',['../namespace_dark_rift_1_1_system_testing.html',1,'DarkRift']]],
+  ['testing_20',['Testing',['../namespace_dark_rift_1_1_data_structures_1_1_testing.html',1,'DarkRift.DataStructures.Testing'],['../namespace_dark_rift_1_1_server_1_1_configuration_1_1_testing.html',1,'DarkRift.Server.Configuration.Testing'],['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_chat_1_1_testing.html',1,'DarkRift.Server.Plugins.Chat.Testing'],['../namespace_dark_rift_1_1_server_1_1_testing.html',1,'DarkRift.Server.Testing'],['../namespace_dark_rift_1_1_testing.html',1,'DarkRift.Testing']]],
+  ['tests_21',['Tests',['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_matchmaking_1_1_tests.html',1,'DarkRift.Server.Plugins.Matchmaking.Tests'],['../namespace_dark_rift_1_1_server_1_1_plugins_1_1_rooms_1_1_tests.html',1,'DarkRift.Server.Plugins.Rooms.Tests']]],
+  ['unity_22',['Unity',['../namespace_dark_rift_1_1_client_1_1_unity.html',1,'DarkRift.Client.Unity'],['../namespace_dark_rift_1_1_server_1_1_unity.html',1,'DarkRift.Server.Unity']]]
+];

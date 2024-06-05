@@ -11,7 +11,7 @@ public class EnetListenerPlugin : NetworkListener
     private Host server;
     private Dictionary<Peer, EnetServerConnection> connections = new Dictionary<Peer, EnetServerConnection>();
     public Thread ServerIncomeThread;
-    public static double ServerTickRate = 64;
+    public static double ServerTickRate = 30;
     public static int PeerLimit = 1024;
     public static ushort SetPort = 4296;
     public EnetListenerPlugin(NetworkListenerLoadData pluginLoadData) : base(pluginLoadData)

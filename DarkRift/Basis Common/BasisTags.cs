@@ -2,14 +2,15 @@
 {
     public class BasisTags
     {
-        public const ushort AuthenticationTag = 0;
-        public const ushort AuthenticationSucess = 1;
-        public const ushort AuthenticationFailure = 2;
-        public const ushort CreateRemotePlayerTag = 3;
-        public const ushort CreateAllRemoteClientsTag = 4;
-        public const ushort ReadyState = 5;
-        public const ushort PlayerUpdateTag = 10;
-        public const ushort DisconnectTag = 12;
-        public const ushort VoiceAudioSegment = 16;
+        //CommandCode 0 & 1 are taken by CommandCode
+        public const ushort AuthTag = 2;
+        public const ushort AuthSuccess = 3;
+        public const ushort AuthFailure = 4;
+        public const ushort DisconnectTag = 5;
+        public const ushort CreateRemotePlayerTag = 6;
+        public const ushort CreateRemotePlayersTag = 7;
+        public const ushort ReadyStateTag = 8;
+        public const ushort AudioSegmentTag = 9;
+        public const ushort AvatarMuscleUpdateTag = 10;
     }
 }

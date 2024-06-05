@@ -30,7 +30,7 @@ namespace DarkRift.Server.Plugins.Commands
         {
             using (Message message = e.GetMessage())
             {
-                if (message.Tag == BasisTags.AuthenticationTag)
+                if (message.Tag == BasisTags.AuthTag)
                 {
                     Console.WriteLine("AuthenticationCheck... for " + e.Client.ID);
                     AttemptAuthentication(message, e);
@@ -87,7 +87,7 @@ namespace DarkRift.Server.Plugins.Commands
         {
             using (DarkRiftWriter newPlayerWriter = DarkRiftWriter.Create())
             {
-                using (Message authenticatedMessage = Message.Create(BasisTags.AuthenticationSucess, newPlayerWriter))
+                using (Message authenticatedMessage = Message.Create(BasisTags.AuthSuccess, newPlayerWriter))
                 {
                     client.SendMessage(authenticatedMessage, SendMode.Reliable);
                 }
@@ -98,7 +98,7 @@ namespace DarkRift.Server.Plugins.Commands
         {
             using (DarkRiftWriter newPlayerWriter = DarkRiftWriter.Create())
             {
-                using (Message authenticatedMessage = Message.Create(BasisTags.AuthenticationFailure, newPlayerWriter))
+                using (Message authenticatedMessage = Message.Create(BasisTags.AuthFailure, newPlayerWriter))
                 {
                     client.SendMessage(authenticatedMessage, SendMode.Reliable);
                 }
@@ -166,7 +166,7 @@ namespace DarkRift.Server.Plugins.Commands
                 }
                 remoteMessages.serverSidePlayer = copied.ToArray();
                 newPlayerWriter.Write(remoteMessages);
-                using (Message allClientsMessage = Message.Create(BasisTags.CreateAllRemoteClientsTag, newPlayerWriter))
+                using (Message allClientsMessage = Message.Create(BasisTags.CreateRemotePlayersTag, newPlayerWriter))
                 {
                     Console.WriteLine("Sending list of clients to " + authclient.ID);
                     authclient.SendMessage(allClientsMessage, SendMode.Reliable);

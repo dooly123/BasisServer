@@ -1137,7 +1137,7 @@ namespace ENet
 
         public static bool Initialize()
         {
-          //  if (Native.enet_linked_version() != version)
+          //  if (Native.enet_linked_version() != version) will bite me ass in the future - dooly
            //     throw new InvalidOperationException("Incompatatible version");
 
             return Native.enet_initialize() == 0;

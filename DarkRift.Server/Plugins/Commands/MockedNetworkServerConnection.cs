@@ -49,7 +49,7 @@ namespace DarkRift.Server.Plugins.Commands
             
         }
 
-        public override bool SendMessageReciever(MessageBuffer message, SendMode sendMode)
+        public override bool SendMessageReceiver(MessageBuffer message, SendMode sendMode)
         {
             clientCommand.HandleSend(this, sendMode, message, outputData);
             message.Dispose();

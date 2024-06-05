@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['ibadwordfilter_0',['IBadWordFilter',['../interface_dark_rift_1_1_server_1_1_plugins_1_1_chat_1_1_i_bad_word_filter.html',1,'DarkRift::Server::Plugins::Chat']]],
+  ['iclient_1',['IClient',['../interface_dark_rift_1_1_server_1_1_i_client.html',1,'DarkRift::Server']]],
+  ['iclientmanager_2',['IClientManager',['../interface_dark_rift_1_1_server_1_1_i_client_manager.html',1,'DarkRift::Server']]],
+  ['icountermetric_3',['ICounterMetric',['../interface_dark_rift_1_1_server_1_1_metrics_1_1_i_counter_metric.html',1,'DarkRift::Server::Metrics']]],
+  ['idarkriftserializable_4',['IDarkRiftSerializable',['../interface_dark_rift_1_1_i_dark_rift_serializable.html',1,'DarkRift']]],
+  ['idatabasemanager_5',['IDatabaseManager',['../interface_dark_rift_1_1_server_1_1_i_database_manager.html',1,'DarkRift::Server']]],
+  ['idispatcher_6',['IDispatcher',['../interface_dark_rift_1_1_dispatching_1_1_i_dispatcher.html',1,'DarkRift::Dispatching']]],
+  ['igaugemetric_7',['IGaugeMetric',['../interface_dark_rift_1_1_server_1_1_metrics_1_1_i_gauge_metric.html',1,'DarkRift::Server::Metrics']]],
+  ['ihistogrammetric_8',['IHistogramMetric',['../interface_dark_rift_1_1_server_1_1_metrics_1_1_i_histogram_metric.html',1,'DarkRift::Server::Metrics']]],
+  ['ilogmanager_9',['ILogManager',['../interface_dark_rift_1_1_server_1_1_i_log_manager.html',1,'DarkRift::Server']]],
+  ['imatchmaker_10',['IMatchmaker',['../interface_dark_rift_1_1_server_1_1_plugins_1_1_matchmaking_1_1_i_matchmaker.html',1,'DarkRift::Server::Plugins::Matchmaking']]],
+  ['imatchmakerqueuetask_11',['IMatchmakerQueueTask',['../interface_dark_rift_1_1_server_1_1_plugins_1_1_matchmaking_1_1_i_matchmaker_queue_task.html',1,'DarkRift::Server::Plugins::Matchmaking']]],
+  ['imessagebuffer_12',['IMessageBuffer',['../interface_dark_rift_1_1_i_message_buffer.html',1,'DarkRift']]],
+  ['imessagesinksource_13',['IMessageSinkSource',['../interface_dark_rift_1_1_server_1_1_i_message_sink_source.html',1,'DarkRift::Server']]],
+  ['imetricsmanager_14',['IMetricsManager',['../interface_dark_rift_1_1_server_1_1_metrics_1_1_i_metrics_manager.html',1,'DarkRift::Server::Metrics']]],
+  ['inetworklistenermanager_15',['INetworkListenerManager',['../interface_dark_rift_1_1_server_1_1_i_network_listener_manager.html',1,'DarkRift::Server']]],
+  ['installeventargs_16',['InstallEventArgs',['../class_dark_rift_1_1_server_1_1_install_event_args.html',1,'DarkRift::Server']]],
+  ['ipluginmanager_17',['IPluginManager',['../interface_dark_rift_1_1_server_1_1_i_plugin_manager.html',1,'DarkRift::Server']]],
+  ['iremoteserver_18',['IRemoteServer',['../interface_dark_rift_1_1_server_1_1_i_remote_server.html',1,'DarkRift::Server']]],
+  ['iremoteservermanager_19',['IRemoteServerManager',['../interface_dark_rift_1_1_server_1_1_i_remote_server_manager.html',1,'DarkRift::Server']]],
+  ['iscfeature_20',['ISCFeature',['../class_dark_rift_1_1_system_testing_1_1_i_s_c_feature.html',1,'DarkRift::SystemTesting']]],
+  ['iservergroup_21',['IServerGroup',['../interface_dark_rift_1_1_server_1_1_i_server_group.html',1,'DarkRift::Server']]],
+  ['iserverregistryconnectormanager_22',['IServerRegistryConnectorManager',['../interface_dark_rift_1_1_server_1_1_i_server_registry_connector_manager.html',1,'DarkRift::Server']]],
+  ['issue75_23',['Issue75',['../class_issue75.html',1,'']]]
+];

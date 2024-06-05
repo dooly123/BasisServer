@@ -1,0 +1,5 @@
+var class_dark_rift_1_1_server_1_1_server_spawn_data_1_1_server_registry_settings_1_1_server_registry_connector_settings =
+[
+    [ "Settings", "class_dark_rift_1_1_server_1_1_server_spawn_data_1_1_server_registry_settings_1_1_server_registry_connector_settings.html#a983036e65ede722105095404b3242185", null ],
+    [ "Type", "class_dark_rift_1_1_server_1_1_server_spawn_data_1_1_server_registry_settings_1_1_server_registry_connector_settings.html#acb3ce0f3aab2441d7d44501197cb291c", null ]
+];

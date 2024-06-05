@@ -5,7 +5,7 @@
     <version>2.10.1</version>
     <authors>DarkRift.Client</authors>
     <description>Package Description</description>
-    <repository type="git" commit="699348018a0ef97936e5d8bdbced17cbed2f368d" />
+    <repository type="git" commit="07a719ee60c785fa56221dc0a2a36b5dca4537f2" />
     <dependencies>
       <group targetFramework=".NETFramework4.7.1">
         <dependency id="DarkRift" version="2.10.1" exclude="Build,Analyzers" />
@@ -13,8 +13,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Client\bin\Debug\net471\DarkRift.Client.dll" target="lib\net471\DarkRift.Client.dll" />
-    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\Basis\DarkRift.Client\bin\Debug\net471\DarkRift.Client.xml" target="lib\net471\DarkRift.Client.xml" />
-    <file src="C:\Users\doola\OneDrive\Documents\Github\Base\BasisServer\BasisServer\README.md" target="README.md" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\Basis\DarkRift.Client\bin\Debug\net471\DarkRift.Client.dll" target="lib\net471\DarkRift.Client.dll" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\Basis\DarkRift.Client\bin\Debug\net471\DarkRift.Client.xml" target="lib\net471\DarkRift.Client.xml" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\BasisServer\README.md" target="README.md" />
   </files>
 </package>

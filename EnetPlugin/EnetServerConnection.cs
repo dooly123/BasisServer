@@ -56,7 +56,7 @@ public class EnetServerConnection : NetworkServerConnection
     {
         HandleDisconnection();
     }
-    public override bool SendMessageReciever(MessageBuffer message, SendMode sendMode)
+    public override bool SendMessageReceiver(MessageBuffer message, SendMode sendMode)
     {
         byte[] data = new byte[message.Count];
         Array.Copy(message.Buffer, message.Offset, data, 0, message.Count);

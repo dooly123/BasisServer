@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['id_0',['ID',['../class_dark_rift_1_1_client_1_1_dark_rift_client.html#af6e35292598ef60143785b1d1e74c2e3',1,'DarkRift.Client.DarkRiftClient.ID()'],['../interface_dark_rift_1_1_server_1_1_i_client.html#a037f1f168a31e21afc6051c8f150b040',1,'DarkRift.Server.IClient.ID()'],['../interface_dark_rift_1_1_server_1_1_i_remote_server.html#abe1b77d91489c45eae24c9a3ea316255',1,'DarkRift.Server.IRemoteServer.ID()'],['../class_dark_rift_1_1_server_1_1_server_joined_event_args.html#a6d79ccd5b9a619b4823d1d9ea27f155a',1,'DarkRift.Server.ServerJoinedEventArgs.ID()'],['../class_dark_rift_1_1_server_1_1_server_left_event_args.html#a08b30d2179e10c912dd8d109da2b27b5',1,'DarkRift.Server.ServerLeftEventArgs.ID()'],['../class_dark_rift_1_1_client_1_1_unity_1_1_unity_client.html#ae274d01f49fa9cba3f1098db826ce6aa',1,'DarkRift.Client.Unity.UnityClient.ID()']]],
+  ['intialdelay_1',['IntialDelay',['../class_dark_rift_1_1_server_1_1_timer.html#ab23cf369122d265de7229c8e30f7377e',1,'DarkRift::Server::Timer']]],
+  ['ipversion_2',['IPVersion',['../interface_dark_rift_1_1_server_1_1_i_client_manager.html#a856af7a226a4c7a3b8f67334f2805ed4',1,'DarkRift.Server.IClientManager.IPVersion()'],['../class_dark_rift_1_1_server_1_1_server_spawn_data_1_1_server_settings.html#af69bffd78a23ca43dac479b492abd0e1',1,'DarkRift.Server.ServerSpawnData.ServerSettings.IPVersion()']]],
+  ['isconnected_3',['IsConnected',['../interface_dark_rift_1_1_server_1_1_i_client.html#a907ad6548a4d874a3f4801929bff181e',1,'DarkRift::Server::IClient']]],
+  ['isempty_4',['IsEmpty',['../class_dark_rift_1_1_server_1_1_plugins_1_1_chat_1_1_trie.html#a4064c2664795f14b70bfca2beee1d4e1',1,'DarkRift::Server::Plugins::Chat::Trie']]],
+  ['isoneshot_5',['IsOneShot',['../class_dark_rift_1_1_server_1_1_timer.html#afbb722f92e7d3b66b9aaf6fab422edda',1,'DarkRift::Server::Timer']]],
+  ['ispingacknowledgementmessage_6',['IsPingAcknowledgementMessage',['../class_dark_rift_1_1_message.html#ad392ad0fe4ac05c51ebae898f069d497',1,'DarkRift::Message']]],
+  ['ispingmessage_7',['IsPingMessage',['../class_dark_rift_1_1_message.html#aa0fc4d26241335e4e4056f26392a6735',1,'DarkRift::Message']]],
+  ['isreadonly_8',['IsReadOnly',['../class_dark_rift_1_1_server_1_1_plugins_1_1_entity_group.html#a016461ee609aaf45a9c73adb13479977',1,'DarkRift.Server.Plugins.EntityGroup.IsReadOnly()'],['../class_dark_rift_1_1_message.html#a1d7995edf84e5162bcac98a5cf545ada',1,'DarkRift.Message.IsReadOnly()']]],
+  ['isterminal_9',['IsTerminal',['../class_dark_rift_1_1_server_1_1_plugins_1_1_chat_1_1_trie_node.html#a5b6e0bf6e62bba8f7044488a2505f9e8',1,'DarkRift::Server::Plugins::Chat::TrieNode']]]
+];

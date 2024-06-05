@@ -71,14 +71,14 @@ namespace DarkRift.Server
         /// </remarks>
         public virtual bool SendMessage(MessageBuffer message, SendMode sendMode)
         {
-           return SendMessageReciever(message, sendMode);
+           return SendMessageReceiver(message, sendMode);
         }
 
         /// <summary>
         ///     Begins listening for data.
         /// </summary>
         public abstract void StartListening();
-        public abstract bool SendMessageReciever(MessageBuffer message, SendMode sendMode);
+        public abstract bool SendMessageReceiver(MessageBuffer message, SendMode sendMode);
         /// <summary>
         ///     Disconnects this client from the remote host.
         /// </summary>

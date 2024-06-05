@@ -1,0 +1,66 @@
+/* DR2 CSS for doxygen 1.9.5*/
+
+html
+{
+--font-family-normal: 'DM Sans', sans-serif;
+--font-family-monospace: monospace,fixed;
+--font-family-nav: 'DM Sans', sans-serif;
+--font-family-title: 'DM Sans', sans-serif;
+--font-family-toc: 'DM Sans', sans-serif;
+--font-family-search: 'DM Sans', sans-serif;
+--font-family-icon: 'DM Sans', sans-serif;
+--font-family-tooltip: 'DM Sans', sans-serif;
+
+--nav-text-normal-color: white;
+--nav-text-normal-shadow: 0px 1px 1px rgba(0, 0, 0, 1.0);
+
+--header-background-color: #07262C;
+
+--nav-splitbar-image: url('dr2_splitbar.png');
+--nav-gradient-image: url('dr2_tab_b.png');
+--nav-gradient-hover-image: url('dr2_tab_h.png');
+--nav-gradient-active-image: url('dr2_tab_a.png');
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	color: #3C1F3D;
+}
+
+p
+{
+	color: black;
+}
+
+div.headertitle
+{
+	padding: 5px 5px 5px 10px;
+	color: white;
+}
+
+.navpath
+{
+	display: none;
+}
+
+.navpath ul
+{
+	display: none;
+}
+
+.navpath li
+{
+	display: none;
+}
+
+#projectname
+{
+	display: none;
+}
+
+#titlearea
+{
+	padding: 4px;
+	padding-left: 20px;
+	background: linear-gradient(180deg, #010101 20.31%, #3C1F3D 99.99%, rgba(60, 31, 61, 0) 100%);
+}

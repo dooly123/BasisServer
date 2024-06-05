@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using static SerializableDarkRift;
 namespace DarkRift.Server.Plugins.Commands
 {
@@ -37,13 +38,13 @@ namespace DarkRift.Server.Plugins.Commands
             {
                 switch (message.Tag)
                 {
-                    case BasisTags.PlayerUpdateTag:
+                    case BasisTags.AvatarMuscleUpdateTag:
                         HandleAvatarMovement(message, e);
                         break;
-                    case BasisTags.ReadyState:
+                    case BasisTags.ReadyStateTag:
                         Ready(message, e);
                         break;
-                    case BasisTags.VoiceAudioSegment:
+                    case BasisTags.AudioSegmentTag:
                         HandleVoice(message, e);
                         break;
                     default:
@@ -59,27 +60,35 @@ namespace DarkRift.Server.Plugins.Commands
                 AudioSegment audioSegment = new AudioSegment();
                 if (reader.Length == reader.Position)
                 {
-                    audioSegment.wasSilentData = true;
-                    reader.Read(out AudioSilentSegmentData audioSilentSegmentData);
-                    audioSegment.silentData = audioSilentSegmentData;
+                    HandleSilentVoice(reader,ref audioSegment);
                 }
                 else
                 {
-                    audioSegment.wasSilentData = false;
-                    reader.Read(out AudioSegmentData audioSegmentData);
-                    audioSegment.audioSegmentData = audioSegmentData;
+                    HandleRegularVoice(reader, ref audioSegment);
                 }
 
                 using (DarkRiftWriter writer = DarkRiftWriter.Create())
                 {
                     audioSegment.playerIdMessage.playerID = e.Client.ID;
                     writer.Write(audioSegment);
-                    using (Message audioSegmentMessage = Message.Create(BasisTags.VoiceAudioSegment, writer))
+                    using (Message audioSegmentMessage = Message.Create(BasisTags.AudioSegmentTag, writer))
                     {
                         BroadcastAudioUpdate(e.Client, audioSegmentMessage, check.authenticatedClients);
                     }
                 }
             }
+        }
+        public void HandleSilentVoice(DarkRiftReader reader,ref AudioSegment audioSegment)
+        {
+            audioSegment.wasSilentData = true;
+            reader.Read(out AudioSilentSegmentData audioSilentSegmentData);
+            audioSegment.silentData = audioSilentSegmentData;
+        }
+        public void HandleRegularVoice(DarkRiftReader reader,ref AudioSegment audioSegment)
+        {
+            audioSegment.wasSilentData = false;
+            reader.Read(out AudioSegmentData audioSegmentData);
+            audioSegment.audioSegmentData = audioSegmentData;
         }
         public static void BroadcastAudioUpdate(IClient sender, Message message, List<IClient> authenticatedClients)
         {
@@ -107,7 +116,7 @@ namespace DarkRift.Server.Plugins.Commands
                     ssspm.avatarSerialization = local;
 
                     writer.Write(ssspm);
-                    using (Message ssspmmessage = Message.Create(BasisTags.PlayerUpdateTag, writer))
+                    using (Message ssspmmessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
                     {
                         PositionSync.BroadcastPositionUpdate(e.Client, ssspmmessage, check.authenticatedClients);
                     }

@@ -1,0 +1,4 @@
+var class_dark_rift_1_1_server_1_1_cluster_spawn_data_1_1_groups_settings_1_1_group_settings_1_1_connects_to_settings =
+[
+    [ "Name", "class_dark_rift_1_1_server_1_1_cluster_spawn_data_1_1_groups_settings_1_1_group_settings_1_1_connects_to_settings.html#a89247bebe979cf1e2a5397735e2c8fa8", null ]
+];

@@ -123,7 +123,6 @@ public class EnetClientConnection : NetworkClientConnection
         {
             Event netEvent;
             client.Service(0, out netEvent);
-            //Debug.Log("client: " + netEvent.Type);
             switch (netEvent.Type)
             {
                 case EventType.None:
