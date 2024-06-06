@@ -32,8 +32,10 @@ public class EnetListenerPlugin : NetworkListener
         address.Port = Port;
         server.Create(address, PeerLimit);
         Console.WriteLine("Server Booted");
-        ServerIncomeThread = new Thread(WorkerThread);
-        ServerIncomeThread.IsBackground = true; // Ensure the thread doesn't prevent the application from exiting
+        ServerIncomeThread = new Thread(WorkerThread)
+        {
+            IsBackground = true // Ensure the thread doesn't prevent the application from exiting
+        };
         ServerIncomeThread.Start();
     }
     public void WorkerThread()
@@ -49,14 +51,14 @@ public class EnetListenerPlugin : NetworkListener
     }
     public void ServerTick()
     {
-        bool StillNeedToRun = true;
-        while (StillNeedToRun)
+        bool stillNeedToRun = true;
+        while (stillNeedToRun)
         {
             server.Service(0, out Event netEvent);
             switch (netEvent.Type)
             {
                 case EventType.None:
-                    StillNeedToRun = false;
+                    stillNeedToRun = false;
                     break;
 
                 case EventType.Connect:

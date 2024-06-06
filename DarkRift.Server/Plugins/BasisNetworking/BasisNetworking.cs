@@ -47,6 +47,7 @@ namespace DarkRift.Server.Plugins.Commands
                         HandleVoice(message, e);
                         break;
                     default:
+                        Logger.Log("Message was recieved but no function exists " + message.Tag, LogType.Error);
                         // Handle unrecognized message tags
                         break;
                 }
