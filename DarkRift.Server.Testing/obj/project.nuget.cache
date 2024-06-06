@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zWub1yHYB6ZbWj7BSP/P7ssepxuVkgFrqaaL2Dp5mMeMHXDWgJ6fXd7Hr9zXOm/5NRt1aWNloCBJ2mIGb+a52Q==",
+  "dgSpecHash": "Ghg8UULHtXYwLRp3gAg9AOsS2+zr1Ehnipv4uezHUBqeh7pWFJAHQDoLlOHnsIWSPf2TvoTz52B0PxskTdHptA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Testing\\DarkRift.Server.Testing.csproj",
+  "projectFilePath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Testing\\DarkRift.Server.Testing.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\doola\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\doola\\.nuget\\packages\\microsoft.codecoverage\\16.4.0\\microsoft.codecoverage.16.4.0.nupkg.sha512",

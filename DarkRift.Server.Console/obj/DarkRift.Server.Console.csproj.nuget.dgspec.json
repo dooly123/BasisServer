@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj": {}
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj": {}
   },
   "projects": {
-    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
       "version": "2.10.1",
       "restore": {
-        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
         "projectName": "DarkRift.Client",
-        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj",
         "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\obj\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net471": {
             "targetAlias": "net471",
             "projectReferences": {
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj"
               }
             }
           }
@@ -57,14 +57,14 @@
         }
       }
     },
-    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj": {
       "version": "2.10.1",
       "restore": {
-        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj",
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj",
         "projectName": "DarkRift.Server.Console",
-        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Console\\DarkRift.Server.Console.csproj",
         "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server.Console\\obj\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server.Console\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -85,14 +85,14 @@
           "net471": {
             "targetAlias": "net471",
             "projectReferences": {
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
               },
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj"
               },
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj"
               }
             }
           }
@@ -121,14 +121,14 @@
         }
       }
     },
-    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj": {
       "version": "2.10.1",
       "restore": {
-        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
         "projectName": "DarkRift.Server",
-        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\DarkRift.Server.csproj",
         "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Server\\obj\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -149,11 +149,11 @@
           "net471": {
             "targetAlias": "net471",
             "projectReferences": {
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Client\\DarkRift.Client.csproj"
               },
-              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
-                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj"
+              "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj": {
+                "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj"
               }
             }
           }
@@ -177,14 +177,14 @@
         }
       }
     },
-    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj": {
+    "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj": {
       "version": "2.10.1",
       "restore": {
-        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj",
+        "projectUniqueName": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj",
         "projectName": "DarkRift",
-        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\DarkRift.csproj",
+        "projectPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRift.csproj",
         "packagesPath": "C:\\Users\\doola\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\BasisServer\\DarkRift\\obj\\",
+        "outputPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
