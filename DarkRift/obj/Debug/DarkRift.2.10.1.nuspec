@@ -5,14 +5,17 @@
     <version>2.10.1</version>
     <authors>DarkRift</authors>
     <description>Package Description</description>
-    <repository type="git" commit="006a4d4af9ee5a13a4b64c6582b5b2e4716267bd" />
+    <repository type="git" commit="12f071c2e4a032357a29808817801ee3a925600c" />
     <dependencies>
       <group targetFramework=".NETFramework4.7.1" />
+      <group targetFramework="net8.0" />
     </dependencies>
   </metadata>
   <files>
     <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\DarkRift\bin\Debug\net471\DarkRift.dll" target="lib\net471\DarkRift.dll" />
     <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\DarkRift\bin\Debug\net471\DarkRift.xml" target="lib\net471\DarkRift.xml" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\DarkRift\bin\Debug\net8.0\DarkRift.dll" target="lib\net8.0\DarkRift.dll" />
+    <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\DarkRift\bin\Debug\net8.0\DarkRift.xml" target="lib\net8.0\DarkRift.xml" />
     <file src="C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\README.md" target="README.md" />
   </files>
 </package>

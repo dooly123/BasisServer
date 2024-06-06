@@ -70,14 +70,14 @@ public class EnetServerConnection : NetworkServerConnection
         return peer.Send((byte)sendMode, ref packet);
     }
 
-    public void HandleEnetMessageReceived(Event netEvent, SendMode ChannelID)
+    public void HandleEnetMessageReceived(Event netEvent, SendMode channelID)
     {
         int length = netEvent.Packet.Length;
         MessageBuffer message = MessageBuffer.Create(length);
         netEvent.Packet.CopyTo(message.Buffer);
         message.Offset = 0;
         message.Count = length;
-        HandleMessageReceived(message, ChannelID);
+        HandleMessageReceived(message, channelID);
         message.Dispose();
     }
 }
