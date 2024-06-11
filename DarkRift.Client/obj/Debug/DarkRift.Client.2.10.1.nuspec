@@ -5,7 +5,7 @@
     <version>2.10.1</version>
     <authors>DarkRift.Client</authors>
     <description>Package Description</description>
-    <repository type="git" commit="b5708b6f0c98d750dea2feee56cbcb9afd8fc71d" />
+    <repository type="git" commit="08a7bb1d4a78d89536adecff36c4061a94c82f19" />
     <dependencies>
       <group targetFramework=".NETFramework4.7.1">
         <dependency id="DarkRift" version="2.10.1" exclude="Build,Analyzers" />

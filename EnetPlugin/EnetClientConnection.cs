@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 using DarkRift;
 using DarkRift.Client;
 using ENet;
@@ -26,7 +25,6 @@ public class EnetClientConnection : NetworkClientConnection
     private int port;
     private Host client;
     private Peer peer;
-    private Task clientTask;
     private bool disposedValue = false;
     private readonly IPEndPoint[] remoteEndPoints;
 
@@ -69,7 +67,6 @@ public class EnetClientConnection : NetworkClientConnection
         byte[] data = new byte[message.Count];
         Array.Copy(message.Buffer, message.Offset, data, 0, message.Count);
         bool r = Send(data, sendMode, peer);
-        client.Flush();
         message.Dispose();
         return r;
     }
