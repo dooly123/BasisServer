@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace DarkRift.Server.Plugins.BasisNetworking.MovementSync
@@ -12,7 +11,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.MovementSync
 
             foreach (IClient client in clientsExceptSender)
             {
-                client.SendMessage(message, SendMode.Unreliable);
+                client.SendMessage(message, DeliveryMethod.Sequenced);
             }
         }
     }

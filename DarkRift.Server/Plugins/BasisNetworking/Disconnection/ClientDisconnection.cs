@@ -15,7 +15,7 @@ namespace DarkRift.Server.Plugins.Commands
                     int clients = authenticatedClients.Count;
                     for (int index = 0; index < clients; index++)
                     {
-                        authenticatedClients[index].SendMessage(disconnectmessage, SendMode.Reliable);
+                        authenticatedClients[index].SendMessage(disconnectmessage, DeliveryMethod.ReliableOrdered);
                     }
                 }
             }

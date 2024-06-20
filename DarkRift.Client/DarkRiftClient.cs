@@ -222,7 +222,7 @@ namespace DarkRift.Client
         /// <param name="message">The message to send.</param>
         /// <param name="sendMode">How the message should be sent.</param>
         /// <returns>Whether the send was successful.</returns>
-        public bool SendMessage(Message message, SendMode sendMode)
+        public bool SendMessage(Message message, DeliveryMethod sendMode)
         {
             if (message.IsPingMessage)
                 RoundTripTime.RecordOutboundPing(message.PingCode);
@@ -262,7 +262,7 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, SendMode sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
         {
             using (Message message = Message.Create(buffer, true))
             {
@@ -310,7 +310,7 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="message">The message that was received.</param>
         /// <param name="sendMode">The send mode the message was received with.</param>
-        private void HandleMessage(Message message, SendMode sendMode)
+        private void HandleMessage(Message message, DeliveryMethod sendMode)
         {
             //Invoke for message received event
             using (MessageReceivedEventArgs args = MessageReceivedEventArgs.Create(message, sendMode))

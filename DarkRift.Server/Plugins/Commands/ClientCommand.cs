@@ -109,10 +109,10 @@ namespace DarkRift.Server.Plugins.Commands
         /// <summary>
         ///     Handles sending to a mock connection.
         /// </summary>
-        internal void HandleSend(MockedNetworkServerConnection connection, SendMode sendMode, MessageBuffer message, bool outputData)
+        internal void HandleSend(MockedNetworkServerConnection connection, DeliveryMethod sendMode, MessageBuffer message, bool outputData)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(sendMode == SendMode.Reliable ? "Reliable" : "Unreliable");
+            builder.Append(sendMode == DeliveryMethod.ReliableOrdered ? "Reliable" : "Unreliable");
             builder.Append(" message sent to ");
             builder.Append(connection.Client.ID);
 

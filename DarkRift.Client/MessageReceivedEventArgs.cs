@@ -19,7 +19,7 @@ namespace DarkRift.Client
         /// <summary>
         ///     The method the data was sent using.
         /// </summary>
-        public SendMode SendMode { get; private set;  }
+        public DeliveryMethod SendMode { get; private set;  }
         
         /// <summary>
         ///     The tag the message was sent with.
@@ -41,7 +41,7 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="message">The message received.</param>
         /// <param name="sendMode">The send mode the message was received with.</param>
-        public static MessageReceivedEventArgs Create(Message message, SendMode sendMode)
+        public static MessageReceivedEventArgs Create(Message message, DeliveryMethod sendMode)
         {
             MessageReceivedEventArgs messageReceivedEventArgs = ClientObjectCache.GetMessageReceivedEventArgs();
 

@@ -87,8 +87,7 @@ namespace DarkRift.Server.Plugins.Commands
         public void HandleRegularVoice(DarkRiftReader reader,ref AudioSegment audioSegment)
         {
             audioSegment.wasSilentData = false;
-            reader.Read(out AudioSegmentData audioSegmentData);
-            audioSegment.audioSegmentData = audioSegmentData;
+            reader.Read(out audioSegment.audioSegmentData);
         }
         public static void BroadcastAudioUpdate(IClient sender, Message message, List<IClient> authenticatedClients)
         {
@@ -96,7 +95,7 @@ namespace DarkRift.Server.Plugins.Commands
 
             foreach (IClient client in clientsExceptSender)
             {
-                client.SendMessage(message, SendMode.Unreliable);
+                client.SendMessage(message, DeliveryMethod.Sequenced);
             }
         }
         private void HandleAvatarMovement(Message message, MessageReceivedEventArgs e)

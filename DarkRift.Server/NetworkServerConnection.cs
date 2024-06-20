@@ -31,7 +31,7 @@ namespace DarkRift.Server
         /// <summary>
         ///     The action to call when a message is received.
         /// </summary>
-        internal Action<MessageBuffer, SendMode> MessageReceived { get; set; }
+        internal Action<MessageBuffer, DeliveryMethod> MessageReceived { get; set; }
 
         /// <summary>
         ///     The action to call when the connection is remotely disconnected.
@@ -52,8 +52,8 @@ namespace DarkRift.Server
         ///     Handles a buffer being received. 
         /// </summary>
         /// <param name="message">The message received.</param>
-        /// <param name="mode">The <see cref="SendMode"/> used to send the data.</param>
-        protected void HandleMessageReceived(MessageBuffer message, SendMode mode)
+        /// <param name="mode">The <see cref="DeliveryMethod"/> used to send the data.</param>
+        protected void HandleMessageReceived(MessageBuffer message, DeliveryMethod mode)
         {
             MessageReceived?.Invoke(message, mode);
         }
@@ -69,7 +69,7 @@ namespace DarkRift.Server
         ///     using it you should call <see cref="MessageBuffer.Dispose"/> to release resources.
         ///     Not doing this will result in memnory leaks.
         /// </remarks>
-        public virtual bool SendMessage(MessageBuffer message, SendMode sendMode)
+        public virtual bool SendMessage(MessageBuffer message, DeliveryMethod sendMode)
         {
            return SendMessageReceiver(message, sendMode);
         }
@@ -78,7 +78,7 @@ namespace DarkRift.Server
         ///     Begins listening for data.
         /// </summary>
         public abstract void StartListening();
-        public abstract bool SendMessageReceiver(MessageBuffer message, SendMode sendMode);
+        public abstract bool SendMessageReceiver(MessageBuffer message, DeliveryMethod sendMode);
         /// <summary>
         ///     Disconnects this client from the remote host.
         /// </summary>

@@ -18,13 +18,13 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out playerIdMessage);
             if (e.Reader.Length == e.Reader.Position)
             {
-                e.Reader.Read(out silentData);
                 wasSilentData = true;
+                e.Reader.Read(out silentData);
             }
             else
             {
-                e.Reader.Read(out audioSegmentData);
                 wasSilentData = false;
+                e.Reader.Read(out audioSegmentData);
             }
         }
 

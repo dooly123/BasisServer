@@ -89,7 +89,7 @@ namespace DarkRift.Server.Plugins.Commands
             {
                 using (Message authenticatedMessage = Message.Create(BasisTags.AuthSuccess, newPlayerWriter))
                 {
-                    client.SendMessage(authenticatedMessage, SendMode.Reliable);
+                    client.SendMessage(authenticatedMessage, DeliveryMethod.ReliableOrdered);
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace DarkRift.Server.Plugins.Commands
             {
                 using (Message authenticatedMessage = Message.Create(BasisTags.AuthFailure, newPlayerWriter))
                 {
-                    client.SendMessage(authenticatedMessage, SendMode.Reliable);
+                    client.SendMessage(authenticatedMessage, DeliveryMethod.ReliableOrdered);
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace DarkRift.Server.Plugins.Commands
                     foreach (IClient client in authenticatedClients)
                     {
                         Console.WriteLine("Sent Remote Spawn request to " + client.ID);
-                        client.SendMessage(remoteCreate, SendMode.Reliable);
+                        client.SendMessage(remoteCreate, DeliveryMethod.ReliableOrdered);
                     }
                 }
             }
@@ -169,7 +169,7 @@ namespace DarkRift.Server.Plugins.Commands
                 using (Message allClientsMessage = Message.Create(BasisTags.CreateRemotePlayersTag, newPlayerWriter))
                 {
                     Console.WriteLine("Sending list of clients to " + authclient.ID);
-                    authclient.SendMessage(allClientsMessage, SendMode.Reliable);
+                    authclient.SendMessage(allClientsMessage, DeliveryMethod.ReliableOrdered);
                 }
             }
             if (authenticatedClients.Contains(authclient) == false)

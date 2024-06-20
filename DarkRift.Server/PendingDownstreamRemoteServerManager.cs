@@ -66,7 +66,7 @@ namespace DarkRift.Server
             /// <summary>
             ///     The send mode used.
             /// </summary>
-            public SendMode SendMode { get; set; }
+            public DeliveryMethod SendMode { get; set; }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, SendMode sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
         {
             using (Message message = Message.Create(buffer, true))
             {

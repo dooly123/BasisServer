@@ -197,7 +197,7 @@ namespace DarkRift.Server
         /// <param name="message">The message to send.</param>
         /// <param name="sendMode">How the message should be sent.</param>
         /// <returns>Whether the send was successful.</returns>
-        public bool SendMessage(Message message, SendMode sendMode)
+        public bool SendMessage(Message message, DeliveryMethod sendMode)
         {
             bool success = connection?.SendMessage(message.ToBuffer(), sendMode) ?? false;
             if (success)
@@ -221,7 +221,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, SendMode sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
         {
             messagesReceivedCounter.Increment();
 
@@ -239,7 +239,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="message">The message that was received.</param>
         /// <param name="sendMode">The send mode the emssage was received with.</param>
-        private void HandleMessage(Message message, SendMode sendMode)
+        private void HandleMessage(Message message, DeliveryMethod sendMode)
         {
             // Get another reference to the message so 1. we can control the backing array's lifecycle and thus it won't get disposed of before we dispatch, and
             // 2. because the current message will be disposed of when this method returns.

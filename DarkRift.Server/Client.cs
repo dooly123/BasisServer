@@ -174,7 +174,7 @@ namespace DarkRift.Server
                 using (Message command = Message.Create((ushort)CommandCode.Configure, writer))
                 {
                     command.IsCommandMessage = true;
-                    PushBuffer(command.ToBuffer(), SendMode.Reliable);
+                    PushBuffer(command.ToBuffer(), DeliveryMethod.ReliableOrdered);
 
                     // Make sure we trigger the sent metric still
                     messagesSentCounter.Increment();
@@ -200,7 +200,7 @@ namespace DarkRift.Server
         }
 
         /// <inheritdoc/>
-        public bool SendMessage(Message message, SendMode sendMode)
+        public bool SendMessage(Message message, DeliveryMethod sendMode)
         {
             //Send frame
             if (!PushBuffer(message.ToBuffer(), sendMode))
@@ -258,7 +258,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="buffer">The buffer that was received.</param>
         /// <param name="sendMode">The method data was sent using.</param>
-        internal void HandleIncomingDataBuffer(MessageBuffer buffer, SendMode sendMode)
+        internal void HandleIncomingDataBuffer(MessageBuffer buffer, DeliveryMethod sendMode)
         {
             //Add to received message counter
             Interlocked.Increment(ref messagesReceived);
@@ -290,7 +290,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="message">The message that was received.</param>
         /// <param name="sendMode">The method data was sent using.</param>
-        internal void HandleIncomingMessage(Message message, SendMode sendMode)
+        internal void HandleIncomingMessage(Message message, DeliveryMethod sendMode)
         {
             //Discard any command messages sent from the client since they shouldn't send them
             if (message.IsCommandMessage)
@@ -358,7 +358,7 @@ namespace DarkRift.Server
         /// <param name="buffer">The buffer to push.</param>
         /// <param name="sendMode">The method to send the data using.</param>
         /// <returns>Whether the send was successful.</returns>
-        private bool PushBuffer(MessageBuffer buffer, SendMode sendMode)
+        private bool PushBuffer(MessageBuffer buffer, DeliveryMethod sendMode)
         {
             if (!connection.SendMessage(buffer, sendMode))
                 return false;

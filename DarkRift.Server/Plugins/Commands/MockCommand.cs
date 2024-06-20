@@ -49,17 +49,17 @@ namespace DarkRift.Server.Plugins.Commands
                     throw new CommandSyntaxException($"Unable to parse the client ID. Expected a number but got '{e.Arguments[0]}'.");
                 }
 
-                SendMode sendMode;
+                DeliveryMethod sendMode;
                 switch (e.Arguments[1].ToLower())
                 {
                     case "unreliable":
                     case "u":
-                        sendMode = SendMode.Unreliable;
+                        sendMode = DeliveryMethod.Unreliable;
                         break;
 
                     case "reliable":
                     case "r":
-                        sendMode = SendMode.Reliable;
+                        sendMode = DeliveryMethod.ReliableOrdered;
                         break;
 
                     default:

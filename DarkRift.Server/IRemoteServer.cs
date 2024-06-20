@@ -79,6 +79,6 @@ namespace DarkRift.Server
         /// <param name="message">The message to send.</param>
         /// <param name="sendMode">The send mode to send the message with.</param>
         /// <returns>Whether the message was able to be sent.</returns>
-        bool SendMessage(Message message, SendMode sendMode);
+        bool SendMessage(Message message, DeliveryMethod sendMode);
     }
 }
