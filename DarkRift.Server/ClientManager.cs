@@ -168,16 +168,6 @@ namespace DarkRift.Server
         }
 
         /// <summary>
-        ///     Returns the Default BichannelListener if present or throws an exception.
-        /// </summary>
-        /// <returns>The default Bichannel listener.</returns>
-        private NetworkListener GetDefaultBichannelListenerOrError()
-        {
-            NetworkListener listener = networkListenerManager.GetNetworkListenerByName("DefaultNetworkListener");
-            return listener;
-        }
-
-        /// <summary>
         ///     Called when a new client connects.
         /// </summary>
         /// <param name="connection">The new client.</param>

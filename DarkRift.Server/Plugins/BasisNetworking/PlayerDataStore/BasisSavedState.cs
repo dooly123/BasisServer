@@ -8,7 +8,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         /// <summary>
         /// Stores the last state of each player on the server side.
         /// </summary>
-        private readonly ConcurrentDictionary<IClient, ServerSideSyncPlayerMessage> serverSideLastState = new ConcurrentDictionary<IClient, ServerSideSyncPlayerMessage>();
+        private readonly ConcurrentDictionary<ushort, ServerSideSyncPlayerMessage> serverSideLastState = new ConcurrentDictionary<ushort, ServerSideSyncPlayerMessage>();
 
         /// <summary>
         /// Removes a player from the store.
@@ -16,7 +16,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         /// <param name="client">The client representing the player to be removed.</param>
         public void RemovePlayer(IClient client)
         {
-            serverSideLastState.TryRemove(client, out _);
+            serverSideLastState.TryRemove(client.ID, out _);
         }
 
         /// <summary>
@@ -26,13 +26,13 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         /// <param name="message">The last state message of the player.</param>
         public void AddLastData(IClient client, ServerSideSyncPlayerMessage message)
         {
-            if (serverSideLastState.ContainsKey(client))
+            if (serverSideLastState.ContainsKey(client.ID))
             {
-                serverSideLastState[client] = message;
+                serverSideLastState[client.ID] = message;
             }
             else
             {
-                serverSideLastState.TryAdd(client, message);
+                serverSideLastState.TryAdd(client.ID, message);
             }
         }
 
@@ -43,7 +43,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         /// <returns>The last state message of the player, or null if the player is not found.</returns>
         public bool GetLastData(IClient client,out ServerSideSyncPlayerMessage SSSPM)
         {
-            return serverSideLastState.TryGetValue(client, out SSSPM);
+            return serverSideLastState.TryGetValue(client.ID, out SSSPM);
         }
     }
 }
