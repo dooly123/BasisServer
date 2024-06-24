@@ -46,7 +46,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         }
         public void AddLastData(IClient client, ReadyMessage readyMessage)
         {
-            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarSyncState = readyMessage.localAvatarSyncMessage, LastAvatarChangeState = readyMessage.clientAvatarChangeMessage },
+            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarSyncState = readyMessage.localAvatarSyncMessage, LastAvatarChangeState = readyMessage.clientAvatarChangeMessage, PlayerMetaDataMessage = readyMessage.playerMetaDataMessage },
                 (key, oldValue) =>
                 {
                     oldValue.LastAvatarSyncState = readyMessage.localAvatarSyncMessage;
@@ -85,6 +85,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         {
             public LocalAvatarSyncMessage LastAvatarSyncState; // pos 1 & 2, rot, scale, muscles
             public ClientAvatarChangeMessage LastAvatarChangeState; // last avatar state
+            public PlayerMetaDataMessage PlayerMetaDataMessage;
         }
     }
 }

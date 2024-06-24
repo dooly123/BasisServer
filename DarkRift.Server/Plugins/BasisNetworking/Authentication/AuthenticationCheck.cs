@@ -140,7 +140,7 @@ namespace DarkRift.Server.Plugins.Commands
             ServerReadyMessage serverReadyMessage = new ServerReadyMessage
             {
                 LocalReadyMessage = readyMessage,
-                playerIdMessage = new PlayerIdMessage() { playerID = authClient.ID }
+                playerIdMessage = new PlayerIdMessage() { playerID = authClient.ID },
             };
             BasisNetworking.Instance.basisSavedState.AddLastData(authClient, readyMessage);
             return serverReadyMessage;
@@ -181,11 +181,12 @@ namespace DarkRift.Server.Plugins.Commands
 
                     if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
                     {
-                        Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
+                      //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
                         serverReadyMessage.LocalReadyMessage = new ReadyMessage
                         {
                             localAvatarSyncMessage = sspm.LastAvatarSyncState,
                             clientAvatarChangeMessage = sspm.LastAvatarChangeState,
+                             playerMetaDataMessage = sspm.PlayerMetaDataMessage,
                         };
                         serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
                     }
@@ -197,6 +198,7 @@ namespace DarkRift.Server.Plugins.Commands
                         {
                             localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
                             clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },
+                            playerMetaDataMessage = new PlayerMetaDataMessage() { playerDisplayName = "Error", playerUUID = string.Empty },
                         };
                     }
 

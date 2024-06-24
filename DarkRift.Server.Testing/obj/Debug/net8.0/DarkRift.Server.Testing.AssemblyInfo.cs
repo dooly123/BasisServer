@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DarkRift.Server.Testing")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.10.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.10.1+09c6e96bd065dfbf7993a829f35f25f58877d890")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.10.1+8d0fd0747aab9f281f86abf273a36d35fa1ae405")]
 [assembly: System.Reflection.AssemblyProductAttribute("DarkRift.Server.Testing")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DarkRift.Server.Testing")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.10.1.0")]
