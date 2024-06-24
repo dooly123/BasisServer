@@ -12,12 +12,14 @@ public class LiteNetLibListenerPlugin : NetworkListener
     public static double ServerTickRate = 30;
     public static int PeerLimit = 1024;
     public static ushort SetPort = 4296;
-
+    public static LiteNetLibListenerPlugin Instance;
+    public static bool UseNativeSockets = false;
     public LiteNetLibListenerPlugin(NetworkListenerLoadData pluginLoadData) : base(pluginLoadData)
     {
         Console.WriteLine("LiteNetLibListenerPlugin Is Being loaded....");
         Version = new Version(1, 0, 0);
         Console.WriteLine("LiteNetLibListenerPlugin ready to go");
+        Instance = this;
     }
 
     public override Version Version { get; }
@@ -30,7 +32,10 @@ public class LiteNetLibListenerPlugin : NetworkListener
         {
             AutoRecycle = true,
             UnconnectedMessagesEnabled = true,
-            NatPunchEnabled = true
+            NatPunchEnabled = true,
+            AllowPeerAddressChange = true,
+            BroadcastReceiveEnabled = true,
+            UseNativeSockets = UseNativeSockets,
         };
 
         server.Start(SetPort);
@@ -46,7 +51,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
 
         listener.PeerConnectedEvent += peer =>
         {
-            var con = new LiteNetLibServerConnection(peer);
+            LiteNetLibServerConnection con = new LiteNetLibServerConnection(peer);
             RegisterConnection(con);
             connections[peer] = con;
             Console.WriteLine($"Client: {peer.Address} connected.");
