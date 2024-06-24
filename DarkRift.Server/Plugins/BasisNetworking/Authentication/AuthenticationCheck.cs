@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Timers;
+using static DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore.BasisSavedState;
 using static SerializableDarkRift;
 
 namespace DarkRift.Server.Plugins.Commands
 {
     public class AuthenticationCheck
     {
-        private const int TimeoutSeconds = 180; // 3 minutes
+        private const int TimeoutSeconds = 60; // 3 minutes
         private static readonly Dictionary<IClient, System.Timers.Timer> clientTimers = new Dictionary<IClient, System.Timers.Timer>();
 
         public BasisNetworking BasisNetworking { get; }
@@ -119,10 +120,10 @@ namespace DarkRift.Server.Plugins.Commands
             }
         }
 
-        public void SendRemoteSpawnMessage(IClient authClient, LocalAvatarSyncMessage localAvatarSyncMessage)
+        public void SendRemoteSpawnMessage(IClient authClient, ReadyMessage readyMessage)
         {
-            LoadInitalState(authClient, localAvatarSyncMessage);
-            NotifyExistingClients(authClient);
+            ServerReadyMessage serverReadyMessage = LoadInitialState(authClient, readyMessage);
+            NotifyExistingClients(serverReadyMessage);
             SendClientListToNewClient(authClient);
 
             if (!AuthenticatedClients.Contains(authClient))
@@ -134,33 +135,21 @@ namespace DarkRift.Server.Plugins.Commands
                 Console.WriteLine("Error: user already authenticated");
             }
         }
-        public void LoadInitalState(IClient authClient, LocalAvatarSyncMessage localAvatarSyncMessage)
+        public ServerReadyMessage LoadInitialState(IClient authClient, ReadyMessage readyMessage)
         {
-            ServerSideSyncPlayerMessage serverSideSyncPlayerMessage = new ServerSideSyncPlayerMessage
+            ServerReadyMessage serverReadyMessage = new ServerReadyMessage
             {
-                playerIdMessage = new PlayerIdMessage { playerID = authClient.ID },
-                avatarSerialization = localAvatarSyncMessage
+                LocalReadyMessage = readyMessage,
+                playerIdMessage = new PlayerIdMessage() { playerID = authClient.ID }
             };
-            BasisNetworking.Instance.basisSavedState.AddLastData(authClient, serverSideSyncPlayerMessage);
+            BasisNetworking.Instance.basisSavedState.AddLastData(authClient, readyMessage);
+            return serverReadyMessage;
         }
 
-        private void NotifyExistingClients(IClient authClient)
+        private void NotifyExistingClients(ServerReadyMessage serverSideSyncPlayerMessage)
         {
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                PlayerIdMessage uShortPlayerId = new PlayerIdMessage { playerID = authClient.ID };
-                ServerSideSyncPlayerMessage serverSideSyncPlayerMessage = new ServerSideSyncPlayerMessage();
-
-                if (BasisNetworking.Instance.basisSavedState.GetLastData(authClient, out serverSideSyncPlayerMessage))
-                {
-                    serverSideSyncPlayerMessage.playerIdMessage = uShortPlayerId;
-                }
-                else
-                {
-                    serverSideSyncPlayerMessage.playerIdMessage = uShortPlayerId;
-                    serverSideSyncPlayerMessage.avatarSerialization = new LocalAvatarSyncMessage { array = new byte[] { } };
-                }
-
                 writer.Write(serverSideSyncPlayerMessage);
 
                 using (Message remoteCreate = Message.Create(BasisTags.CreateRemotePlayerTag, writer))
@@ -184,26 +173,39 @@ namespace DarkRift.Server.Plugins.Commands
                     return;
                 }
 
-                List<ServerSideSyncPlayerMessage> copied = new List<ServerSideSyncPlayerMessage>();
+                List<ServerReadyMessage> copied = new List<ServerReadyMessage>();
 
                 foreach (IClient client in AuthenticatedClients)
                 {
-                    ServerSideSyncPlayerMessage sspm = new ServerSideSyncPlayerMessage();
+                    ServerReadyMessage serverReadyMessage = new ServerReadyMessage();
 
-                    if (!BasisNetworking.Instance.basisSavedState.GetLastData(authClient, out sspm))
+                    if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
                     {
-                        sspm.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
-                        sspm.avatarSerialization = new LocalAvatarSyncMessage { array = new byte[] { } };
-                      Console.WriteLine("UnAble to get last Data Creating Fake");
+                        Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
+                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                        {
+                            localAvatarSyncMessage = sspm.LastAvatarSyncState,
+                            clientAvatarChangeMessage = sspm.LastAvatarChangeState,
+                        };
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unable to get last Data Creating Fake");
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
+                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                        {
+                            localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
+                            clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },
+                        };
                     }
 
-                    copied.Add(sspm);
+                    copied.Add(serverReadyMessage);
                 }
 
                 CreateAllRemoteMessage remoteMessages = new CreateAllRemoteMessage
                 {
                     serverSidePlayer = copied.ToArray(),
-                    playerCount = (ushort)AuthenticatedClients.Count
                 };
 
                 writer.Write(remoteMessages);

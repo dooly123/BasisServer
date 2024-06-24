@@ -1,7 +1,7 @@
 ﻿using DarkRift;
 public static partial class SerializableDarkRift
 {
-    public struct AudioSegmentData : IDarkRiftSerializable
+    public struct AudioSegmentDataMessage : IDarkRiftSerializable
     {
         public byte[] buffer;
         public void Deserialize(DeserializeEvent e)
@@ -14,7 +14,7 @@ public static partial class SerializableDarkRift
             e.Writer.Write(buffer);
         }
     }
-    public struct AudioSilentSegmentData : IDarkRiftSerializable
+    public struct AudioSilentSegmentDataMessage : IDarkRiftSerializable
     {
         public void Deserialize(DeserializeEvent e)
         {

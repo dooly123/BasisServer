@@ -1,13 +1,13 @@
 ﻿using DarkRift;
 public static partial class SerializableDarkRift
 {
-    public struct AudioSegment : IDarkRiftSerializable
+    public struct AudioSegmentMessage : IDarkRiftSerializable
     {
         public PlayerIdMessage playerIdMessage;
 
-        public AudioSilentSegmentData silentData;
+        public AudioSilentSegmentDataMessage silentData;
 
-        public AudioSegmentData audioSegmentData;
+        public AudioSegmentDataMessage audioSegmentData;
         /// <summary>
         /// the goal here is to reuse this message but drop the AudioSegmentData when its not.
         /// this forces the queue to remain correct.
