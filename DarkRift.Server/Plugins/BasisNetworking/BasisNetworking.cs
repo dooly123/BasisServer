@@ -77,6 +77,7 @@ namespace DarkRift.Server.Plugins.Commands
                         playerID = e.Client.ID
                     }
                 };
+                basisSavedState.AddLastData(e.Client, clientAvatarChangeMessage);
                 using (DarkRiftWriter writer = DarkRiftWriter.Create())
                 {
                     writer.Write(serverAvatarChangeMessage);

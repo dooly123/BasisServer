@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DarkRift")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.10.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.10.1+8d0fd0747aab9f281f86abf273a36d35fa1ae405")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.10.1+5fab5f9dba11f49d1b9533dda406b252a6ac8614")]
 [assembly: System.Reflection.AssemblyProductAttribute("DarkRift")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DarkRift")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.10.1.0")]
