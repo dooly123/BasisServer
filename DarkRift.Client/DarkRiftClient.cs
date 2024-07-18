@@ -221,13 +221,14 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <param name="sendMode">How the message should be sent.</param>
+        /// <param name="channel">the channel we are using.</param>
         /// <returns>Whether the send was successful.</returns>
-        public bool SendMessage(Message message, DeliveryMethod sendMode)
+        public bool SendMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
             if (message.IsPingMessage)
                 RoundTripTime.RecordOutboundPing(message.PingCode);
 
-            return Connection.SendMessage(message.ToBuffer(), sendMode);
+            return Connection.SendMessage(message.ToBuffer(), channel, sendMode);
         }
 
         /// <summary>
@@ -261,8 +262,9 @@ namespace DarkRift.Client
         ///     Callback for when data is received.
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer, byte channel, DeliveryMethod sendMode)
         {
             using (Message message = Message.Create(buffer, true))
             {

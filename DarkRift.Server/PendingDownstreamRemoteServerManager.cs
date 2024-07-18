@@ -67,6 +67,10 @@ namespace DarkRift.Server
             ///     The send mode used.
             /// </summary>
             public DeliveryMethod SendMode { get; set; }
+            /// <summary>
+            /// Channel message is sending out on
+            /// </summary>
+            public byte Channel { get; set; }
         }
 
         /// <summary>
@@ -106,7 +110,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer,byte channel, DeliveryMethod sendMode)
         {
             using (Message message = Message.Create(buffer, true))
             {
@@ -117,7 +121,7 @@ namespace DarkRift.Server
                 else
                 {
                     lock (queuedMessages)
-                        queuedMessages.Enqueue(new QueuedMessage { Message = message.Clone(), SendMode = sendMode });
+                        queuedMessages.Enqueue(new QueuedMessage { Message = message.Clone(), Channel = channel, SendMode = sendMode });
                 }
             }
         }

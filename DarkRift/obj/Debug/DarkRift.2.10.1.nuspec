@@ -5,7 +5,7 @@
     <version>2.10.1</version>
     <authors>DarkRift</authors>
     <description>Package Description</description>
-    <repository type="git" commit="80beb2d9dcfe3a23e8e3d4f5c38e2d4524fe81a4" />
+    <repository type="git" commit="b552037df4182cb21b831ae922205c67e67aff38" />
     <dependencies>
       <group targetFramework=".NETFramework4.7.1" />
       <group targetFramework="net8.0" />

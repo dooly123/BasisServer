@@ -7,8 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using System.Text;
 
 namespace DarkRift.Server.Plugins.Commands
 {
@@ -90,12 +88,12 @@ namespace DarkRift.Server.Plugins.Commands
                 {
                     throw new CommandSyntaxException("An argument was unable to be parsed to a number.");
                 }
-
+                byte channel = 0;
                 using (Message message = Message.Create(tag, writer))
                 {
                     try
                     {
-                        ((Client)ClientManager[clientID]).HandleIncomingMessage(message, sendMode);
+                        ((Client)ClientManager[clientID]).HandleIncomingMessage(message, channel, sendMode);
                     }
                     catch (KeyNotFoundException)
                     {

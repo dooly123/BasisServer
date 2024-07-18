@@ -7,8 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using System.Text;
 
 namespace DarkRift.Server.Plugins.Commands
 {
@@ -94,7 +92,7 @@ namespace DarkRift.Server.Plugins.Commands
                 {
                     try
                     {
-                        ClientManager[clientID].SendMessage(message, sendMode);
+                        ClientManager[clientID].SendMessage(message,0, sendMode);
                     }
                     catch (KeyNotFoundException)
                     {

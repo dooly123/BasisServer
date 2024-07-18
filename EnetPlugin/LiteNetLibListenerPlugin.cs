@@ -14,6 +14,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
     public static ushort SetPort = 4296;
     public static LiteNetLibListenerPlugin Instance;
     public static bool UseNativeSockets = false;
+    public string authenticationKey = "basis18072024";
     public LiteNetLibListenerPlugin(NetworkListenerLoadData pluginLoadData) : base(pluginLoadData)
     {
         Console.WriteLine("LiteNetLibListenerPlugin Is Being loaded....");
@@ -36,6 +37,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
             AllowPeerAddressChange = true,
             BroadcastReceiveEnabled = true,
             UseNativeSockets = UseNativeSockets,
+            ChannelsCount = 4
         };
 
         server.Start(SetPort);
@@ -44,7 +46,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
         listener.ConnectionRequestEvent += request =>
         {
             if (server.ConnectedPeersCount < PeerLimit)
-                request.AcceptIfKey("SomeConnectionKey");
+                request.AcceptIfKey(authenticationKey);
             else
                 request.Reject();
         };
@@ -78,7 +80,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
     {
         if (connections.TryGetValue(peer, out LiteNetLibServerConnection con))
         {
-            con.HandleLiteNetLibMessageReceived(peer, reader, (DarkRift.DeliveryMethod)deliveryMethod);
+            con.HandleLiteNetLibMessageReceived(peer, reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
             reader.Recycle();
         }
     }

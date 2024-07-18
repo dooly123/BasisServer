@@ -5,9 +5,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DarkRift.Server
 {
@@ -20,13 +17,14 @@ namespace DarkRift.Server
         ///     Event fired when a message is received from this entity.
         /// </summary>
         event EventHandler<MessageReceivedEventArgs> MessageReceived;
-        
+
         /// <summary>
         ///     Sends a message to the client.
         /// </summary>
         /// <param name="message">The message to be sent.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">How the message should be sent.</param>
         /// <returns>Whether the send was successful.</returns>
-        bool SendMessage(Message message, DeliveryMethod sendMode);
+        bool SendMessage(Message message,byte channel, DeliveryMethod sendMode);
     }
 }

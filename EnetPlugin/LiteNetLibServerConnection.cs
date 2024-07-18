@@ -46,29 +46,20 @@ public class LiteNetLibServerConnection : NetworkServerConnection
         HandleDisconnection();
     }
 
-    public override bool SendMessageReceiver(MessageBuffer message, DeliveryMethod sendMode)
+    public override bool SendMessageReceiver(MessageBuffer message,byte channel, DeliveryMethod sendMode)
     {
-        byte[] data = new byte[message.Count];
-        Array.Copy(message.Buffer, message.Offset, data, 0, message.Count);
-        bool result = Send(data, sendMode, peer);
+        peer.Send(message.Buffer, message.Offset, message.Count, channel, (LiteNetLib.DeliveryMethod)sendMode);
         message.Dispose();
-        return result;
-    }
-
-    private bool Send(byte[] data, DeliveryMethod sendMode, NetPeer peer)
-    {
-        peer.Send(data, (LiteNetLib.DeliveryMethod)sendMode);
         return true;
     }
-
-    public void HandleLiteNetLibMessageReceived(NetPeer fromPeer, NetDataReader reader, DeliveryMethod deliveryMethod)
+    public void HandleLiteNetLibMessageReceived(NetPeer fromPeer, NetDataReader reader,byte channel, DeliveryMethod deliveryMethod)
     {
         int length = reader.AvailableBytes;
         MessageBuffer message = MessageBuffer.Create(length);
         reader.GetBytes(message.Buffer, length);
         message.Offset = 0;
         message.Count = length;
-        HandleMessageReceived(message, deliveryMethod);
+        HandleMessageReceived(message, channel, deliveryMethod);
         message.Dispose();
     }
 }

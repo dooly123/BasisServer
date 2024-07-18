@@ -15,7 +15,7 @@ public class LiteNetLibClientConnection : NetworkClientConnection
     public bool disposedValue = false;
     public readonly IPEndPoint[] remoteEndPoints;
     public DarkRift.ConnectionState state;
-
+    public string authenticationKey = "basis18072024";
     public LiteNetLibClientConnection(string ip, int port)
     {
         this.IP = ip;
@@ -24,7 +24,17 @@ public class LiteNetLibClientConnection : NetworkClientConnection
         remoteEndPoints = new[] { new IPEndPoint(IPAddress.Parse(ip), port) };
 
         listener = new EventBasedNetListener();
-        client = new NetManager(listener);
+        client = new NetManager(listener)
+        {
+            AutoRecycle = true,
+            UnconnectedMessagesEnabled = true,
+            NatPunchEnabled = true,
+            AllowPeerAddressChange = true,
+            BroadcastReceiveEnabled = true,
+            UseNativeSockets = false,
+            ChannelsCount = 4,
+
+        };
 
         listener.PeerConnectedEvent += (peer) =>
         {
@@ -43,7 +53,7 @@ public class LiteNetLibClientConnection : NetworkClientConnection
 
     public void DeliveryMessage(NetPeer peer, NetPacketReader reader, byte channel, LiteNetLib.DeliveryMethod deliveryMethod)
     {
-        HandleLiteNetLibMessageReceived(reader, (DarkRift.DeliveryMethod)deliveryMethod);
+        HandleLiteNetLibMessageReceived(reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
         reader.Recycle();
     }
 
@@ -59,16 +69,14 @@ public class LiteNetLibClientConnection : NetworkClientConnection
     public override void Connect()
     {
         client.Start();
-        peer = client.Connect(IP, port, "SomeConnectionKey");
+        peer = client.Connect(IP, port, authenticationKey);
     }
 
-    public override bool SendMessageToReceiver(MessageBuffer message, DarkRift.DeliveryMethod sendMode)
+    public override bool SendMessageToReceiver(MessageBuffer message,byte channel, DarkRift.DeliveryMethod sendMode)
     {
-        byte[] data = new byte[message.Count];
-        Array.Copy(message.Buffer, message.Offset, data, 0, message.Count);
-        bool result = Send(data, sendMode, peer);
+        peer.Send(message.Buffer, message.Offset, message.Count, channel, (LiteNetLib.DeliveryMethod)sendMode);
         message.Dispose();
-        return result;
+        return true;
     }
 
     public override bool Disconnect()
@@ -95,22 +103,14 @@ public class LiteNetLibClientConnection : NetworkClientConnection
         disposedValue = true;
     }
 
-    private bool Send(byte[] data, DarkRift.DeliveryMethod sendMode, NetPeer peer)
-    {
-        NetDataWriter writer = new NetDataWriter();
-        writer.Put(data);
-        peer.Send(writer, (LiteNetLib.DeliveryMethod)sendMode);
-        return true;
-    }
-
-    private void HandleLiteNetLibMessageReceived(NetDataReader reader, DarkRift.DeliveryMethod mode)
+    private void HandleLiteNetLibMessageReceived(NetDataReader reader, byte channel, DarkRift.DeliveryMethod mode)
     {
         int length = reader.AvailableBytes;
         MessageBuffer message = MessageBuffer.Create(length);
         reader.GetBytes(message.Buffer, length);
         message.Offset = 0;
         message.Count = length;
-        HandleMessageReceived(message, mode);
+        HandleMessageReceived(message, channel, mode);
         message.Dispose();
     }
 
