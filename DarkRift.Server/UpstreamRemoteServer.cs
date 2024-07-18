@@ -172,7 +172,7 @@ namespace DarkRift.Server
                 using (Message message = Message.Create((ushort)CommandCode.Identify, writer))
                 {
                     message.IsCommandMessage = true;
-                    SendMessage(message, DeliveryMethod.ReliableOrdered);
+                    SendMessage(message, 0, DeliveryMethod.ReliableOrdered);
                 }
             }
 
@@ -207,11 +207,12 @@ namespace DarkRift.Server
         ///     Sends a message to the server.
         /// </summary>
         /// <param name="message">The message to send.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">How the message should be sent.</param>
         /// <returns>Whether the send was successful.</returns>
-        public bool SendMessage(Message message, DeliveryMethod sendMode)
+        public bool SendMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
-            bool success = connection?.SendMessage(message.ToBuffer(), sendMode) ?? false;
+            bool success = connection?.SendMessage(message.ToBuffer(), channel, sendMode) ?? false;
             if (success)
                 messagesSentCounter.Increment();
 
@@ -232,8 +233,9 @@ namespace DarkRift.Server
         ///     Callback for when data is received.
         /// </summary>
         /// <param name="buffer">The data recevied.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The SendMode used to send the data.</param>
-        private void MessageReceivedHandler(MessageBuffer buffer, DeliveryMethod sendMode)
+        private void MessageReceivedHandler(MessageBuffer buffer,byte channel, DeliveryMethod sendMode)
         {
             messagesReceivedCounter.Increment();
 
@@ -242,7 +244,7 @@ namespace DarkRift.Server
                 if (message.IsCommandMessage)
                     HandleCommand(message);
                 else
-                    HandleMessage(message, sendMode);
+                    HandleMessage(message, channel, sendMode);
             }
         }
 
@@ -267,8 +269,9 @@ namespace DarkRift.Server
         ///     Handles a message received.
         /// </summary>
         /// <param name="message">The message that was received.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The send mode the emssage was received with.</param>
-        private void HandleMessage(Message message, DeliveryMethod sendMode)
+        private void HandleMessage(Message message, byte channel, DeliveryMethod sendMode)
         {
             // Get another reference to the message so 1. we can control the backing array's lifecycle and thus it won't get disposed of before we dispatch, and
             // 2. because the current message will be disposed of when this method returns.
@@ -276,7 +279,7 @@ namespace DarkRift.Server
 
             void DoMessageReceived()
             {
-                ServerMessageReceivedEventArgs args = ServerMessageReceivedEventArgs.Create(message, sendMode, this);
+                ServerMessageReceivedEventArgs args = ServerMessageReceivedEventArgs.Create(message, channel, sendMode, this);
 
                 long startTimestamp = Stopwatch.GetTimestamp();
 

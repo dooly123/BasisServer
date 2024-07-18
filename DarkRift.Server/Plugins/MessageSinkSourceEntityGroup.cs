@@ -77,12 +77,12 @@ namespace DarkRift.Server.Plugins
         }
 
         /// <inheritdoc/>
-        public bool SendMessage(Message message, DeliveryMethod sendMode)
+        public bool SendMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
             bool failed = false;
             foreach (IMessageSinkSource item in this)
             {
-                if (!item.SendMessage(message, sendMode))
+                if (!item.SendMessage(message, channel, sendMode))
                     failed = true;
             }
 

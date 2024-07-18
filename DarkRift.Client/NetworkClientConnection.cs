@@ -23,7 +23,7 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="messageBuffer">The message buffer received.</param>
         /// <param name="sendMode">The send mode the message was received with.</param>
-        public delegate void MessageReceviedHandler(MessageBuffer messageBuffer, DeliveryMethod sendMode);
+        public delegate void MessageReceviedHandler(MessageBuffer messageBuffer, byte channel, DeliveryMethod sendMode);
 
         /// <summary>
         ///     Delegate for handling disconnections.
@@ -57,7 +57,7 @@ namespace DarkRift.Client
         /// </summary>
         public NetworkClientConnection()
         {
-            
+
         }
 
         /// <summary>
@@ -70,17 +70,18 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="message">The message to be sent.</param>
         /// <param name="sendMode">How the message should be sent.</param>
+        /// <param name="channel">what channel should be used</param>
         /// <returns>Whether the send was successful.</returns>
         /// <remarks>
         ///     <see cref="MessageBuffer"/> is an IDisposable type and therefore once you are done 
         ///     using it you should call <see cref="MessageBuffer.Dispose"/> to release resources.
         ///     Not doing this will result in memnory leaks.
         /// </remarks>
-        public virtual bool SendMessage(MessageBuffer message, DeliveryMethod sendMode)
+        public virtual bool SendMessage(MessageBuffer message, byte channel, DeliveryMethod sendMode)
         {
-           return SendMessageToReceiver(message,sendMode);
+            return SendMessageToReceiver(message, channel, sendMode);
         }
-        public abstract bool SendMessageToReceiver(MessageBuffer message, DeliveryMethod sendMode);
+        public abstract bool SendMessageToReceiver(MessageBuffer message, byte channel, DeliveryMethod sendMode);
         /// <summary>
         ///     Disconnects this client from the remote host.
         /// </summary>
@@ -99,9 +100,10 @@ namespace DarkRift.Client
         /// </summary>
         /// <param name="message">The message received.</param>
         /// <param name="mode">The <see cref="DeliveryMethod"/> used to send the data.</param>
-        protected void HandleMessageReceived(MessageBuffer message, DeliveryMethod mode)
+        /// <param name="channel">the channel we are using</param>
+        protected void HandleMessageReceived(MessageBuffer message, byte channel, DeliveryMethod mode)
         {
-            MessageReceived?.Invoke(message, mode);
+            MessageReceived?.Invoke(message,channel, mode);
         }
 
         /*
@@ -137,10 +139,14 @@ namespace DarkRift.Client
         protected void HandleDisconnection(Exception exception)
         {
             //Make sure socket exceptions expose socket error code
-            if (exception is SocketException)
-                Disconnected?.Invoke(((SocketException)exception).SocketErrorCode, exception);
+            if (exception is SocketException exception1)
+            {
+                Disconnected?.Invoke(exception1.SocketErrorCode, exception);
+            }
             else
+            {
                 Disconnected?.Invoke(SocketError.SocketError, exception);
+            }
         }
 
         #region IDisposable Support

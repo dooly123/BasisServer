@@ -1,37 +1,51 @@
 ﻿using DarkRift.Server.Plugins.BasisNetworking.MovementSync;
+using DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore.BasisSavedState;
 using static SerializableDarkRift;
+
 namespace DarkRift.Server.Plugins.Commands
 {
     /// <summary>
-    ///     Helper plugin for sending messages using commands.
+    /// Helper plugin for sending messages using commands.
     /// </summary>
     public class BasisNetworking : Plugin
     {
-        public AuthenticationCheck check;
-        public const string AuthenticationCode = "Default";
+        public BasisSavedState basisSavedState = new BasisSavedState();
         public override bool ThreadSafe => true;
         public override Version Version => new Version(1, 0, 0);
-        public override Command[] Commands => new Command[]{ };
+        public override Command[] Commands => new Command[] { };
         internal override bool Hidden => false;
+        public static BasisNetworking Instance;
+        public static byte EventsChannel = 0;
+        public static byte MovementChannel = 1;
+        public static byte VoiceChannel = 2;
         public BasisNetworking(PluginLoadData pluginLoadData) : base(pluginLoadData)
         {
-            check = new AuthenticationCheck(this);
+            Instance = this;
             ClientManager.ClientConnected += ClientConnected;
             ClientManager.ClientDisconnected += ClientDisconnected;
         }
-        private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
-        {
-            ClientDisconnection.ClientDisconnect(e, check.authenticatedClients);
-            check.Disconnection(sender, e);
-        }
         private void ClientConnected(object sender, ClientConnectedEventArgs e)
         {
-            check.AddTimer(e.Client);
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                using (Message authenticatedMessage = Message.Create(BasisTags.AuthSuccess, writer))
+                {
+                    e.Client.SendMessage(authenticatedMessage, EventsChannel, DeliveryMethod.ReliableOrdered);
+                }
+            }
+            e.Client.MessageReceived += MessageReceived;
         }
-        public void AuthenticationPassed(object sender, MessageReceivedEventArgs e)
+        private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
+        {
+            basisSavedState.RemovePlayer(e.Client);
+            IClient[] clients = ClientManager.GetAllClients();
+            ClientDisconnection.ClientDisconnect(e, EventsChannel, clients);
+        }
+        public void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             using (Message message = e.GetMessage())
             {
@@ -41,61 +55,94 @@ namespace DarkRift.Server.Plugins.Commands
                         HandleAvatarMovement(message, e);
                         break;
                     case BasisTags.ReadyStateTag:
-                        Ready(message, e);
+                        HandleReadyState(message, e);
                         break;
                     case BasisTags.AudioSegmentTag:
-                        HandleVoice(message, e);
+                        HandleVoiceMessage(message, e);
+                        break;
+                    case BasisTags.AvatarChangeMessage:
+                        SendAvatarMessageToClients(message, e);
                         break;
                     default:
-                        Logger.Log("Message was recieved but no function exists " + message.Tag, LogType.Error);
-                        // Handle unrecognized message tags
+                        Logger.Log($"Message was received but no handler exists for tag {message.Tag}", LogType.Error);
                         break;
                 }
             }
         }
-        private void HandleVoice(Message message, MessageReceivedEventArgs e)
+        private void SendAvatarMessageToClients(Message message, MessageReceivedEventArgs e)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                AudioSegment audioSegment = new AudioSegment();
+                reader.Read(out ClientAvatarChangeMessage clientAvatarChangeMessage);
+                ServerAvatarChangeMessage serverAvatarChangeMessage = new ServerAvatarChangeMessage
+                {
+                    clientAvatarChangeMessage = clientAvatarChangeMessage,
+                    uShortPlayerId = new PlayerIdMessage
+                    {
+                        playerID = e.Client.ID
+                    }
+                };
+                basisSavedState.AddLastData(e.Client, clientAvatarChangeMessage);
+                using (DarkRiftWriter writer = DarkRiftWriter.Create())
+                {
+                    writer.Write(serverAvatarChangeMessage);
+
+                    using (Message AvatarChangeMessage = Message.Create(BasisTags.AvatarChangeMessage, writer))
+                    {
+                        IClient[] clients = ClientManager.GetAllClients();
+                        BroadcastMessageToClients(AvatarChangeMessage, EventsChannel, e.Client, clients);
+                    }
+                }
+            }
+        }
+        private void HandleVoiceMessage(Message message, MessageReceivedEventArgs e)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                AudioSegmentMessage audioSegment = new AudioSegmentMessage();
+
                 if (reader.Length == reader.Position)
                 {
-                    HandleSilentVoice(reader,ref audioSegment);
+                    HandleSilentVoice(reader, ref audioSegment);
                 }
                 else
                 {
                     HandleRegularVoice(reader, ref audioSegment);
                 }
-
-                using (DarkRiftWriter writer = DarkRiftWriter.Create())
-                {
-                    audioSegment.playerIdMessage.playerID = e.Client.ID;
-                    writer.Write(audioSegment);
-                    using (Message audioSegmentMessage = Message.Create(BasisTags.AudioSegmentTag, writer))
-                    {
-                        BroadcastAudioUpdate(e.Client, audioSegmentMessage, check.authenticatedClients);
-                    }
-                }
+                SendVoiceMessageToClients(audioSegment, VoiceChannel, e.Client);
             }
         }
-        public void HandleSilentVoice(DarkRiftReader reader,ref AudioSegment audioSegment)
+        private void HandleSilentVoice(DarkRiftReader reader, ref AudioSegmentMessage audioSegment)
         {
             audioSegment.wasSilentData = true;
-            reader.Read(out AudioSilentSegmentData audioSilentSegmentData);
+            reader.Read(out AudioSilentSegmentDataMessage audioSilentSegmentData);
             audioSegment.silentData = audioSilentSegmentData;
         }
-        public void HandleRegularVoice(DarkRiftReader reader,ref AudioSegment audioSegment)
+        private void HandleRegularVoice(DarkRiftReader reader, ref AudioSegmentMessage audioSegment)
         {
             audioSegment.wasSilentData = false;
             reader.Read(out audioSegment.audioSegmentData);
         }
-        public static void BroadcastAudioUpdate(IClient sender, Message message, List<IClient> authenticatedClients)
+        private void SendVoiceMessageToClients(AudioSegmentMessage audioSegment, byte channel, IClient sender)
         {
-            IEnumerable<IClient> clientsExceptSender = authenticatedClients.Where(x => x != sender);
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                audioSegment.playerIdMessage.playerID = sender.ID;
+                writer.Write(audioSegment);
+                IClient[] clients = ClientManager.GetAllClients();
+                using (Message audioSegmentMessage = Message.Create(BasisTags.AudioSegmentTag, writer))
+                {
+                    BroadcastMessageToClients(audioSegmentMessage, channel, sender, clients, DeliveryMethod.Sequenced);
+                }
+            }
+        }
+        private void BroadcastMessageToClients(Message message, byte channel, IClient sender, IClient[] authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
+        {
+            IEnumerable<IClient> clientsExceptSender = authenticatedClients.Where(client => client != sender);
 
             foreach (IClient client in clientsExceptSender)
             {
-                client.SendMessage(message, DeliveryMethod.Sequenced);
+                client.SendMessage(message, channel, deliveryMethod);
             }
         }
         private void HandleAvatarMovement(Message message, MessageReceivedEventArgs e)
@@ -103,30 +150,129 @@ namespace DarkRift.Server.Plugins.Commands
             using (DarkRiftReader reader = message.GetReader())
             {
                 reader.Read(out LocalAvatarSyncMessage local);
-
+                basisSavedState.AddLastData(e.Client, local);
+                ServerSideSyncPlayerMessage ssspm = CreateServerSideSyncPlayerMessage(local, e.Client.ID);
+                IClient[] clients = ClientManager.GetAllClients();
                 using (DarkRiftWriter writer = DarkRiftWriter.Create())
                 {
-                    ServerSideSyncPlayerMessage ssspm = new ServerSideSyncPlayerMessage();
-                    PlayerIdMessage playerIdMessage = new PlayerIdMessage
-                    {
-                        playerID = e.Client.ID
-                    };
-                    ssspm.playerIdMessage = playerIdMessage;
-                    ssspm.avatarSerialization = local;
-
                     writer.Write(ssspm);
-                    using (Message ssspmmessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
+                    using (Message ssspmMessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
                     {
-                        PositionSync.BroadcastPositionUpdate(e.Client, ssspmmessage, check.authenticatedClients);
+                        PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, clients);
                     }
                 }
             }
         }
-        private void Ready(Message message, MessageReceivedEventArgs e)
+        private ServerSideSyncPlayerMessage CreateServerSideSyncPlayerMessage(LocalAvatarSyncMessage local, ushort clientId)
+        {
+            return new ServerSideSyncPlayerMessage
+            {
+                playerIdMessage = new PlayerIdMessage { playerID = clientId },
+                avatarSerialization = local
+            };
+        }
+        private void HandleReadyState(Message message, MessageReceivedEventArgs e)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                check.SendRemoteSpawnMessage(e.Client);
+                reader.Read(out ReadyMessage readyMessage);
+                SendRemoteSpawnMessage(e.Client, readyMessage, EventsChannel);
+            }
+        }
+        public void SendRemoteSpawnMessage(IClient authClient, ReadyMessage readyMessage, byte channel)
+        {
+            ServerReadyMessage serverReadyMessage = LoadInitialState(authClient, readyMessage);
+            NotifyExistingClients(serverReadyMessage, channel, authClient);
+            SendClientListToNewClient(authClient, BasisNetworking.EventsChannel);
+        }
+        public ServerReadyMessage LoadInitialState(IClient authClient, ReadyMessage readyMessage)
+        {
+            ServerReadyMessage serverReadyMessage = new ServerReadyMessage
+            {
+                LocalReadyMessage = readyMessage,
+                playerIdMessage = new PlayerIdMessage() { playerID = authClient.ID },
+            };
+            BasisNetworking.Instance.basisSavedState.AddLastData(authClient, readyMessage);
+            return serverReadyMessage;
+        }
+        private void NotifyExistingClients(ServerReadyMessage serverSideSyncPlayerMessage, byte channel, IClient authClient)
+        {
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                writer.Write(serverSideSyncPlayerMessage);
+
+                using (Message remoteCreate = Message.Create(BasisTags.CreateRemotePlayerTag, writer))
+                {
+                    IClient[] clients = ClientManager.GetAllClients();
+                    foreach (IClient client in clients)
+                    {
+                        if (client != authClient)
+                        {
+                            Console.WriteLine($"Sent Remote Spawn request to {client.ID}");
+                            client.SendMessage(remoteCreate, channel, DeliveryMethod.ReliableOrdered);
+                        }
+                    }
+                }
+            }
+        }
+        private void SendClientListToNewClient(IClient authClient, byte channel)
+        {
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                IClient[] clients = ClientManager.GetAllClients();
+                if (clients.Length > ushort.MaxValue)
+                {
+                    Console.WriteLine($"authenticatedClients count exceeds {ushort.MaxValue}");
+                    return;
+                }
+
+                List<ServerReadyMessage> copied = new List<ServerReadyMessage>();
+
+                foreach (IClient client in clients)
+                {
+                    if (client != authClient)
+                    {
+                        ServerReadyMessage serverReadyMessage = new ServerReadyMessage();
+
+                        if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
+                        {
+                            //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
+                            serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                            {
+                                localAvatarSyncMessage = sspm.LastAvatarSyncState,
+                                clientAvatarChangeMessage = sspm.LastAvatarChangeState,
+                                playerMetaDataMessage = sspm.PlayerMetaDataMessage,
+                            };
+                            serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unable to get last Data Creating Fake");
+                            serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
+                            serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                            {
+                                localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
+                                clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },
+                                playerMetaDataMessage = new PlayerMetaDataMessage() { playerDisplayName = "Error", playerUUID = string.Empty },
+                            };
+                        }
+
+                        copied.Add(serverReadyMessage);
+                    }
+                }
+
+                CreateAllRemoteMessage remoteMessages = new CreateAllRemoteMessage
+                {
+                    serverSidePlayer = copied.ToArray(),
+                };
+
+                writer.Write(remoteMessages);
+
+                using (Message allClientsMessage = Message.Create(BasisTags.CreateRemotePlayersTag, writer))
+                {
+                    Console.WriteLine($"Sending list of clients to {authClient.ID}");
+                    authClient.SendMessage(allClientsMessage, channel, DeliveryMethod.ReliableOrdered);
+                }
             }
         }
     }

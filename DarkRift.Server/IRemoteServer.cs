@@ -77,8 +77,9 @@ namespace DarkRift.Server
         ///     Sends a message to the remote server.
         /// </summary>
         /// <param name="message">The message to send.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The send mode to send the message with.</param>
         /// <returns>Whether the message was able to be sent.</returns>
-        bool SendMessage(Message message, DeliveryMethod sendMode);
+        bool SendMessage(Message message,byte channel, DeliveryMethod sendMode);
     }
 }

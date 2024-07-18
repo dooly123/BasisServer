@@ -12,12 +12,15 @@ public class LiteNetLibListenerPlugin : NetworkListener
     public static double ServerTickRate = 30;
     public static int PeerLimit = 1024;
     public static ushort SetPort = 4296;
-
+    public static LiteNetLibListenerPlugin Instance;
+    public static bool UseNativeSockets = false;
+    public string authenticationKey = "basis18072024";
     public LiteNetLibListenerPlugin(NetworkListenerLoadData pluginLoadData) : base(pluginLoadData)
     {
         Console.WriteLine("LiteNetLibListenerPlugin Is Being loaded....");
         Version = new Version(1, 0, 0);
         Console.WriteLine("LiteNetLibListenerPlugin ready to go");
+        Instance = this;
     }
 
     public override Version Version { get; }
@@ -30,7 +33,11 @@ public class LiteNetLibListenerPlugin : NetworkListener
         {
             AutoRecycle = true,
             UnconnectedMessagesEnabled = true,
-            NatPunchEnabled = true
+            NatPunchEnabled = true,
+            AllowPeerAddressChange = true,
+            BroadcastReceiveEnabled = true,
+            UseNativeSockets = UseNativeSockets,
+            ChannelsCount = 4
         };
 
         server.Start(SetPort);
@@ -39,14 +46,14 @@ public class LiteNetLibListenerPlugin : NetworkListener
         listener.ConnectionRequestEvent += request =>
         {
             if (server.ConnectedPeersCount < PeerLimit)
-                request.AcceptIfKey("SomeConnectionKey");
+                request.AcceptIfKey(authenticationKey);
             else
                 request.Reject();
         };
 
         listener.PeerConnectedEvent += peer =>
         {
-            var con = new LiteNetLibServerConnection(peer);
+            LiteNetLibServerConnection con = new LiteNetLibServerConnection(peer);
             RegisterConnection(con);
             connections[peer] = con;
             Console.WriteLine($"Client: {peer.Address} connected.");
@@ -73,7 +80,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
     {
         if (connections.TryGetValue(peer, out LiteNetLibServerConnection con))
         {
-            con.HandleLiteNetLibMessageReceived(peer, reader, (DarkRift.DeliveryMethod)deliveryMethod);
+            con.HandleLiteNetLibMessageReceived(peer, reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
             reader.Recycle();
         }
     }

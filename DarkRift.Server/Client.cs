@@ -161,7 +161,7 @@ namespace DarkRift.Server
             messageReceivedEventTimeHistogram = metricsCollector.Histogram("message_received_event_time", "The time taken to execute the MessageReceived event.");
             messageReceivedEventFailuresCounter = metricsCollector.Counter("message_received_event_failures", "The number of failures executing the MessageReceived event.");
         }
-
+        public byte defaultMessageChannel = 0;
         /// <summary>
         ///     Sends the client their ID.
         /// </summary>
@@ -174,7 +174,7 @@ namespace DarkRift.Server
                 using (Message command = Message.Create((ushort)CommandCode.Configure, writer))
                 {
                     command.IsCommandMessage = true;
-                    PushBuffer(command.ToBuffer(), DeliveryMethod.ReliableOrdered);
+                    PushBuffer(command.ToBuffer(), defaultMessageChannel, DeliveryMethod.ReliableOrdered);
 
                     // Make sure we trigger the sent metric still
                     messagesSentCounter.Increment();
@@ -200,10 +200,10 @@ namespace DarkRift.Server
         }
 
         /// <inheritdoc/>
-        public bool SendMessage(Message message, DeliveryMethod sendMode)
+        public bool SendMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
             //Send frame
-            if (!PushBuffer(message.ToBuffer(), sendMode))
+            if (!PushBuffer(message.ToBuffer(), channel, sendMode))
                 return false;
 
             if (message.IsPingMessage)
@@ -257,8 +257,9 @@ namespace DarkRift.Server
         ///     Handles data that was sent from this client.
         /// </summary>
         /// <param name="buffer">The buffer that was received.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The method data was sent using.</param>
-        internal void HandleIncomingDataBuffer(MessageBuffer buffer, DeliveryMethod sendMode)
+        internal void HandleIncomingDataBuffer(MessageBuffer buffer,byte channel, DeliveryMethod sendMode)
         {
             //Add to received message counter
             Interlocked.Increment(ref messagesReceived);
@@ -277,7 +278,7 @@ namespace DarkRift.Server
 
             try
             {
-                HandleIncomingMessage(message, sendMode);
+                HandleIncomingMessage(message, channel, sendMode);
             }
             finally
             {
@@ -289,8 +290,9 @@ namespace DarkRift.Server
         ///     Handles messages that were sent from this client.
         /// </summary>
         /// <param name="message">The message that was received.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The method data was sent using.</param>
-        internal void HandleIncomingMessage(Message message, DeliveryMethod sendMode)
+        internal void HandleIncomingMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
             //Discard any command messages sent from the client since they shouldn't send them
             if (message.IsCommandMessage)
@@ -321,6 +323,7 @@ namespace DarkRift.Server
             {
                 MessageReceivedEventArgs args = MessageReceivedEventArgs.Create(
                     messageReference,
+                    channel,
                     sendMode,
                     this
                 );
@@ -356,11 +359,12 @@ namespace DarkRift.Server
         ///     Pushes a buffer to the client.
         /// </summary>
         /// <param name="buffer">The buffer to push.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The method to send the data using.</param>
         /// <returns>Whether the send was successful.</returns>
-        private bool PushBuffer(MessageBuffer buffer, DeliveryMethod sendMode)
+        private bool PushBuffer(MessageBuffer buffer,byte channel, DeliveryMethod sendMode)
         {
-            if (!connection.SendMessage(buffer, sendMode))
+            if (!connection.SendMessage(buffer, channel, sendMode))
                 return false;
 
             Interlocked.Increment(ref messagesPushed);

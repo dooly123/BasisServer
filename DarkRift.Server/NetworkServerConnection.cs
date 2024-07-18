@@ -31,7 +31,7 @@ namespace DarkRift.Server
         /// <summary>
         ///     The action to call when a message is received.
         /// </summary>
-        internal Action<MessageBuffer, DeliveryMethod> MessageReceived { get; set; }
+        internal Action<MessageBuffer,byte, DeliveryMethod> MessageReceived { get; set; }
 
         /// <summary>
         ///     The action to call when the connection is remotely disconnected.
@@ -52,10 +52,11 @@ namespace DarkRift.Server
         ///     Handles a buffer being received. 
         /// </summary>
         /// <param name="message">The message received.</param>
+        /// <param name="channel"></param>
         /// <param name="mode">The <see cref="DeliveryMethod"/> used to send the data.</param>
-        protected void HandleMessageReceived(MessageBuffer message, DeliveryMethod mode)
+        protected void HandleMessageReceived(MessageBuffer message, byte channel, DeliveryMethod mode)
         {
-            MessageReceived?.Invoke(message, mode);
+            MessageReceived?.Invoke(message, channel, mode);
         }
 
         /// <summary>
@@ -69,16 +70,16 @@ namespace DarkRift.Server
         ///     using it you should call <see cref="MessageBuffer.Dispose"/> to release resources.
         ///     Not doing this will result in memnory leaks.
         /// </remarks>
-        public virtual bool SendMessage(MessageBuffer message, DeliveryMethod sendMode)
+        public virtual bool SendMessage(MessageBuffer message, byte channel, DeliveryMethod sendMode)
         {
-           return SendMessageReceiver(message, sendMode);
+           return SendMessageReceiver(message, channel, sendMode);
         }
 
         /// <summary>
         ///     Begins listening for data.
         /// </summary>
         public abstract void StartListening();
-        public abstract bool SendMessageReceiver(MessageBuffer message, DeliveryMethod sendMode);
+        public abstract bool SendMessageReceiver(MessageBuffer message, byte channel, DeliveryMethod sendMode);
         /// <summary>
         ///     Disconnects this client from the remote host.
         /// </summary>

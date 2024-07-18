@@ -5,9 +5,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DarkRift.Server
 {
@@ -35,7 +32,10 @@ namespace DarkRift.Server
         ///     The message received.
         /// </summary>
         private Message message;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public byte channel;
         /// <summary>
         ///     Whether this args object is currently in an object pool waiting or not.
         /// </summary>
@@ -45,15 +45,17 @@ namespace DarkRift.Server
         ///     Creates a new args object for the <see cref="IMessageSinkSource.MessageReceived"/> event.
         /// </summary>
         /// <param name="message">The message received.</param>
+        /// <param name="channel"></param>
         /// <param name="sendMode">The send mode the message was received with.</param>
         /// <param name="client">The client the message was received from.</param>
-        public static MessageReceivedEventArgs Create(Message message, DeliveryMethod sendMode, IClient client)
+        public static MessageReceivedEventArgs Create(Message message,byte channel, DeliveryMethod sendMode, IClient client)
         {
             MessageReceivedEventArgs messageReceivedEventArgs = ServerObjectCache.GetMessageReceivedEventArgs();
 
             messageReceivedEventArgs.message = message;
             messageReceivedEventArgs.SendMode = sendMode;
             messageReceivedEventArgs.Client = client;
+            messageReceivedEventArgs.channel = channel;
 
             messageReceivedEventArgs.isCurrentlyLoungingInAPool = false;
 

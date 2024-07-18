@@ -1,23 +1,23 @@
 ﻿using DarkRift;
+using System.Collections.Generic;
 public static partial class SerializableDarkRift
 {
     public struct CreateAllRemoteMessage : IDarkRiftSerializable
     {
-        public ushort playerCount;
-        public ServerSideSyncPlayerMessage[] serverSidePlayer;
+        public ServerReadyMessage[] serverSidePlayer;
         public void Deserialize(DeserializeEvent e)
         {
-            e.Reader.Read(out playerCount);
-            serverSidePlayer = new ServerSideSyncPlayerMessage[playerCount];
-            for (int index = 0; index < playerCount; index++)
+            List<ServerReadyMessage> temp = new List<ServerReadyMessage>();
+            while (e.Reader.Length != e.Reader.Position)
             {
-                serverSidePlayer[index].Deserialize(e);
+                e.Reader.Read(out ServerReadyMessage serverReadyMessage);
+                temp.Add(serverReadyMessage);
             }
+            serverSidePlayer = temp.ToArray();
         }
         public void Serialize(SerializeEvent e)
         {
-            e.Writer.Write(playerCount);
-            for (int index = 0; index < playerCount; index++)
+            for (int index = 0; index < serverSidePlayer.Length; index++)
             {
                 serverSidePlayer[index].Serialize(e);
             }
