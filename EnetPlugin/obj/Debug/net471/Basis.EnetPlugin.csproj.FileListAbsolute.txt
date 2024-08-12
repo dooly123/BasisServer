@@ -1,0 +1,11 @@
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\Basis.EnetPlugin\bin\Debug\net471\Basis.EnetPlugin.dll
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\Basis\Basis.EnetPlugin\bin\Debug\net471\Basis.EnetPlugin.pdb
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.csproj.AssemblyReference.cache
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.AssemblyInfoInputs.cache
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.AssemblyInfo.cs
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.csproj.CoreCompileInputs.cache
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.sourcelink.json
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.En.E07F1431.Up2Date
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.dll
+C:\Users\doola\OneDrive\Documents\Github\Basis Foundation\BasisServer\EnetPlugin\obj\Debug\net471\Basis.EnetPlugin.pdb
