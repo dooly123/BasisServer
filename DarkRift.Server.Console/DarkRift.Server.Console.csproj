@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Import global props -->
+    <Import Project="$(ProjectDir)..\.props" />
+
+    <PropertyGroup>
+        <Configurations>Debug;Release</Configurations>
+        <!-- Required for some reason? -->
+        <ApplicationIcon />
+        <OutputType>Exe</OutputType>
+        <StartupObject>DarkRift.Server.Console.Program</StartupObject>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <!-- Specify the TargetFramework -->
+        <TargetFrameworks>net471;net8.0</TargetFrameworks>
+        <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+    </PropertyGroup>
+
+    <!-- Copy configs -->
+    <ItemGroup>
+        <None Update="Server.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DarkRift.Client\DarkRift.Client.csproj" />
+        <ProjectReference Include="..\DarkRift.Server\DarkRift.Server.csproj" />
+        <ProjectReference Include="..\DarkRift\DarkRift.csproj" />
+    </ItemGroup>
+
+    <!-- Conditional properties for different target frameworks -->
+    <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
+        <!-- Specific settings for .NET 8.0 -->
+        <OutputType>Exe</OutputType>
+        <UseAppHost>true</UseAppHost>
+        <!-- Ensure an EXE is generated -->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
+        <!-- Specific settings for .NET Framework 4.7.1 -->
+        <OutputType>WinExe</OutputType>
+    </PropertyGroup>
+</Project>

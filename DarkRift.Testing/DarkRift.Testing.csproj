@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Import global props (must be done here for Version to have effect on class libraries) -->
+  <Import Project="$(ProjectDir)..\.props" />
+
+  <PropertyGroup>
+      <TargetFrameworks>net471;net8.0</TargetFrameworks>
+    <Configurations>Debug;Release</Configurations>
+    <!-- MSTest.TestAdapter package is for .NET Framework 4.6.1 so throws errors on .NET Standard build -->
+    <NoWarn>NU1701</NoWarn>
+    <IsPackable>false</IsPackable>
+    <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DarkRift\DarkRift.csproj" />
+  </ItemGroup>
+
+</Project>

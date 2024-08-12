@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Import global props (must be done here for Version to have effect on class libraries) -->
+  <Import Project="$(ProjectDir)..\.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <DocumentationFile>$(OutDir)\$(Configuration)\$(TargetFramework)\DarkRift.Client.xml</DocumentationFile>
+    <Configurations>Debug;Release</Configurations>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<BaseOutputPath>$(ProjectDir)..\..\unordinal\dr-build\$(MSBuildProjectName)\bin\</BaseOutputPath>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DarkRift\DarkRift.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
