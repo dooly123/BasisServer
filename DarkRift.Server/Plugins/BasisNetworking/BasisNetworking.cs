@@ -1,4 +1,5 @@
-﻿using DarkRift.Server.Plugins.BasisNetworking.MovementSync;
+﻿using DarkRift.Server.Plugins.BasisNetworking.Content_Sync;
+using DarkRift.Server.Plugins.BasisNetworking.MovementSync;
 using DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace DarkRift.Server.Plugins.Commands
         public static byte EventsChannel = 0;
         public static byte MovementChannel = 1;
         public static byte VoiceChannel = 2;
+        public static byte SceneChannel = 3;
+        public static byte AvatarChannel = 4;
         public BasisNetworking(PluginLoadData pluginLoadData) : base(pluginLoadData)
         {
             Instance = this;
@@ -62,6 +65,14 @@ namespace DarkRift.Server.Plugins.Commands
                         break;
                     case BasisTags.AvatarChangeMessage:
                         SendAvatarMessageToClients(message, e);
+                        break;
+                    case BasisTags.SceneGenericMessage:
+                        IClient[] clients = ClientManager.GetAllClients();
+                        BasisNetworkingScene.HandleSceneDataMessage(message, e, clients);
+                        break;
+                    case BasisTags.AvatarGenericMessage:
+                        clients = ClientManager.GetAllClients();
+                        BasisNetworkingScene.HandleAvatarDataMessage(message, e, clients);
                         break;
                     default:
                         Logger.Log($"Message was received but no handler exists for tag {message.Tag}", LogType.Error);
@@ -136,7 +147,7 @@ namespace DarkRift.Server.Plugins.Commands
                 }
             }
         }
-        private void BroadcastMessageToClients(Message message, byte channel, IClient sender, IClient[] authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
+        public static void BroadcastMessageToClients(Message message, byte channel, IClient sender, IClient[] authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
         {
             IEnumerable<IClient> clientsExceptSender = authenticatedClients.Where(client => client != sender);
 

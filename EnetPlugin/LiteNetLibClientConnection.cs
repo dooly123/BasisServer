@@ -32,7 +32,7 @@ public class LiteNetLibClientConnection : NetworkClientConnection
             AllowPeerAddressChange = true,
             BroadcastReceiveEnabled = true,
             UseNativeSockets = false,
-            ChannelsCount = 4,
+            ChannelsCount = 7,
 
         };
 

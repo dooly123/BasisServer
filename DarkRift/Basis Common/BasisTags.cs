@@ -3,7 +3,7 @@
     public class BasisTags
     {
         //CommandCode 0 & 1 are taken by CommandCode
-        //dont want to use just in case we do something in the future.
+        //dont want to use just in case we do something in the future. were they use this
         public const ushort AuthSuccess = 3;
         public const ushort DisconnectTag = 5;
         public const ushort CreateRemotePlayerTag = 6;
@@ -12,5 +12,7 @@
         public const ushort AudioSegmentTag = 9;
         public const ushort AvatarMuscleUpdateTag = 10;
         public const ushort AvatarChangeMessage = 11;
+        public const ushort SceneGenericMessage = 12;
+        public const ushort AvatarGenericMessage = 13;
     }
 }
