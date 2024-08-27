@@ -1,10 +1,11 @@
 ﻿using DarkRift.Server.Plugins.Commands;
+using System.Collections.Concurrent;
 using static SerializableDarkRift;
 namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
 {
-    public static class BasisNetworkingScene
+    public static class BasisNetworkingGeneric
     {
-        public static void HandleSceneDataMessage(Message message, MessageReceivedEventArgs e, IClient[] clients)
+        public static void HandleSceneDataMessage(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
@@ -12,7 +13,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                 HandleSceneServer(SceneDataMessage, Commands.BasisNetworking.SceneChannel, e.Client, clients);
             }
         }
-        public static void HandleAvatarDataMessage(Message message, MessageReceivedEventArgs e, IClient[] clients)
+        public static void HandleAvatarDataMessage(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
@@ -20,7 +21,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                 HandleAvatarServer(AvatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.Client, clients);
             }
         }
-        private static void HandleSceneServer(SceneDataMessage SceneDataMessage, byte channel, IClient sender, IClient[] clients)
+        private static void HandleSceneServer(SceneDataMessage SceneDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
         {
             ServerSceneDataMessage ServerSceneDataMessage = new ServerSceneDataMessage
             {
@@ -39,7 +40,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                 }
             }
         }
-        private static void HandleAvatarServer(AvatarDataMessage SceneDataMessage, byte channel, IClient sender, IClient[] clients)
+        private static void HandleAvatarServer(AvatarDataMessage SceneDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
         {
             ServerAvatarDataMessage ServerSceneDataMessage = new ServerAvatarDataMessage
             {

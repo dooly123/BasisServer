@@ -2,6 +2,7 @@
 using DarkRift.Server.Plugins.BasisNetworking.MovementSync;
 using DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using static DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore.BasisSavedState;
@@ -20,11 +21,16 @@ namespace DarkRift.Server.Plugins.Commands
         public override Command[] Commands => new Command[] { };
         internal override bool Hidden => false;
         public static BasisNetworking Instance;
+
         public static byte EventsChannel = 0;
         public static byte MovementChannel = 1;
         public static byte VoiceChannel = 2;
         public static byte SceneChannel = 3;
         public static byte AvatarChannel = 4;
+        /// <summary>
+        /// this is clients that have gone past the ReadyStateTag
+        /// </summary>
+        public static ConcurrentDictionary<ushort, IClient> ReadyClients = new ConcurrentDictionary<ushort, IClient>();
         public BasisNetworking(PluginLoadData pluginLoadData) : base(pluginLoadData)
         {
             Instance = this;
@@ -45,8 +51,8 @@ namespace DarkRift.Server.Plugins.Commands
         private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             basisSavedState.RemovePlayer(e.Client);
-            IClient[] clients = ClientManager.GetAllClients();
-            ClientDisconnection.ClientDisconnect(e, EventsChannel, clients);
+            ReadyClients.TryRemove(e.Client.ID, out IClient removedclient);
+            ClientDisconnection.ClientDisconnect(e, EventsChannel, ReadyClients);
         }
         public void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -67,12 +73,10 @@ namespace DarkRift.Server.Plugins.Commands
                         SendAvatarMessageToClients(message, e);
                         break;
                     case BasisTags.SceneGenericMessage:
-                        IClient[] clients = ClientManager.GetAllClients();
-                        BasisNetworkingScene.HandleSceneDataMessage(message, e, clients);
+                        BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
                         break;
                     case BasisTags.AvatarGenericMessage:
-                        clients = ClientManager.GetAllClients();
-                        BasisNetworkingScene.HandleAvatarDataMessage(message, e, clients);
+                        BasisNetworkingGeneric.HandleAvatarDataMessage(message, e, ReadyClients);
                         break;
                     default:
                         Logger.Log($"Message was received but no handler exists for tag {message.Tag}", LogType.Error);
@@ -100,8 +104,7 @@ namespace DarkRift.Server.Plugins.Commands
 
                     using (Message AvatarChangeMessage = Message.Create(BasisTags.AvatarChangeMessage, writer))
                     {
-                        IClient[] clients = ClientManager.GetAllClients();
-                        BroadcastMessageToClients(AvatarChangeMessage, EventsChannel, e.Client, clients);
+                        BroadcastMessageToClients(AvatarChangeMessage, EventsChannel, e.Client, ReadyClients);
                     }
                 }
             }
@@ -140,20 +143,19 @@ namespace DarkRift.Server.Plugins.Commands
             {
                 audioSegment.playerIdMessage.playerID = sender.ID;
                 writer.Write(audioSegment);
-                IClient[] clients = ClientManager.GetAllClients();
                 using (Message audioSegmentMessage = Message.Create(BasisTags.AudioSegmentTag, writer))
                 {
-                    BroadcastMessageToClients(audioSegmentMessage, channel, sender, clients, DeliveryMethod.Sequenced);
+                    BroadcastMessageToClients(audioSegmentMessage, channel, sender, ReadyClients, DeliveryMethod.Sequenced);
                 }
             }
         }
-        public static void BroadcastMessageToClients(Message message, byte channel, IClient sender, IClient[] authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
+        public static void BroadcastMessageToClients(Message message, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
         {
-            IEnumerable<IClient> clientsExceptSender = authenticatedClients.Where(client => client != sender);
+            IEnumerable<KeyValuePair<ushort, IClient>> clientsExceptSender = authenticatedClients.Where(client => client.Value.ID != sender.ID);
 
-            foreach (IClient client in clientsExceptSender)
+            foreach (KeyValuePair<ushort, IClient> client in clientsExceptSender)
             {
-                client.SendMessage(message, channel, deliveryMethod);
+                client.Value.SendMessage(message, channel, deliveryMethod);
             }
         }
         private void HandleAvatarMovement(Message message, MessageReceivedEventArgs e)
@@ -163,13 +165,12 @@ namespace DarkRift.Server.Plugins.Commands
                 reader.Read(out LocalAvatarSyncMessage local);
                 basisSavedState.AddLastData(e.Client, local);
                 ServerSideSyncPlayerMessage ssspm = CreateServerSideSyncPlayerMessage(local, e.Client.ID);
-                IClient[] clients = ClientManager.GetAllClients();
                 using (DarkRiftWriter writer = DarkRiftWriter.Create())
                 {
                     writer.Write(ssspm);
                     using (Message ssspmMessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
                     {
-                        PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, clients);
+                        PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, ReadyClients);
                     }
                 }
             }
@@ -187,6 +188,10 @@ namespace DarkRift.Server.Plugins.Commands
             using (DarkRiftReader reader = message.GetReader())
             {
                 reader.Read(out ReadyMessage readyMessage);
+                if (ReadyClients.ContainsKey(e.Client.ID) == false)
+                {
+                    ReadyClients.TryAdd(e.Client.ID, e.Client);
+                }
                 SendRemoteSpawnMessage(e.Client, readyMessage, EventsChannel);
             }
         }
@@ -214,14 +219,12 @@ namespace DarkRift.Server.Plugins.Commands
 
                 using (Message remoteCreate = Message.Create(BasisTags.CreateRemotePlayerTag, writer))
                 {
-                    IClient[] clients = ClientManager.GetAllClients();
-                    foreach (IClient client in clients)
+                    var clientsToNotify = ReadyClients.Values.Where(client => client != authClient);
+
+                    foreach (IClient client in clientsToNotify)
                     {
-                        if (client != authClient)
-                        {
-                            Console.WriteLine($"Sent Remote Spawn request to {client.ID}");
-                            client.SendMessage(remoteCreate, channel, DeliveryMethod.ReliableOrdered);
-                        }
+                        Console.WriteLine($"Sent Remote Spawn request to {client.ID}");
+                        client.SendMessage(remoteCreate, channel, DeliveryMethod.ReliableOrdered);
                     }
                 }
             }
@@ -230,8 +233,7 @@ namespace DarkRift.Server.Plugins.Commands
         {
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                IClient[] clients = ClientManager.GetAllClients();
-                if (clients.Length > ushort.MaxValue)
+                if (ReadyClients.Count > ushort.MaxValue)
                 {
                     Console.WriteLine($"authenticatedClients count exceeds {ushort.MaxValue}");
                     return;
@@ -239,37 +241,36 @@ namespace DarkRift.Server.Plugins.Commands
 
                 List<ServerReadyMessage> copied = new List<ServerReadyMessage>();
 
-                foreach (IClient client in clients)
+                var clientsToNotify = ReadyClients.Values.Where(client => client != authClient);
+
+                foreach (IClient client in clientsToNotify)
                 {
-                    if (client != authClient)
+                    ServerReadyMessage serverReadyMessage = new ServerReadyMessage();
+
+                    if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
                     {
-                        ServerReadyMessage serverReadyMessage = new ServerReadyMessage();
-
-                        if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
+                        //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
+                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
                         {
-                            //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
-                            serverReadyMessage.LocalReadyMessage = new ReadyMessage
-                            {
-                                localAvatarSyncMessage = sspm.LastAvatarSyncState,
-                                clientAvatarChangeMessage = sspm.LastAvatarChangeState,
-                                playerMetaDataMessage = sspm.PlayerMetaDataMessage,
-                            };
-                            serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
-                        }
-                        else
-                        {
-                            Console.WriteLine("Unable to get last Data Creating Fake");
-                            serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
-                            serverReadyMessage.LocalReadyMessage = new ReadyMessage
-                            {
-                                localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
-                                clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },
-                                playerMetaDataMessage = new PlayerMetaDataMessage() { playerDisplayName = "Error", playerUUID = string.Empty },
-                            };
-                        }
-
-                        copied.Add(serverReadyMessage);
+                            localAvatarSyncMessage = sspm.LastAvatarSyncState,
+                            clientAvatarChangeMessage = sspm.LastAvatarChangeState,
+                            playerMetaDataMessage = sspm.PlayerMetaDataMessage,
+                        };
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
                     }
+                    else
+                    {
+                        Console.WriteLine("Unable to get last Data Creating Fake");
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
+                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                        {
+                            localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
+                            clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },
+                            playerMetaDataMessage = new PlayerMetaDataMessage() { playerDisplayName = "Error", playerUUID = string.Empty },
+                        };
+                    }
+
+                    copied.Add(serverReadyMessage);
                 }
 
                 CreateAllRemoteMessage remoteMessages = new CreateAllRemoteMessage
