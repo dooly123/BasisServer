@@ -40,11 +40,11 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                 }
             }
         }
-        private static void HandleAvatarServer(AvatarDataMessage SceneDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
+        private static void HandleAvatarServer(AvatarDataMessage AvatarDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
         {
             ServerAvatarDataMessage ServerSceneDataMessage = new ServerAvatarDataMessage
             {
-                SceneDataMessage = SceneDataMessage,
+                AvatarDataMessage = AvatarDataMessage,
                 PlayerIdMessage = new PlayerIdMessage
                 {
                     playerID = sender.ID
@@ -52,7 +52,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
             };
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(SceneDataMessage);
+                writer.Write(AvatarDataMessage);
                 using (Message audioSegmentMessage = Message.Create(BasisTags.AvatarGenericMessage, writer))
                 {
                     Commands.BasisNetworking.BroadcastMessageToClients(audioSegmentMessage, channel, sender, clients, DeliveryMethod.Sequenced);

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LiteNetLibListenerPlugin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fb4942ee9e503f53e235ad41191d30e00d9123c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8b4b4a69e818ee0d803c6a48917dd18f8f3440c")]
 [assembly: System.Reflection.AssemblyProductAttribute("LiteNetLibListenerPlugin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LiteNetLibListenerPlugin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

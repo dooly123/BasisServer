@@ -20,17 +20,17 @@ public static partial class SerializableDarkRift
     public struct ServerAvatarDataMessage : IDarkRiftSerializable
     {
         public PlayerIdMessage PlayerIdMessage;
-        public AvatarDataMessage SceneDataMessage;
+        public AvatarDataMessage AvatarDataMessage;
         public void Deserialize(DeserializeEvent e)
         {
             e.Reader.Read(out PlayerIdMessage);
-            e.Reader.Read(out SceneDataMessage);
+            e.Reader.Read(out AvatarDataMessage);
 
         }
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(PlayerIdMessage);
-            e.Writer.Write(SceneDataMessage);
+            e.Writer.Write(AvatarDataMessage);
         }
     }
 }
