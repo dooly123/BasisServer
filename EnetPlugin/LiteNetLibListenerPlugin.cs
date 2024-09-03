@@ -37,7 +37,7 @@ public class LiteNetLibListenerPlugin : NetworkListener
             AllowPeerAddressChange = true,
             BroadcastReceiveEnabled = true,
             UseNativeSockets = UseNativeSockets,
-            ChannelsCount = 7
+            ChannelsCount = 7,
         };
 
         server.Start(SetPort);

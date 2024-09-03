@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\basisnetworking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\basisnetworking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\enetplugin\\litenetliblistenerplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|solutionrelative:enetplugin\\litenetliblistenerplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\enetplugin\\litenetlibserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|solutionrelative:enetplugin\\litenetlibserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\enetplugin\\litenetlibclientconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{42A2F92B-7375-4691-B83E-C4E41CCF239D}|EnetPlugin\\LiteNetLibListenerPlugin.csproj|solutionrelative:enetplugin\\litenetlibclientconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\roundtriptimehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\roundtriptimehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\basis common\\serializable\\playermetadatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\basis common\\serializable\\playermetadatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F91D65B-FC87-4742-A95A-61AF36BD33E1}|DarkRift.Testing\\DarkRift.Testing.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.testing\\roundtriptimehelpertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F91D65B-FC87-4742-A95A-61AF36BD33E1}|DarkRift.Testing\\DarkRift.Testing.csproj|solutionrelative:darkrift.testing\\roundtriptimehelpertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,9 +37,22 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 103,
+          "DockedWidth": 404,
           "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BasisNetworking.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
+              "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
+              "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAA8wE4AAABKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-01T11:14:30.043Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -32,41 +61,74 @@
               "RelativeDocumentMoniker": "EnetPlugin\\LiteNetLibServerConnection.cs",
               "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\EnetPlugin\\LiteNetLibServerConnection.cs",
               "RelativeToolTip": "EnetPlugin\\LiteNetLibServerConnection.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAgwBgAAAALAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T08:10:12.97Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 493,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BasisNetworking.cs",
-              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
-              "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
-              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
-              "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
-              "ViewState": "AQIAAKcAAAAAAAAAAAAqwPgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T08:23:19.177Z",
+              "WhenOpened": "2024-09-01T11:09:45.919Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BasisNetworkingGeneric.cs",
-              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAowBwAAAA1AAAA",
+              "DocumentIndex": 1,
+              "Title": "LiteNetLibListenerPlugin.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\EnetPlugin\\LiteNetLibListenerPlugin.cs",
+              "RelativeDocumentMoniker": "EnetPlugin\\LiteNetLibListenerPlugin.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\EnetPlugin\\LiteNetLibListenerPlugin.cs",
+              "RelativeToolTip": "EnetPlugin\\LiteNetLibListenerPlugin.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T06:57:04.304Z",
+              "WhenOpened": "2024-09-01T11:09:41.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LiteNetLibClientConnection.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\EnetPlugin\\LiteNetLibClientConnection.cs",
+              "RelativeDocumentMoniker": "EnetPlugin\\LiteNetLibClientConnection.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\EnetPlugin\\LiteNetLibClientConnection.cs",
+              "RelativeToolTip": "EnetPlugin\\LiteNetLibClientConnection.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-01T11:09:40.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RoundTripTimeHelperTests.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Testing\\RoundTripTimeHelperTests.cs",
+              "RelativeDocumentMoniker": "DarkRift.Testing\\RoundTripTimeHelperTests.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Testing\\RoundTripTimeHelperTests.cs",
+              "RelativeToolTip": "DarkRift.Testing\\RoundTripTimeHelperTests.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAB0AAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-01T10:59:32.796Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RoundTripTimeHelper.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\RoundTripTimeHelper.cs",
+              "RelativeDocumentMoniker": "DarkRift\\RoundTripTimeHelper.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\RoundTripTimeHelper.cs",
+              "RelativeToolTip": "DarkRift\\RoundTripTimeHelper.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-01T10:59:30.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlayerMetaDataMessage.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\PlayerMetaDataMessage.cs",
+              "RelativeDocumentMoniker": "DarkRift\\Basis Common\\Serializable\\PlayerMetaDataMessage.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\PlayerMetaDataMessage.cs",
+              "RelativeToolTip": "DarkRift\\Basis Common\\Serializable\\PlayerMetaDataMessage.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-31T07:10:30.049Z",
               "EditorCaption": ""
             }
           ]

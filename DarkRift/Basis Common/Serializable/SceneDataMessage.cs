@@ -3,17 +3,17 @@ public static partial class SerializableDarkRift
 {
     public struct SceneDataMessage : IDarkRiftSerializable
     {
-        public ushort MessageIndex;
+        public ushort messageIndex;
         public byte[] buffer;
         public void Deserialize(DeserializeEvent e)
         {
-            e.Reader.Read(out MessageIndex);
+            e.Reader.Read(out messageIndex);
             e.Reader.Read(out buffer);
 
         }
         public void Serialize(SerializeEvent e)
         {
-            e.Writer.Write(MessageIndex);
+            e.Writer.Write(messageIndex);
             e.Writer.Write(buffer);
         }
     }

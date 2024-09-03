@@ -22,16 +22,16 @@ public static partial class SerializableDarkRift
     public struct ServerReadyMessage : IDarkRiftSerializable
     {
         public PlayerIdMessage playerIdMessage;
-        public ReadyMessage LocalReadyMessage;
+        public ReadyMessage localReadyMessage;
         public void Deserialize(DeserializeEvent e)
         {
             playerIdMessage.Deserialize(e);
-             LocalReadyMessage.Deserialize(e);
+             localReadyMessage.Deserialize(e);
         }
         public void Serialize(SerializeEvent e)
         {
             playerIdMessage.Serialize(e);
-            LocalReadyMessage.Serialize(e);
+            localReadyMessage.Serialize(e);
         }
     }
 }

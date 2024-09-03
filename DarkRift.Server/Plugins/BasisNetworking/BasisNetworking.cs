@@ -158,6 +158,13 @@ namespace DarkRift.Server.Plugins.Commands
                 client.Value.SendMessage(message, channel, deliveryMethod);
             }
         }
+        public static void BroadcastMessageToClients(Message message, byte channel, ConcurrentDictionary<ushort, IClient> authenticatedClients, DeliveryMethod deliveryMethod = DeliveryMethod.Sequenced)
+        {
+            foreach (KeyValuePair<ushort, IClient> client in authenticatedClients)
+            {
+                client.Value.SendMessage(message, channel, deliveryMethod);
+            }
+        }
         private void HandleAvatarMovement(Message message, MessageReceivedEventArgs e)
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -205,7 +212,7 @@ namespace DarkRift.Server.Plugins.Commands
         {
             ServerReadyMessage serverReadyMessage = new ServerReadyMessage
             {
-                LocalReadyMessage = readyMessage,
+                localReadyMessage = readyMessage,
                 playerIdMessage = new PlayerIdMessage() { playerID = authClient.ID },
             };
             BasisNetworking.Instance.basisSavedState.AddLastData(authClient, readyMessage);
@@ -250,7 +257,7 @@ namespace DarkRift.Server.Plugins.Commands
                     if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
                     {
                         //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
-                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                        serverReadyMessage.localReadyMessage = new ReadyMessage
                         {
                             localAvatarSyncMessage = sspm.LastAvatarSyncState,
                             clientAvatarChangeMessage = sspm.LastAvatarChangeState,
@@ -262,7 +269,7 @@ namespace DarkRift.Server.Plugins.Commands
                     {
                         Console.WriteLine("Unable to get last Data Creating Fake");
                         serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
-                        serverReadyMessage.LocalReadyMessage = new ReadyMessage
+                        serverReadyMessage.localReadyMessage = new ReadyMessage
                         {
                             localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
                             clientAvatarChangeMessage = new ClientAvatarChangeMessage() { avatarID = string.Empty },

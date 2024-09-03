@@ -9,23 +9,23 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                reader.Read(out SceneDataMessage SceneDataMessage);
-                HandleSceneServer(SceneDataMessage, Commands.BasisNetworking.SceneChannel, e.Client, clients);
+                reader.Read(out SceneDataMessage sceneDataMessage);
+                HandleSceneServer(sceneDataMessage, Commands.BasisNetworking.SceneChannel, e.Client, clients);
             }
         }
         public static void HandleAvatarDataMessage(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                reader.Read(out AvatarDataMessage AvatarDataMessage);
-                HandleAvatarServer(AvatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.Client, clients);
+                reader.Read(out AvatarDataMessage avatarDataMessage);
+                HandleAvatarServer(avatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.Client, clients);
             }
         }
-        private static void HandleSceneServer(SceneDataMessage SceneDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
+        private static void HandleSceneServer(SceneDataMessage sceneDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
         {
-            ServerSceneDataMessage ServerSceneDataMessage = new ServerSceneDataMessage
+            ServerSceneDataMessage serverSceneDataMessage = new ServerSceneDataMessage
             {
-                SceneDataMessage = SceneDataMessage,
+                SceneDataMessage = sceneDataMessage,
                 PlayerIdMessage = new PlayerIdMessage
                 {
                     playerID = sender.ID
@@ -33,26 +33,26 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
             };
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(SceneDataMessage);
+                writer.Write(sceneDataMessage);
                 using (Message audioSegmentMessage = Message.Create(BasisTags.SceneGenericMessage, writer))
                 {
                     Commands.BasisNetworking.BroadcastMessageToClients(audioSegmentMessage, channel, sender, clients, DeliveryMethod.Sequenced);
                 }
             }
         }
-        private static void HandleAvatarServer(AvatarDataMessage AvatarDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
+        private static void HandleAvatarServer(AvatarDataMessage avatarDataMessage, byte channel, IClient sender, ConcurrentDictionary<ushort, IClient> clients)
         {
-            ServerAvatarDataMessage ServerSceneDataMessage = new ServerAvatarDataMessage
+            ServerAvatarDataMessage serverSceneDataMessage = new ServerAvatarDataMessage
             {
-                AvatarDataMessage = AvatarDataMessage,
-                PlayerIdMessage = new PlayerIdMessage
+                avatarDataMessage = avatarDataMessage,
+                playerIdMessage = new PlayerIdMessage
                 {
                     playerID = sender.ID
                 }
             };
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(AvatarDataMessage);
+                writer.Write(avatarDataMessage);
                 using (Message audioSegmentMessage = Message.Create(BasisTags.AvatarGenericMessage, writer))
                 {
                     Commands.BasisNetworking.BroadcastMessageToClients(audioSegmentMessage, channel, sender, clients, DeliveryMethod.Sequenced);
