@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkRift.Server.Testing", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkRift.Testing", "DarkRift.Testing\DarkRift.Testing.csproj", "{2F91D65B-FC87-4742-A95A-61AF36BD33E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetLibListenerPlugin", "EnetPlugin\LiteNetLibListenerPlugin.csproj", "{42A2F92B-7375-4691-B83E-C4E41CCF239D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetLibListenerPlugin", "LiteNetLib Plugin\LiteNetLibListenerPlugin.csproj", "{56617CEA-DFAC-4D62-AB3F-2D46F30EB705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +73,10 @@ Global
 		{2F91D65B-FC87-4742-A95A-61AF36BD33E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F91D65B-FC87-4742-A95A-61AF36BD33E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F91D65B-FC87-4742-A95A-61AF36BD33E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42A2F92B-7375-4691-B83E-C4E41CCF239D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42A2F92B-7375-4691-B83E-C4E41CCF239D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42A2F92B-7375-4691-B83E-C4E41CCF239D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42A2F92B-7375-4691-B83E-C4E41CCF239D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56617CEA-DFAC-4D62-AB3F-2D46F30EB705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56617CEA-DFAC-4D62-AB3F-2D46F30EB705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56617CEA-DFAC-4D62-AB3F-2D46F30EB705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56617CEA-DFAC-4D62-AB3F-2D46F30EB705}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,83 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\LiteNetLib Plugin\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetListenerPlugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetChannelConversion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetClientConnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetServerConnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 182,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EnetListenerPlugin.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetListenerPlugin.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetListenerPlugin.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetListenerPlugin.cs",
+              "RelativeToolTip": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetListenerPlugin.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T09:23:14.826Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnetChannelConversion.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetChannelConversion.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetChannelConversion.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetChannelConversion.cs",
+              "RelativeToolTip": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetChannelConversion.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T09:21:59.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EnetClientConnection.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetClientConnection.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetClientConnection.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetClientConnection.cs",
+              "RelativeToolTip": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetClientConnection.cs",
+              "ViewState": "AQIAAF8AAAAAAAAAAAAAwDYAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T08:57:18.875Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EnetServerConnection.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetServerConnection.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetServerConnection.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetServerConnection.cs",
+              "RelativeToolTip": "..\\..\\..\\Base\\BasisServer\\EnetPlugin\\EnetPlugin\\EnetServerConnection.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAowDcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T11:08:12.028Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
