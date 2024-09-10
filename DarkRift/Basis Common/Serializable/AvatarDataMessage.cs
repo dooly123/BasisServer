@@ -1,5 +1,6 @@
 ﻿using DarkRift;
-using System.Collections.Generic;
+using System.IO;
+using System;
 public static partial class SerializableDarkRift
 {
     public struct AvatarDataMessage : IDarkRiftSerializable
@@ -21,35 +22,21 @@ public static partial class SerializableDarkRift
         /// if null its everyone else only send to the listed entrys
         /// </summary>
         public ushort[] recipients;
+
         public void Deserialize(DeserializeEvent e)
         {
+            // Read the assignedAvatarPlayer and messageIndex first
             e.Reader.Read(out assignedAvatarPlayer);
             e.Reader.Read(out messageIndex);
             e.Reader.Read(out payload);
-            if (e.Reader.Length != e.Reader.Position)
-            {
-                List<ushort> list = new List<ushort>();
-                while (e.Reader.Length != e.Reader.Position)
-                {
-                    e.Reader.Read(out ushort recipient);
-                    list.Add(recipient);
-                }
-                recipients = list.ToArray();
-            }
-            else
-            {
-                recipients = null;
-            }
+            e.Reader.Read(out recipients);
         }
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(assignedAvatarPlayer);
             e.Writer.Write(messageIndex);
             e.Writer.Write(payload);
-            if (recipients != null)
-            {
-                e.Writer.Write(recipients);
-            }
+            e.Writer.Write(recipients);
         }
     }
     public struct ServerAvatarDataMessage : IDarkRiftSerializable
@@ -64,6 +51,87 @@ public static partial class SerializableDarkRift
         }
         public void Serialize(SerializeEvent e)
         {
+            e.Writer.Write(playerIdMessage);
+            e.Writer.Write(avatarDataMessage);
+        }
+    }
+    public struct AvatarDataMessage_NoRecipients : IDarkRiftSerializable
+    {
+        public ushort assignedAvatarPlayer;
+        public byte messageIndex;
+        public byte[] payload;
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            // Read the assignedAvatarPlayer, messageIndex, and payload
+            e.Reader.Read(out assignedAvatarPlayer);
+            e.Reader.Read(out messageIndex);
+            e.Reader.Read(out payload);
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            // Write the assignedAvatarPlayer, messageIndex, and payload
+            e.Writer.Write(assignedAvatarPlayer);
+            e.Writer.Write(messageIndex);
+            e.Writer.Write(payload);
+        }
+    }
+
+    public struct ServerAvatarDataMessage_NoRecipients : IDarkRiftSerializable
+    {
+        public PlayerIdMessage playerIdMessage;
+        public AvatarDataMessage_NoRecipients avatarDataMessage;
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            // Read the playerIdMessage and avatarDataMessage
+            e.Reader.Read(out playerIdMessage);
+            e.Reader.Read(out avatarDataMessage);
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            // Write the playerIdMessage and avatarDataMessage
+            e.Writer.Write(playerIdMessage);
+            e.Writer.Write(avatarDataMessage);
+        }
+    }
+    public struct AvatarDataMessage_NoRecipients_NoPayload : IDarkRiftSerializable
+    {
+        public ushort assignedAvatarPlayer;
+        public byte messageIndex;
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            // Read the assignedAvatarPlayer and messageIndex only
+            e.Reader.Read(out assignedAvatarPlayer);
+            e.Reader.Read(out messageIndex);
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            // Write the assignedAvatarPlayer and messageIndex
+            e.Writer.Write(assignedAvatarPlayer);
+            e.Writer.Write(messageIndex);
+        }
+    }
+
+    public struct ServerAvatarDataMessage_NoRecipients_NoPayload : IDarkRiftSerializable
+    {
+        public PlayerIdMessage playerIdMessage;
+        public AvatarDataMessage_NoRecipients_NoPayload avatarDataMessage;
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            // Read the playerIdMessage and avatarDataMessage
+            e.Reader.Read(out playerIdMessage);
+            e.Reader.Read(out avatarDataMessage);
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            // Write the playerIdMessage and avatarDataMessage
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(avatarDataMessage);
         }

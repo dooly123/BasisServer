@@ -13,7 +13,14 @@
         public const ushort AudioSegmentTag = 9;
         public const ushort AvatarMuscleUpdateTag = 10;
         public const ushort AvatarChangeMessage = 11;
+
         public const ushort SceneGenericMessage = 12;
         public const ushort AvatarGenericMessage = 13;
+
+        public const ushort AvatarGenericMessage_NoRecipients_NoPayload = 14;
+        public const ushort AvatarGenericMessage_NoRecipients = 15;
+
+        public const ushort SceneGenericMessage_NoRecipients_NoPayload = 16;
+        public const ushort SceneGenericMessage_NoRecipients = 17;
     }
 }

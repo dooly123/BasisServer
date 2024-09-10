@@ -63,21 +63,43 @@ namespace DarkRift.Server.Plugins.Commands
                     case BasisTags.AvatarMuscleUpdateTag:
                         HandleAvatarMovement(message, e);
                         break;
+
                     case BasisTags.ReadyStateTag:
                         HandleReadyState(message, e);
                         break;
+
                     case BasisTags.AudioSegmentTag:
                         HandleVoiceMessage(message, e);
                         break;
+
                     case BasisTags.AvatarChangeMessage:
                         SendAvatarMessageToClients(message, e);
                         break;
+
                     case BasisTags.SceneGenericMessage:
                         BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
                         break;
+
                     case BasisTags.AvatarGenericMessage:
                         BasisNetworkingGeneric.HandleAvatarDataMessage(message, e, ReadyClients);
                         break;
+
+                    case BasisTags.SceneGenericMessage_NoRecipients:
+                        BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.SceneGenericMessage_NoRecipients_NoPayload:
+                        BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.AvatarGenericMessage_NoRecipients:
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.AvatarGenericMessage_NoRecipients_NoPayload:
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
+                        break;
+
                     default:
                         Logger.Log($"Message was received but no handler exists for tag {message.Tag}", LogType.Error);
                         break;
