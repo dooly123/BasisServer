@@ -1,4 +1,5 @@
 ﻿using DarkRift.Server.Plugins.Commands;
+using System;
 using System.Collections.Concurrent;
 using static SerializableDarkRift;
 
@@ -221,6 +222,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
         // Server logic for AvatarDataMessage without recipients and payload
         private static void HandleAvatarServer_NoRecipients_NoPayload(AvatarDataMessage_NoRecipients_NoPayload avatarDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
         {
+            
             ServerAvatarDataMessage_NoRecipients_NoPayload serverAvatarDataMessage = new ServerAvatarDataMessage_NoRecipients_NoPayload
             {
                 avatarDataMessage = avatarDataMessage,

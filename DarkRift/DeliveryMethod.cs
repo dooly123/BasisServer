@@ -6,6 +6,7 @@
 
 namespace DarkRift
 {
+    [System.Serializable]
     public enum DeliveryMethod : byte
     {
         //

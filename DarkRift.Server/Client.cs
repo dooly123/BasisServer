@@ -321,12 +321,7 @@ namespace DarkRift.Server
 
             void DoMessageReceived()
             {
-                MessageReceivedEventArgs args = MessageReceivedEventArgs.Create(
-                    messageReference,
-                    channel,
-                    sendMode,
-                    this
-                );
+                MessageReceivedEventArgs args = MessageReceivedEventArgs.Create(messageReference,channel,sendMode,this);
 
                 long startTimestamp = Stopwatch.GetTimestamp();
                 try

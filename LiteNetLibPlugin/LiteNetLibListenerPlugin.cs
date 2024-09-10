@@ -80,7 +80,8 @@ public class LiteNetLibListenerPlugin : NetworkListener
     {
         if (connections.TryGetValue(peer, out LiteNetLibServerConnection con))
         {
-            con.HandleLiteNetLibMessageReceived(peer, reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
+            byte DeliveryIndex = (byte)deliveryMethod;
+            con.HandleLiteNetLibMessageReceived(peer, reader, channel, (DarkRift.DeliveryMethod)DeliveryIndex);
             reader.Recycle();
         }
     }

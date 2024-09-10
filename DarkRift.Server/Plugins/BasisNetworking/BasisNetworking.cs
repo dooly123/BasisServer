@@ -77,27 +77,33 @@ namespace DarkRift.Server.Plugins.Commands
                         break;
 
                     case BasisTags.SceneGenericMessage:
+                     //   Logger.Log("SceneGenericMessage", LogType.Info);
                         BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
                         break;
 
                     case BasisTags.AvatarGenericMessage:
+                     //   Logger.Log("HandleAvatarDataMessage", LogType.Info);
                         BasisNetworkingGeneric.HandleAvatarDataMessage(message, e, ReadyClients);
                         break;
 
                     case BasisTags.SceneGenericMessage_NoRecipients:
+                     //   Logger.Log("SceneGenericMessage_NoRecipients", LogType.Info);
                         BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients(message, e, ReadyClients);
                         break;
 
                     case BasisTags.SceneGenericMessage_NoRecipients_NoPayload:
+                      //  Logger.Log("SceneGenericMessage_NoRecipients_NoPayload", LogType.Info);
                         BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
                         break;
 
                     case BasisTags.AvatarGenericMessage_NoRecipients:
+                     //   Logger.Log("AvatarGenericMessage_NoRecipients", LogType.Info);
                         BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients(message, e, ReadyClients);
                         break;
 
                     case BasisTags.AvatarGenericMessage_NoRecipients_NoPayload:
-                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
+                      //  Logger.Log("AvatarGenericMessage_NoRecipients_NoPayload", LogType.Info);
+                      BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
                         break;
 
                     default:
