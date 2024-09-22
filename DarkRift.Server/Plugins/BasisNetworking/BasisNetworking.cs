@@ -139,9 +139,9 @@ namespace DarkRift.Server.Plugins.Commands
                 {
                     writer.Write(serverAvatarChangeMessage);
 
-                    using (Message AvatarChangeMessage = Message.Create(BasisTags.AvatarChangeMessage, writer))
+                    using (Message avatarChangeMessage = Message.Create(BasisTags.AvatarChangeMessage, writer))
                     {
-                        BroadcastMessageToClients(AvatarChangeMessage, EventsChannel, e.Client, ReadyClients);
+                        BroadcastMessageToClients(avatarChangeMessage, EventsChannel, e.Client, ReadyClients);
                     }
                 }
             }

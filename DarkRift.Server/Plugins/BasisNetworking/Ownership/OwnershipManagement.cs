@@ -8,9 +8,6 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
 {
     public class OwnershipManagement
     {
-        // ConcurrentDictionary to store object ownership information (ObjectID -> PlayerID)
-        public ConcurrentDictionary<ushort, ushort> ownershipDatabase = new ConcurrentDictionary<ushort, ushort>();
-
         // A dictionary for easy lookup by object ID (Object unique string ID -> Ownership ID)
         public ConcurrentDictionary<string, ushort> ownershipByObjectId = new ConcurrentDictionary<string, ushort>();
 
@@ -35,7 +32,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
             {
                 using (DarkRiftReader reader = message.GetReader())
                 {
-                    reader.Read(out OwnershipInitializeMessage ownershipInitializeMessage);
+                    reader.Read(out OwnershipTransferMessage ownershipInitializeMessage);
                     NetworkRequestNewOrExisting(ownershipInitializeMessage, out ushort currentOwner);
 
                     using (DarkRiftWriter writer = DarkRiftWriter.Create())
@@ -46,7 +43,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
                             {
                                 playerID = currentOwner
                             },
-                            ownershipID = ownershipInitializeMessage.uniqueOwnerLink
+                            ownershipID = ownershipInitializeMessage.ownershipID
                         };
 
                         writer.Write(ownershipTransferMessage);
@@ -96,17 +93,17 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         /// <summary>
         /// Requests either new or existing ownership with thread safety and rollback.
         /// </summary>
-        public void NetworkRequestNewOrExisting(OwnershipInitializeMessage ownershipInitializeMessage, out ushort ownershipInfo)
+        public void NetworkRequestNewOrExisting(OwnershipTransferMessage ownershipInitializeMessage, out ushort ownershipInfo)
         {
-            if (GetOwnershipInformation(ownershipInitializeMessage.uniqueOwnerLink, out ownershipInfo))
+            if (GetOwnershipInformation(ownershipInitializeMessage.ownershipID, out ownershipInfo))
             {
                 // Ownership already exists, no need to add
             }
             else
             {
-                if (!AddOwnership(ownershipInitializeMessage.uniqueOwnerLink, ownershipInitializeMessage.playerIdMessage.playerID, out ownershipInfo))
+                if (!AddOwnership(ownershipInitializeMessage.ownershipID, ownershipInitializeMessage.playerIdMessage.playerID, out ownershipInfo))
                 {
-                    Console.WriteLine($"Error while adding ownership for: {ownershipInitializeMessage.uniqueOwnerLink}");
+                    Console.WriteLine($"Error while adding ownership for: {ownershipInitializeMessage.ownershipID}");
                 }
             }
         }
@@ -117,27 +114,16 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         public bool AddOwnership(string objectId, ushort ownerId, out ushort ownershipInformation)
         {
             ownershipInformation = NextAvailableIndex();
-            bool result = ownershipDatabase.TryAdd(ownershipInformation, ownerId);
-
-            if (result)
+            if (ownershipByObjectId.TryAdd(objectId, ownershipInformation))
             {
-                if (ownershipByObjectId.TryAdd(objectId, ownershipInformation))
-                {
-                    Console.WriteLine($"Object {objectId} added with owner {ownerId}");
-                }
-                else
-                {
-                    // Rollback if `ownershipByObjectId` fails
-                    ownershipDatabase.TryRemove(ownershipInformation, out _);
-                    Console.WriteLine($"Failed to add Object {objectId} to object ownership lookup.");
-                    result = false;
-                }
+                Console.WriteLine($"Object {objectId} added with owner {ownerId}");
+                return true;
             }
             else
             {
-                Console.WriteLine($"Failed to add Object {objectId}.");
+                Console.WriteLine($"Failed to add Object {objectId} to object ownership lookup.");
+                return false;
             }
-            return result;
         }
 
         /// <summary>
@@ -147,10 +133,9 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         {
             lock (LockObject)
             {
-                if (ownershipByObjectId.TryRemove(objectId, out ushort ownershipInformation) &&
-                    ownershipDatabase.TryRemove(ownershipInformation, out ushort ownerId))
+                if (ownershipByObjectId.TryRemove(objectId, out ushort ownershipInformation))
                 {
-                    Console.WriteLine($"Object {objectId} owned by {ownerId} removed from database.");
+                    Console.WriteLine($"Object {objectId} owned by {ownershipInformation} removed from database.");
                     return true;
                 }
                 else
@@ -168,14 +153,21 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         {
             lock (LockObject)
             {
-                if (ownershipByObjectId.TryGetValue(objectId, out ushort ownershipInformation))
+                if (ownershipByObjectId.TryGetValue(objectId, out ushort currentOwnerId))
                 {
-                    ownershipDatabase[ownershipInformation] = newOwnerId;
-                    Console.WriteLine($"Ownership of object {objectId} switched to {newOwnerId}.");
-                    return true;
+                    // Update ownership only if the current owner matches
+                    if (ownershipByObjectId.TryUpdate(objectId, newOwnerId, currentOwnerId))
+                    {
+                        Console.WriteLine($"Ownership of object {objectId} switched from {currentOwnerId} to {newOwnerId}.");
+                        return true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Ownership failed to switch ObjectId " + objectId +" is not in dictonary");
                 }
 
-                Console.WriteLine($"Object with ID {objectId} does not exist.");
+                Console.WriteLine($"Object with ID {objectId} does not exist or ownership change failed.");
                 return false;
             }
         }
@@ -211,7 +203,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
 
             lock (LockObject)
             {
-                foreach (var entry in ownershipDatabase)
+                foreach (var entry in ownershipByObjectId)
                 {
                     Console.WriteLine($"Ownership ID: {entry.Key}, Owner ID: {entry.Value}");
                 }
