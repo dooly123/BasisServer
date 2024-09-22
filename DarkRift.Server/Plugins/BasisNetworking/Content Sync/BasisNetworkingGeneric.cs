@@ -1,5 +1,4 @@
 ﻿using DarkRift.Server.Plugins.Commands;
-using System;
 using System.Collections.Concurrent;
 using static SerializableDarkRift;
 
@@ -89,9 +88,10 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                     {
                         var targetedClients = new ConcurrentDictionary<ushort, IClient>();
 
-                        foreach (ushort recipientId in avatarDataMessage.recipients)
+                        int recipientsLength = avatarDataMessage.recipients.Length;
+                        for (int index = 0; index < recipientsLength; index++)
                         {
-                            if (allClients.TryGetValue(recipientId, out IClient client))
+                            if (allClients.TryGetValue(avatarDataMessage.recipients[index], out IClient client))
                             {
                                 targetedClients.TryAdd(client.ID, client);
                             }

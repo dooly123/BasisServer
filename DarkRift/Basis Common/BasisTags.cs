@@ -22,5 +22,8 @@
 
         public const ushort SceneGenericMessage_NoRecipients_NoPayload = 16;
         public const ushort SceneGenericMessage_NoRecipients = 17;
+
+        public const ushort OwnershipInitialize = 18;
+        public const ushort OwnershipTransfer = 19;
     }
 }

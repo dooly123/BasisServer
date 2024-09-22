@@ -1,12 +1,10 @@
 ﻿using DarkRift;
-using System.IO;
-using System;
 public static partial class SerializableDarkRift
 {
     public struct AvatarDataMessage : IDarkRiftSerializable
     {
         /// <summary>
-        /// this is the avatar that this data is going to
+        /// this is the avatar that this data is going to (since this is a avatar message binding player to avatar)
         /// </summary>
         public ushort assignedAvatarPlayer;
         /// <summary>
@@ -28,15 +26,15 @@ public static partial class SerializableDarkRift
             // Read the assignedAvatarPlayer and messageIndex first
             e.Reader.Read(out assignedAvatarPlayer);
             e.Reader.Read(out messageIndex);
-            e.Reader.Read(out payload);
             e.Reader.Read(out recipients);
+            e.Reader.Read(out payload);
         }
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(assignedAvatarPlayer);
             e.Writer.Write(messageIndex);
-            e.Writer.Write(payload);
             e.Writer.Write(recipients);
+            e.Writer.Write(payload);
         }
     }
     public struct ServerAvatarDataMessage : IDarkRiftSerializable

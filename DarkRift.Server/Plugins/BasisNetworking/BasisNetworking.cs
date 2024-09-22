@@ -1,5 +1,6 @@
 ﻿using DarkRift.Server.Plugins.BasisNetworking.Content_Sync;
 using DarkRift.Server.Plugins.BasisNetworking.MovementSync;
+using DarkRift.Server.Plugins.BasisNetworking.Ownership;
 using DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore;
 using System;
 using System.Collections.Concurrent;
@@ -16,6 +17,7 @@ namespace DarkRift.Server.Plugins.Commands
     public class BasisNetworking : Plugin
     {
         public BasisSavedState basisSavedState = new BasisSavedState();
+        public OwnershipManagement ownershipManagement = new OwnershipManagement();
         public override bool ThreadSafe => true;
         public override Version Version => new Version(1, 0, 0);
         public override Command[] Commands => new Command[] { };
@@ -75,15 +77,23 @@ namespace DarkRift.Server.Plugins.Commands
                     case BasisTags.AvatarChangeMessage:
                         SendAvatarMessageToClients(message, e);
                         break;
-
-                    case BasisTags.SceneGenericMessage:
-                     //   Logger.Log("SceneGenericMessage", LogType.Info);
-                        BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
-                        break;
-
                     case BasisTags.AvatarGenericMessage:
                      //   Logger.Log("HandleAvatarDataMessage", LogType.Info);
                         BasisNetworkingGeneric.HandleAvatarDataMessage(message, e, ReadyClients);
+                        break;
+                    case BasisTags.AvatarGenericMessage_NoRecipients:
+                        //   Logger.Log("AvatarGenericMessage_NoRecipients", LogType.Info);
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.AvatarGenericMessage_NoRecipients_NoPayload:
+                        //  Logger.Log("AvatarGenericMessage_NoRecipients_NoPayload", LogType.Info);
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.SceneGenericMessage:
+                        //   Logger.Log("SceneGenericMessage", LogType.Info);
+                        BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
                         break;
 
                     case BasisTags.SceneGenericMessage_NoRecipients:
@@ -96,14 +106,13 @@ namespace DarkRift.Server.Plugins.Commands
                         BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
                         break;
 
-                    case BasisTags.AvatarGenericMessage_NoRecipients:
-                     //   Logger.Log("AvatarGenericMessage_NoRecipients", LogType.Info);
-                        BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients(message, e, ReadyClients);
+                    case BasisTags.OwnershipInitialize:
+                      Logger.Log("OwnershipInitialize", LogType.Info);
+                        ownershipManagement.OwnershipInitialize(message, e);
                         break;
-
-                    case BasisTags.AvatarGenericMessage_NoRecipients_NoPayload:
-                      //  Logger.Log("AvatarGenericMessage_NoRecipients_NoPayload", LogType.Info);
-                      BasisNetworkingGeneric.HandleAvatarDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
+                    case BasisTags.OwnershipTransfer:
+                        Logger.Log("OwnershipTransfer", LogType.Info);
+                        ownershipManagement.OwnershipTransfer(message, e, ReadyClients);
                         break;
 
                     default:

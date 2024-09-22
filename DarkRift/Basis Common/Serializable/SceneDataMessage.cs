@@ -15,16 +15,16 @@ public static partial class SerializableDarkRift
         {
             // Read messageIndex
             e.Reader.Read(out messageIndex);
-            e.Reader.Read(out payload);
             e.Reader.Read(out recipients);
+            e.Reader.Read(out payload);
         }
 
         public void Serialize(SerializeEvent e)
         {
             // Write the messageIndex and buffer
             e.Writer.Write(messageIndex);
-            e.Writer.Write(payload);
             e.Writer.Write(recipients);
+            e.Writer.Write(payload);
         }
     }
 
