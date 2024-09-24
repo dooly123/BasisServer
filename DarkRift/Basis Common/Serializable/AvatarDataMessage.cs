@@ -1,40 +1,88 @@
 ﻿using DarkRift;
+using System.IO;
 public static partial class SerializableDarkRift
 {
     public struct AvatarDataMessage : IDarkRiftSerializable
     {
-        /// <summary>
-        /// this is the avatar that this data is going to (since this is a avatar message binding player to avatar)
-        /// </summary>
-        public PlayerIdMessage PlayerIdMessage;
-        /// <summary>
-        /// this is the message index that can be used to give some level of seperation between messages,
-        /// i have included this so everyone has a understanding of the message index instead of leaving it up to the end user.
-        /// </summary>
+        public PlayerIdMessage playerIdMessage;
         public byte messageIndex;
-        /// <summary>
-        /// this is the payload
-        /// </summary>
-        public byte[] payload;
-        /// <summary>
-        /// if null its everyone else only send to the listed entrys
-        /// </summary>
-        public ushort[] recipients;
 
+        public uint payloadSize;
+        public ushort recipientsSize;
+
+
+        public byte[] payload;
+        public ushort[] recipients;
         public void Deserialize(DeserializeEvent e)
         {
-            // Read the assignedAvatarPlayer and messageIndex first
-            e.Reader.Read(out PlayerIdMessage);
-            e.Reader.Read(out messageIndex);
-            e.Reader.Read(out recipients);
-            e.Reader.Read(out payload);
+            try
+            {
+                // Read the playerIdMessage and messageIndex first
+                e.Reader.Read(out playerIdMessage);
+                e.Reader.Read(out messageIndex);
+                e.Reader.Read(out recipientsSize);
+                e.Reader.Read(out payloadSize);
+
+                // Validate if the reader has enough data to read the expected sizes
+                if (e.Reader.Length - e.Reader.Position < recipientsSize * sizeof(ushort) + payloadSize * sizeof(byte))
+                {
+                    throw new EndOfStreamException("Insufficient data in stream for recipients and payload.");
+                }
+
+                // Allocate the arrays
+                recipients = new ushort[recipientsSize];
+                payload = new byte[payloadSize];
+
+                // Read the recipients
+                for (int index = 0; index < recipientsSize; index++)
+                {
+                    e.Reader.Read(out recipients[index]);
+                }
+
+                // Read the payload
+                for (int index = 0; index < payloadSize; index++)
+                {
+                    e.Reader.Read(out payload[index]);
+                }
+            }
+            catch (EndOfStreamException ex)
+            {
+                // Log or handle stream read error
+                throw new EndOfStreamException("Error deserializing AvatarDataMessage: " + ex.Message, ex);
+            }
         }
+
         public void Serialize(SerializeEvent e)
         {
-            e.Writer.Write(PlayerIdMessage);
+            // Write the playerIdMessage and messageIndex first
+            e.Writer.Write(playerIdMessage);
             e.Writer.Write(messageIndex);
-            e.Writer.Write(recipients);
-            e.Writer.Write(payload);
+
+            // Prepare sizes
+            recipientsSize = (ushort)(recipients?.Length ?? 0);
+            payloadSize = (uint)(payload?.Length ?? 0);
+
+            // Write sizes
+            e.Writer.Write(recipientsSize);
+            e.Writer.Write(payloadSize);
+
+            // Write the recipients
+            if (recipients != null)
+            {
+                for (int index = 0; index < recipientsSize; index++)
+                {
+                    e.Writer.Write(recipients[index]);
+                }
+            }
+
+            // Write the payload
+            if (payload != null)
+            {
+                for (int index = 0; index < payloadSize; index++)
+                {
+                    e.Writer.Write(payload[index]);
+                }
+            }
         }
     }
     public struct ServerAvatarDataMessage : IDarkRiftSerializable
@@ -55,14 +103,14 @@ public static partial class SerializableDarkRift
     }
     public struct AvatarDataMessage_NoRecipients : IDarkRiftSerializable
     {
-        public PlayerIdMessage PlayerIdMessage;
+        public PlayerIdMessage playerIdMessage;
         public byte messageIndex;
         public byte[] payload;
 
         public void Deserialize(DeserializeEvent e)
         {
             // Read the assignedAvatarPlayer, messageIndex, and payload
-            e.Reader.Read(out PlayerIdMessage);
+            e.Reader.Read(out playerIdMessage);
             e.Reader.Read(out messageIndex);
             e.Reader.Read(out payload);
         }
@@ -70,7 +118,7 @@ public static partial class SerializableDarkRift
         public void Serialize(SerializeEvent e)
         {
             // Write the assignedAvatarPlayer, messageIndex, and payload
-            e.Writer.Write(PlayerIdMessage);
+            e.Writer.Write(playerIdMessage);
             e.Writer.Write(messageIndex);
             e.Writer.Write(payload);
         }
@@ -137,21 +185,34 @@ public static partial class SerializableDarkRift
     public struct SceneDataMessage_Recipients_NoPayload : IDarkRiftSerializable
     {
         public PlayerIdMessage playerIdMessage;
-        public ushort[] recipients;
         public byte messageIndex;
-
+        public ushort recipientsSize;
+        public ushort[] recipients;
         public void Deserialize(DeserializeEvent e)
         {
             e.Reader.Read(out playerIdMessage);
             e.Reader.Read(out messageIndex);
-            e.Reader.Read(out recipients);
+            e.Reader.Read(out recipientsSize);
+            recipients = new ushort[recipientsSize];
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                e.Reader.Read(out recipients[index]);
+            }
         }
 
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(messageIndex);
-            e.Writer.Write(recipients);
+
+            recipientsSize = (ushort)recipients.Length;
+            e.Writer.Write(recipientsSize);
+
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                ushort recipient = recipients[index];
+                e.Writer.Write(recipient);
+            }
         }
     }
 
@@ -176,21 +237,37 @@ public static partial class SerializableDarkRift
     public struct AvatarDataMessage_Recipients_NoPayload : IDarkRiftSerializable
     {
         public PlayerIdMessage playerIdMessage;
-        public ushort[] recipients;
         public byte messageIndex;
-
+        public ushort recipientsSize;
+        public ushort[] recipients;
         public void Deserialize(DeserializeEvent e)
         {
             e.Reader.Read(out playerIdMessage);
             e.Reader.Read(out messageIndex);
-            e.Reader.Read(out recipients);
+
+            e.Reader.Read(out recipientsSize);
+
+            recipients = new ushort[recipientsSize];
+
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                e.Reader.Read(out recipients[index]);
+            }
         }
 
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(messageIndex);
-            e.Writer.Write(recipients);
+
+            recipientsSize = (ushort)recipients.Length;
+
+            e.Writer.Write(recipientsSize);
+
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                e.Writer.Write(recipients[index]);
+            }
         }
     }
 

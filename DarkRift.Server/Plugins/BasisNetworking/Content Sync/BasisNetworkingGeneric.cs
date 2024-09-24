@@ -80,7 +80,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
 
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(avatarDataMessage);
+                writer.Write(serverAvatarDataMessage);
 
                 using (Message message = Message.Create(BasisTags.AvatarGenericMessage, writer))
                 {

@@ -5,7 +5,12 @@ public static partial class SerializableDarkRift
     public struct SceneDataMessage : IDarkRiftSerializable
     {
         public ushort messageIndex;
+
+        public uint payloadSize;
+        public ushort recipientsSize;
+
         public byte[] payload;
+
         /// <summary>
         /// If null, it's for everyone. Otherwise, send only to the listed entries.
         /// </summary>
@@ -15,16 +20,44 @@ public static partial class SerializableDarkRift
         {
             // Read messageIndex
             e.Reader.Read(out messageIndex);
-            e.Reader.Read(out recipients);
-            e.Reader.Read(out payload);
+
+            e.Reader.Read(out recipientsSize);
+            e.Reader.Read(out payloadSize);
+
+            recipients = new ushort[recipientsSize];
+            payload = new byte[payloadSize];
+
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                e.Reader.Read(out recipients[index]);
+            }
+            for (int index = 0; index < payload.Length; index++)
+            {
+                e.Reader.Read(out payload[index]);
+            }
         }
 
         public void Serialize(SerializeEvent e)
         {
             // Write the messageIndex and buffer
             e.Writer.Write(messageIndex);
-            e.Writer.Write(recipients);
-            e.Writer.Write(payload);
+
+            recipientsSize = (ushort)recipients.Length;
+            payloadSize = (uint)payload.Length;
+
+            e.Writer.Write(recipientsSize);
+            e.Writer.Write(payloadSize);
+
+            for (int index = 0; index < recipients.Length; index++)
+            {
+                ushort recipient = recipients[index];
+                e.Writer.Write(recipient);
+            }
+            for (int index = 0; index < payload.Length; index++)
+            {
+                byte payloadid = payload[index];
+                e.Writer.Write(payloadid);
+            }
         }
     }
 

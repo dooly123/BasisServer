@@ -16,7 +16,9 @@ public class LiteNetLibServerConnection : NetworkServerConnection
     public LiteNetLibServerConnection(NetPeer peer)
     {
         this.peer = peer;
-        remoteEndPoints = new[] { new IPEndPoint(IPAddress.Parse(peer.Address.ToString()), peer.Port) };
+        remoteEndPoints = new[] {
+            new IPEndPoint(IPAddress.Parse(peer.Address.ToString()), peer.Port)
+        };
         connectionState = DarkRift.ConnectionState.Connected;
     }
 
