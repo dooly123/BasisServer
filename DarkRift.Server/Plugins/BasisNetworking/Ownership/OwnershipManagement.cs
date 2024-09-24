@@ -2,6 +2,7 @@
 using DarkRift.Server.Plugins.Commands;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
@@ -22,33 +23,22 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         {
             return (ushort)Interlocked.Increment(ref currentOwnershipIndex);
         }
-
-        /// <summary>
-        /// Handles the request for initialized ownership for a client with proper error handling.
-        /// </summary>
-        public void OwnershipInitialize(Message message, MessageReceivedEventArgs e)
+        public void OwnershipResponse(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> allClients)
         {
             try
             {
                 using (DarkRiftReader reader = message.GetReader())
                 {
-                    reader.Read(out OwnershipTransferMessage ownershipInitializeMessage);
-                    NetworkRequestNewOrExisting(ownershipInitializeMessage, out ushort currentOwner);
-
+                    reader.Read(out OwnershipTransferMessage ownershipTransferMessage);
+                    //if we are not aware of this ownershipID lets only give back to that client that its been assigned to them
+                    //the goal here is to make it so ownership understanding has to be requested.
+                    //once a ownership has been requested there good for life or when a ownership switch happens.
+                    NetworkRequestNewOrExisting(ownershipTransferMessage, out ushort currentOwner);
                     using (DarkRiftWriter writer = DarkRiftWriter.Create())
                     {
-                        OwnershipTransferMessage ownershipTransferMessage = new OwnershipTransferMessage
-                        {
-                            playerIdMessage = new SerializableDarkRift.PlayerIdMessage
-                            {
-                                playerID = currentOwner
-                            },
-                            ownershipID = ownershipInitializeMessage.ownershipID
-                        };
-
                         writer.Write(ownershipTransferMessage);
-
-                        using (Message serverOwnershipInitialize = Message.Create(BasisTags.OwnershipInitialize, writer))
+                        ownershipTransferMessage.playerIdMessage.playerID = currentOwner;
+                        using (Message serverOwnershipInitialize = Message.Create(BasisTags.OwnershipResponse, writer))
                         {
                             e.Client.SendMessage(serverOwnershipInitialize, Commands.BasisNetworking.EventsChannel, DeliveryMethod.ReliableSequenced);
                         }
@@ -57,10 +47,9 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error initializing ownership: {ex.Message}");
+                Console.WriteLine($"Error Reqesting ownership: {ex.Message}");
             }
         }
-
         /// <summary>
         /// Handles the ownership transfer for all clients with proper error handling.
         /// </summary>
@@ -74,12 +63,26 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
 
                     using (DarkRiftWriter writer = DarkRiftWriter.Create())
                     {
-                        SwitchOwnership(ownershipTransferMessage.ownershipID, e.Client.ID);
-                        writer.Write(ownershipTransferMessage);
-
-                        using (Message serverOwnershipTransfer = Message.Create(BasisTags.OwnershipTransfer, writer))
+                        //all clients need to know about a ownership switch
+                        if (SwitchOwnership(ownershipTransferMessage.ownershipID, e.Client.ID))
                         {
-                            Commands.BasisNetworking.BroadcastMessageToClients(serverOwnershipTransfer, Commands.BasisNetworking.EventsChannel, allClients, DeliveryMethod.ReliableSequenced);
+                            writer.Write(ownershipTransferMessage);
+                            using (Message serverOwnershipTransfer = Message.Create(BasisTags.OwnershipTransfer, writer))
+                            {
+                                Commands.BasisNetworking.BroadcastMessageToClients(serverOwnershipTransfer, Commands.BasisNetworking.EventsChannel, allClients, DeliveryMethod.ReliableSequenced);
+                            }
+                        }
+                        else
+                        {
+                            //if we are not aware of this ownershipID lets only give back to that client that its been assigned to them
+                            //the goal here is to make it so ownership understanding has to be requested.
+                            //once a ownership has been requested there good for life or when a ownership switch happens.
+                            NetworkRequestNewOrExisting(ownershipTransferMessage, out ushort currentOwner);
+                            writer.Write(ownershipTransferMessage);
+                            using (Message serverOwnershipInitialize = Message.Create(BasisTags.OwnershipTransfer, writer))
+                            {
+                                e.Client.SendMessage(serverOwnershipInitialize, Commands.BasisNetworking.EventsChannel, DeliveryMethod.ReliableSequenced);
+                            }
                         }
                     }
                 }
@@ -93,19 +96,22 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         /// <summary>
         /// Requests either new or existing ownership with thread safety and rollback.
         /// </summary>
-        public void NetworkRequestNewOrExisting(OwnershipTransferMessage ownershipInitializeMessage, out ushort ownershipInfo)
+        public bool NetworkRequestNewOrExisting(OwnershipTransferMessage ownershipInitializeMessage, out ushort ownershipInfo)
         {
             if (GetOwnershipInformation(ownershipInitializeMessage.ownershipID, out ownershipInfo))
             {
                 // Ownership already exists, no need to add
+                return false;
             }
             else
             {
                 if (!AddOwnership(ownershipInitializeMessage.ownershipID, ownershipInitializeMessage.playerIdMessage.playerID, out ownershipInfo))
                 {
                     Console.WriteLine($"Error while adding ownership for: {ownershipInitializeMessage.ownershipID}");
+                    return false;
                 }
             }
+            return true;
         }
 
         /// <summary>
@@ -164,7 +170,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
                 }
                 else
                 {
-                    Console.WriteLine($"Ownership failed to switch ObjectId " + objectId +" is not in dictonary");
+                    Console.WriteLine($"Ownership failed to switch ObjectId " + objectId + " is not in dictionary");
                 }
 
                 Console.WriteLine($"Object with ID {objectId} does not exist or ownership change failed.");
@@ -207,6 +213,31 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
                 {
                     Console.WriteLine($"Ownership ID: {entry.Key}, Owner ID: {entry.Value}");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Removes all ownership of a specific player and notifies all clients.
+        /// </summary>
+        public void RemovePlayerOwnership(ushort playerId)
+        {
+            lock (LockObject)
+            {
+                List<string> objectsToRemove = new List<string>();
+
+                // Collect all object IDs owned by the player
+                foreach (KeyValuePair<string, ushort> entry in ownershipByObjectId)
+                {
+                    if (entry.Value == playerId)
+                    {
+                        objectsToRemove.Add(entry.Key);
+                    }
+                }
+                foreach (string client in objectsToRemove)
+                {
+                    ownershipByObjectId.TryRemove(client, out ushort user);
+                }
+                Console.WriteLine($"Player {playerId}'s ownership removed from {objectsToRemove.Count} objects.");
             }
         }
     }

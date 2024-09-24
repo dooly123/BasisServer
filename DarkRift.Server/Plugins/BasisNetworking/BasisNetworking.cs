@@ -52,6 +52,7 @@ namespace DarkRift.Server.Plugins.Commands
         }
         private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
+            ownershipManagement.RemovePlayerOwnership(e.Client.ID);
             basisSavedState.RemovePlayer(e.Client);
             ReadyClients.TryRemove(e.Client.ID, out IClient removedclient);
             ClientDisconnection.ClientDisconnect(e, EventsChannel, ReadyClients);
@@ -77,9 +78,20 @@ namespace DarkRift.Server.Plugins.Commands
                     case BasisTags.AvatarChangeMessage:
                         SendAvatarMessageToClients(message, e);
                         break;
+
+                    case BasisTags.SceneGenericMessage_Recipients_NoPayload:
+                        //   Logger.Log("SceneGenericMessage", LogType.Info);
+                        BasisNetworkingGeneric.HandleSceneDataMessage_Recipients_NoPayload(message, e, ReadyClients);
+                        break;
+
+                    case BasisTags.AvatarGenericMessage_Recipients_NoPayload:
+                        //   Logger.Log("HandleAvatarDataMessage", LogType.Info);
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_Recipients_NoPayload(message, e, ReadyClients);
+                        break;
+
                     case BasisTags.AvatarGenericMessage:
                      //   Logger.Log("HandleAvatarDataMessage", LogType.Info);
-                        BasisNetworkingGeneric.HandleAvatarDataMessage(message, e, ReadyClients);
+                        BasisNetworkingGeneric.HandleAvatarDataMessage_Recipients_Payload(message, e, ReadyClients);
                         break;
                     case BasisTags.AvatarGenericMessage_NoRecipients:
                         //   Logger.Log("AvatarGenericMessage_NoRecipients", LogType.Info);
@@ -93,7 +105,7 @@ namespace DarkRift.Server.Plugins.Commands
 
                     case BasisTags.SceneGenericMessage:
                         //   Logger.Log("SceneGenericMessage", LogType.Info);
-                        BasisNetworkingGeneric.HandleSceneDataMessage(message, e, ReadyClients);
+                        BasisNetworkingGeneric.HandleSceneDataMessage_Recipients_Payload(message, e, ReadyClients);
                         break;
 
                     case BasisTags.SceneGenericMessage_NoRecipients:
@@ -105,10 +117,9 @@ namespace DarkRift.Server.Plugins.Commands
                       //  Logger.Log("SceneGenericMessage_NoRecipients_NoPayload", LogType.Info);
                         BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
                         break;
-
-                    case BasisTags.OwnershipInitialize:
-                      Logger.Log("OwnershipInitialize", LogType.Info);
-                        ownershipManagement.OwnershipInitialize(message, e);
+                    case BasisTags.OwnershipResponse:
+                        Logger.Log("OwnershipTransfer", LogType.Info);
+                        ownershipManagement.OwnershipResponse(message, e, ReadyClients);
                         break;
                     case BasisTags.OwnershipTransfer:
                         Logger.Log("OwnershipTransfer", LogType.Info);

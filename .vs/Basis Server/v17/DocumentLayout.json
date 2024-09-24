@@ -3,16 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\ownership\\ownershipmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\ownership\\ownershipmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9BE7FDA8-C016-4731-B7D9-26ECF838884C}|LiteNetLibPlugin\\LiteNetLibListenerPlugin.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\litenetlibplugin\\litenetlibserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BE7FDA8-C016-4731-B7D9-26ECF838884C}|LiteNetLibPlugin\\LiteNetLibListenerPlugin.csproj|solutionrelative:litenetlibplugin\\litenetlibserverconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\darkriftreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\darkriftreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\messagebuffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\messagebuffer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BE7FDA8-C016-4731-B7D9-26ECF838884C}|LiteNetLibPlugin\\LiteNetLibListenerPlugin.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\litenetlibplugin\\litenetliblistenerplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BE7FDA8-C016-4731-B7D9-26ECF838884C}|LiteNetLibPlugin\\LiteNetLibListenerPlugin.csproj|solutionrelative:litenetlibplugin\\litenetliblistenerplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\basis common\\serializable\\scenedatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\basis common\\serializable\\scenedatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\basis common\\serializable\\audiosegmentdatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\basis common\\serializable\\audiosegmentdatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\basisnetworking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\basisnetworking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\content sync\\basisnetworkinggeneric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift\\basis common\\serializable\\avatardatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1324A37A-AC08-44CF-85DE-E9A05876E1EC}|DarkRift\\DarkRift.csproj|solutionrelative:darkrift\\basis common\\serializable\\avatardatamessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|c:\\users\\doola\\onedrive\\documents\\github\\basis foundation\\basisserver\\darkrift.server\\plugins\\basisnetworking\\ownership\\ownershipmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{922AA4BA-B14E-40B7-96C5-980E21BA03CF}|DarkRift.Server\\DarkRift.Server.csproj|solutionrelative:darkrift.server\\plugins\\basisnetworking\\ownership\\ownershipmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,31 +59,18 @@
           ]
         },
         {
-          "DockedWidth": 473,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 261,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BasisNetworkingGeneric.cs",
-              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
-              "ViewState": "AgIAAMUAAAAAAAAAAAAlwN4AAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T23:37:54.143Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "BasisNetworking.cs",
               "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
               "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
               "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
               "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\BasisNetworking.cs",
-              "ViewState": "AgIAABABAAAAAAAAAAAiwBABAAARAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAASwFEAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-10T16:30:43.435Z",
               "EditorCaption": ""
@@ -63,20 +78,166 @@
           ]
         },
         {
-          "DockedWidth": 564,
+          "DockedWidth": 776,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "LiteNetLibServerConnection.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\LiteNetLibPlugin\\LiteNetLibServerConnection.cs",
+              "RelativeDocumentMoniker": "LiteNetLibPlugin\\LiteNetLibServerConnection.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\LiteNetLibPlugin\\LiteNetLibServerConnection.cs",
+              "RelativeToolTip": "LiteNetLibPlugin\\LiteNetLibServerConnection.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAIAwwCQAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:14:36.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LiteNetLibListenerPlugin.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\LiteNetLibPlugin\\LiteNetLibListenerPlugin.cs",
+              "RelativeDocumentMoniker": "LiteNetLibPlugin\\LiteNetLibListenerPlugin.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\LiteNetLibPlugin\\LiteNetLibListenerPlugin.cs",
+              "RelativeToolTip": "LiteNetLibPlugin\\LiteNetLibListenerPlugin.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAwwFIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:14:05.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SceneDataMessage.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\SceneDataMessage.cs",
+              "RelativeDocumentMoniker": "DarkRift\\Basis Common\\Serializable\\SceneDataMessage.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\SceneDataMessage.cs",
+              "RelativeToolTip": "DarkRift\\Basis Common\\Serializable\\SceneDataMessage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:08:19.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AudioSegmentDataMessage.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\AudioSegmentDataMessage.cs",
+              "RelativeDocumentMoniker": "DarkRift\\Basis Common\\Serializable\\AudioSegmentDataMessage.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\AudioSegmentDataMessage.cs",
+              "RelativeToolTip": "DarkRift\\Basis Common\\Serializable\\AudioSegmentDataMessage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:06:42.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BasisNetworkingGeneric.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
+              "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
+              "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\Content Sync\\BasisNetworkingGeneric.cs",
+              "ViewState": "AgIAAOQAAAAAAAAAAAAuwB0BAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T06:32:56.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AvatarDataMessage.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\AvatarDataMessage.cs",
+              "RelativeDocumentMoniker": "DarkRift\\Basis Common\\Serializable\\AvatarDataMessage.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\Basis Common\\Serializable\\AvatarDataMessage.cs",
+              "RelativeToolTip": "DarkRift\\Basis Common\\Serializable\\AvatarDataMessage.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAArwC4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T06:27:31.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "OwnershipManagement.cs",
               "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Ownership\\OwnershipManagement.cs",
               "RelativeDocumentMoniker": "DarkRift.Server\\Plugins\\BasisNetworking\\Ownership\\OwnershipManagement.cs",
               "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift.Server\\Plugins\\BasisNetworking\\Ownership\\OwnershipManagement.cs",
               "RelativeToolTip": "DarkRift.Server\\Plugins\\BasisNetworking\\Ownership\\OwnershipManagement.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAQwG8AAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAcwEIAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-21T16:28:03.32Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "9dc29eed-544e-49ff-b667-94a3fe2224d1",
+        "Display": 0,
+        "X": 1466,
+        "Y": 231,
+        "Width": 1192,
+        "Height": 1037,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DarkRiftReader.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRiftReader.cs",
+              "RelativeDocumentMoniker": "DarkRift\\DarkRiftReader.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\DarkRiftReader.cs",
+              "RelativeToolTip": "DarkRift\\DarkRiftReader.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAIwDsAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:09:02.663Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "cd8480a4-a048-4e0a-8ccf-7919d1ecaee9",
+        "Display": 0,
+        "X": 1265,
+        "Y": 78,
+        "Width": 1526,
+        "Height": 1189,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MessageBuffer.cs",
+              "DocumentMoniker": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\MessageBuffer.cs",
+              "RelativeDocumentMoniker": "DarkRift\\MessageBuffer.cs",
+              "ToolTip": "C:\\Users\\doola\\OneDrive\\Documents\\Github\\Basis Foundation\\BasisServer\\DarkRift\\MessageBuffer.cs",
+              "RelativeToolTip": "DarkRift\\MessageBuffer.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAcwFwAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T07:15:01.385Z",
               "EditorCaption": ""
             }
           ]

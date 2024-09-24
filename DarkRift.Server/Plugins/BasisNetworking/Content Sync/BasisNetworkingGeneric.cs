@@ -7,15 +7,15 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
     public static class BasisNetworkingGeneric
     {
         // Original SceneDataMessage handler
-        public static void HandleSceneDataMessage(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
+        public static void HandleSceneDataMessage_Recipients_Payload(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
                 reader.Read(out SceneDataMessage sceneDataMessage);
-                HandleSceneServer(sceneDataMessage, Commands.BasisNetworking.SceneChannel, e.SendMode, e.Client, clients);
+                HandleSceneServer_Recipients_Payload(sceneDataMessage, Commands.BasisNetworking.SceneChannel, e.SendMode, e.Client, clients);
             }
         }
-        private static void HandleSceneServer(SceneDataMessage sceneDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
+        private static void HandleSceneServer_Recipients_Payload(SceneDataMessage sceneDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
         {
             ServerSceneDataMessage serverSceneDataMessage = new ServerSceneDataMessage
             {
@@ -58,16 +58,16 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
         }
 
         // Original AvatarDataMessage handler
-        public static void HandleAvatarDataMessage(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
+        public static void HandleAvatarDataMessage_Recipients_Payload(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
         {
             using (DarkRiftReader reader = message.GetReader())
             {
                 reader.Read(out AvatarDataMessage avatarDataMessage);
-                HandleAvatarServer(avatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.SendMode, e.Client, clients);
+                HandleAvatarServer_Recipients_Payload(avatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.SendMode, e.Client, clients);
             }
         }
 
-        private static void HandleAvatarServer(AvatarDataMessage avatarDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
+        private static void HandleAvatarServer_Recipients_Payload(AvatarDataMessage avatarDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
         {
             ServerAvatarDataMessage serverAvatarDataMessage = new ServerAvatarDataMessage
             {
@@ -239,6 +239,96 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
                 using (Message message = Message.Create(BasisTags.AvatarGenericMessage_NoRecipients_NoPayload, writer))
                 {
                     Commands.BasisNetworking.BroadcastMessageToClients(message, channel, sender, allClients, method);
+                }
+            }
+        }
+        // New handler for SceneDataMessage with Recipients but no Payload
+        public static void HandleSceneDataMessage_Recipients_NoPayload(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                reader.Read(out SceneDataMessage_Recipients_NoPayload sceneDataMessage);
+                HandleSceneServer_Recipients_NoPayload(sceneDataMessage, Commands.BasisNetworking.SceneChannel, e.SendMode, e.Client, clients);
+            }
+        }
+        // New handler for AvatarDataMessage with Recipients but no Payload
+        public static void HandleAvatarDataMessage_Recipients_NoPayload(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> clients)
+        {
+            using (DarkRiftReader reader = message.GetReader())
+            {
+                reader.Read(out AvatarDataMessage_Recipients_NoPayload avatarDataMessage);
+                HandleAvatarServer_Recipients_NoPayload(avatarDataMessage, Commands.BasisNetworking.AvatarChannel, e.SendMode, e.Client, clients);
+            }
+        }
+
+        // Server logic for SceneDataMessage with Recipients but no Payload
+        private static void HandleSceneServer_Recipients_NoPayload(SceneDataMessage_Recipients_NoPayload sceneDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
+        {
+            ServerSceneDataMessage_Recipients_NoPayload serverSceneDataMessage = new ServerSceneDataMessage_Recipients_NoPayload
+            {
+                sceneDataMessage = sceneDataMessage,
+                playerIdMessage = new PlayerIdMessage
+                {
+                    playerID = sender.ID
+                }
+            };
+
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                writer.Write(serverSceneDataMessage);
+
+                using (Message message = Message.Create(BasisTags.SceneGenericMessage_Recipients_NoPayload, writer))
+                {
+                    var targetedClients = new ConcurrentDictionary<ushort, IClient>();
+
+                    foreach (ushort recipientId in sceneDataMessage.recipients)
+                    {
+                        if (allClients.TryGetValue(recipientId, out IClient client))
+                        {
+                            targetedClients.TryAdd(client.ID, client);
+                        }
+                    }
+
+                    if (targetedClients.Count > 0)
+                    {
+                        Commands.BasisNetworking.BroadcastMessageToClients(message, channel, targetedClients, method);
+                    }
+                }
+            }
+        }
+
+        // Server logic for AvatarDataMessage with Recipients but no Payload
+        private static void HandleAvatarServer_Recipients_NoPayload(AvatarDataMessage_Recipients_NoPayload avatarDataMessage, byte channel, DeliveryMethod method, IClient sender, ConcurrentDictionary<ushort, IClient> allClients)
+        {
+            ServerAvatarDataMessage_Recipients_NoPayload serverAvatarDataMessage = new ServerAvatarDataMessage_Recipients_NoPayload
+            {
+                avatarDataMessage = avatarDataMessage,
+                playerIdMessage = new PlayerIdMessage
+                {
+                    playerID = sender.ID
+                }
+            };
+
+            using (DarkRiftWriter writer = DarkRiftWriter.Create())
+            {
+                writer.Write(serverAvatarDataMessage);
+
+                using (Message message = Message.Create(BasisTags.AvatarGenericMessage_Recipients_NoPayload, writer))
+                {
+                    var targetedClients = new ConcurrentDictionary<ushort, IClient>();
+
+                    foreach (ushort recipientId in avatarDataMessage.recipients)
+                    {
+                        if (allClients.TryGetValue(recipientId, out IClient client))
+                        {
+                            targetedClients.TryAdd(client.ID, client);
+                        }
+                    }
+
+                    if (targetedClients.Count > 0)
+                    {
+                        Commands.BasisNetworking.BroadcastMessageToClients(message, channel, targetedClients, method);
+                    }
                 }
             }
         }
