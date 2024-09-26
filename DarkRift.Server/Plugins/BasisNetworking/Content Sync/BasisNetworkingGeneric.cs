@@ -28,15 +28,15 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Content_Sync
 
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
-                writer.Write(sceneDataMessage);
+                writer.Write(serverSceneDataMessage);
 
                 using (Message message = Message.Create(BasisTags.SceneGenericMessage, writer))
                 {
-                    if (sceneDataMessage.recipients != null && sceneDataMessage.recipients.Length > 0)
+                    if (serverSceneDataMessage.sceneDataMessage.recipients != null && serverSceneDataMessage.sceneDataMessage.recipients.Length > 0)
                     {
                         var targetedClients = new ConcurrentDictionary<ushort, IClient>();
 
-                        foreach (ushort recipientId in sceneDataMessage.recipients)
+                        foreach (ushort recipientId in serverSceneDataMessage.sceneDataMessage.recipients)
                         {
                             if (allClients.TryGetValue(recipientId, out IClient client))
                             {

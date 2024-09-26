@@ -27,11 +27,11 @@ public static partial class SerializableDarkRift
             recipients = new ushort[recipientsSize];
             payload = new byte[payloadSize];
 
-            for (int index = 0; index < recipients.Length; index++)
+            for (int index = 0; index < recipientsSize; index++)
             {
                 e.Reader.Read(out recipients[index]);
             }
-            for (int index = 0; index < payload.Length; index++)
+            for (int index = 0; index < payloadSize; index++)
             {
                 e.Reader.Read(out payload[index]);
             }
@@ -48,15 +48,13 @@ public static partial class SerializableDarkRift
             e.Writer.Write(recipientsSize);
             e.Writer.Write(payloadSize);
 
-            for (int index = 0; index < recipients.Length; index++)
+            for (int index = 0; index < recipientsSize; index++)
             {
-                ushort recipient = recipients[index];
-                e.Writer.Write(recipient);
+                e.Writer.Write(recipients[index]);
             }
-            for (int index = 0; index < payload.Length; index++)
+            for (int index = 0; index < payloadSize; index++)
             {
-                byte payloadid = payload[index];
-                e.Writer.Write(payloadid);
+                e.Writer.Write(payload[index]);
             }
         }
     }
