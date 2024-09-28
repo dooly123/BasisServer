@@ -118,7 +118,7 @@ namespace DarkRift.Server.Plugins.Commands
                         BasisNetworkingGeneric.HandleSceneDataMessage_NoRecipients_NoPayload(message, e, ReadyClients);
                         break;
                     case BasisTags.OwnershipResponse:
-                        Logger.Log("OwnershipTransfer", LogType.Info);
+                        Logger.Log("OwnershipResponse", LogType.Info);
                         ownershipManagement.OwnershipResponse(message, e, ReadyClients);
                         break;
                     case BasisTags.OwnershipTransfer:

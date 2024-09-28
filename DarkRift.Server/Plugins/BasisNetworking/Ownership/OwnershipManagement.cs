@@ -3,7 +3,6 @@ using DarkRift.Server.Plugins.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
 {
@@ -13,16 +12,6 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         public ConcurrentDictionary<string, ushort> ownershipByObjectId = new ConcurrentDictionary<string, ushort>();
 
         public readonly object LockObject = new object();  // For synchronized multi-step operations
-        private int currentOwnershipIndex = 0;
-
-        /// <summary>
-        /// Generates the next available index for networkIdentifier in a thread-safe manner.
-        /// </summary>
-        /// <returns></returns>
-        public ushort NextAvailableIndex()
-        {
-            return (ushort)Interlocked.Increment(ref currentOwnershipIndex);
-        }
         public void OwnershipResponse(Message message, MessageReceivedEventArgs e, ConcurrentDictionary<ushort, IClient> allClients)
         {
             try
@@ -36,8 +25,10 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
                     NetworkRequestNewOrExisting(ownershipTransferMessage, out ushort currentOwner);
                     using (DarkRiftWriter writer = DarkRiftWriter.Create())
                     {
-                        writer.Write(ownershipTransferMessage);
                         ownershipTransferMessage.playerIdMessage.playerID = currentOwner;
+                        writer.Write(ownershipTransferMessage);
+                        Console.WriteLine("OwnershipResponse " + currentOwner + " for " + ownershipTransferMessage.playerIdMessage);
+
                         using (Message serverOwnershipInitialize = Message.Create(BasisTags.OwnershipResponse, writer))
                         {
                             e.Client.SendMessage(serverOwnershipInitialize, Commands.BasisNetworking.EventsChannel, DeliveryMethod.ReliableSequenced);
@@ -66,7 +57,11 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
                         //all clients need to know about a ownership switch
                         if (SwitchOwnership(ownershipTransferMessage.ownershipID, e.Client.ID))
                         {
+                            ownershipTransferMessage.playerIdMessage.playerID = e.Client.ID;
                             writer.Write(ownershipTransferMessage);
+
+                            Console.WriteLine("OwnershipResponse " + ownershipTransferMessage.ownershipID + " for " + ownershipTransferMessage.playerIdMessage);
+
                             using (Message serverOwnershipTransfer = Message.Create(BasisTags.OwnershipTransfer, writer))
                             {
                                 Commands.BasisNetworking.BroadcastMessageToClients(serverOwnershipTransfer, Commands.BasisNetworking.EventsChannel, allClients, DeliveryMethod.ReliableSequenced);
@@ -105,10 +100,14 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
             }
             else
             {
-                if (!AddOwnership(ownershipInitializeMessage.ownershipID, ownershipInitializeMessage.playerIdMessage.playerID, out ownershipInfo))
+                if (!AddOwnership(ownershipInitializeMessage.ownershipID, ownershipInitializeMessage.playerIdMessage.playerID))
                 {
                     Console.WriteLine($"Error while adding ownership for: {ownershipInitializeMessage.ownershipID}");
                     return false;
+                }
+                else
+                {
+                    ownershipInfo = ownershipInitializeMessage.playerIdMessage.playerID;
                 }
             }
             return true;
@@ -117,10 +116,9 @@ namespace DarkRift.Server.Plugins.BasisNetworking.Ownership
         /// <summary>
         /// Adds an object with ownership information to the database in a thread-safe manner.
         /// </summary>
-        public bool AddOwnership(string objectId, ushort ownerId, out ushort ownershipInformation)
+        public bool AddOwnership(string objectId, ushort ownerId)
         {
-            ownershipInformation = NextAvailableIndex();
-            if (ownershipByObjectId.TryAdd(objectId, ownershipInformation))
+            if (ownershipByObjectId.TryAdd(objectId, ownerId))
             {
                 Console.WriteLine($"Object {objectId} added with owner {ownerId}");
                 return true;
