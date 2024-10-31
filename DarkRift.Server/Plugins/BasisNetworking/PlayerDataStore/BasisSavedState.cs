@@ -53,7 +53,7 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
                     oldValue.LastAvatarChangeState = readyMessage.clientAvatarChangeMessage;
                     return oldValue;
                 });
-            Console.WriteLine("added " + client.ID + " With AvatarID " + readyMessage.clientAvatarChangeMessage.avatarID);
+            Console.WriteLine("added " + client.ID + " With AvatarID " + readyMessage.clientAvatarChangeMessage.byteArray);
         }
         /// <summary>
         /// Adds or updates the last avatar change message for a player.

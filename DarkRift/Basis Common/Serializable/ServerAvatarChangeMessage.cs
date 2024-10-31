@@ -18,19 +18,44 @@ public static partial class SerializableDarkRift
     }
     public struct ClientAvatarChangeMessage : IDarkRiftSerializable
     {
-        public string avatarID;
+        // Downloading - attempts to download from a URL, make sure a hash also exists.
+        // BuiltIn - loads as an addressable in Unity.
         public byte loadMode;
-        // Downloading,//attempts to download from a url, make sure a hash also exists.
-        //    BuiltIn,//loads as a addressable in unity.
+        public ushort byteLength;
+        public byte[] byteArray;
+
         public void Deserialize(DeserializeEvent e)
         {
-            e.Reader.Read(out avatarID);
-            e.Reader.Read(out loadMode);
+            // Read the load mode
+            loadMode = e.Reader.ReadByte();
+
+            // Read the byte length
+            byteLength = e.Reader.ReadUInt16();
+
+            // Initialize the byte array with the specified length
+            byteArray = new byte[byteLength];
+
+            // Read each byte manually into the array
+            for (int index = 0; index < byteLength; index++)
+            {
+                byteArray[index] = e.Reader.ReadByte();
+            }
         }
+
         public void Serialize(SerializeEvent e)
         {
-            e.Writer.Write(avatarID);
+            // Write the load mode
             e.Writer.Write(loadMode);
+
+            // Update and write the byte length
+            byteLength = (ushort)byteArray.Length;
+            e.Writer.Write(byteLength);
+
+            // Write each byte manually from the array
+            for (int index = 0; index < byteLength; index++)
+            {
+                e.Writer.Write(byteArray[index]);
+            }
         }
     }
 }
