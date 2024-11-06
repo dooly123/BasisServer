@@ -464,6 +464,25 @@ namespace DarkRift
 
             return array;
         }
+        /// <summary>
+        ///     Reads an array of bytes from the reader.
+        /// </summary>
+        /// <returns>The array of bytes read.</returns>
+        public void ReadBytes(ref byte[] array)
+        {
+            if (Position + 4 > Length)
+                throw new EndOfStreamException($"Failed to read as the reader does not have enough data remaining. Expected 4 byte array length header but reader only has {Length - Position} bytes remaining.");
+
+            int length = BigEndianHelper.ReadInt32(buffer.Buffer, buffer.Offset + Position);
+
+            if (Position + 4 + length > Length)
+                throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length} bytes but reader only has {Length - Position - 4} bytes remaining.");
+
+            Buffer.BlockCopy(buffer.Buffer, buffer.Offset + Position + 4, array, 0, length);
+
+            Position += 4 + length;
+        }
+
 
         /// <summary>
         ///     Reads an array of bytes from the reader.

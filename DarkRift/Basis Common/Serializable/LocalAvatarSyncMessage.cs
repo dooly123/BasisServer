@@ -6,7 +6,14 @@ public static partial class SerializableDarkRift
         public byte[] array;
         public void Deserialize(DeserializeEvent e)
         {
-            array = e.Reader.ReadBytes();
+            if (array == null || array.Length == 0)
+            {
+                array = e.Reader.ReadBytes();
+            }
+            else
+            {
+                e.Reader.ReadBytes(ref array);
+            }
         }
         public void Serialize(SerializeEvent e)
         {
