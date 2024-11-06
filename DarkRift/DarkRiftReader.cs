@@ -5,8 +5,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 
@@ -541,7 +539,7 @@ namespace DarkRift
                 throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length} bytes but reader only has {Length - Position - 4} bytes remaining.");
 
             char[] array = encoding.GetChars(buffer.Buffer, buffer.Offset + Position + 4, length);
-            
+
             Position += 4 + length;
 
             return array;
@@ -726,7 +724,7 @@ namespace DarkRift
             for (int i = 0, j = buffer.Offset + Position + 4; i < length; i++, j += 2)
                 array[i] = BigEndianHelper.ReadInt16(buffer.Buffer, j);
 
-            Position += 4 + length *2;
+            Position += 4 + length * 2;
 
             return array;
         }
@@ -860,7 +858,7 @@ namespace DarkRift
 
             if (Position + 4 + length * 8 > Length)
                 throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length * 8} bytes but reader only has {Length - Position - 4} bytes remaining.");
-            
+
             for (int i = 0, j = buffer.Offset + Position + 4; i < length; i++, j += 8)
                 destination[i + offset] = BigEndianHelper.ReadInt64(buffer.Buffer, j);
 
@@ -1015,7 +1013,7 @@ namespace DarkRift
             for (int i = 0; i < length; i++)
                 destination[i + offset] = ReadString();
         }
-        
+
         /// <summary>
         ///     Reads an array unsigned 16bit integers from the reader.
         /// </summary>
@@ -1038,7 +1036,7 @@ namespace DarkRift
 
             return array;
         }
-        
+
         /// <summary>
         ///     Reads an array unsigned 16bit integers from the reader.
         /// </summary>
@@ -1084,6 +1082,28 @@ namespace DarkRift
                 throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length * 4} bytes but reader only has {Length - Position - 4} bytes remaining.");
 
             uint[] array = new uint[length];
+            for (int i = 0, j = buffer.Offset + Position + 4; i < length; i++, j += 4)
+                array[i] = BigEndianHelper.ReadUInt32(buffer.Buffer, j);
+
+            Position += 4 + length * 4;
+
+            return array;
+        }
+
+        /// <summary>
+        ///     Reads an array unsigned 32bit integers from the reader.
+        /// </summary>
+        /// <returns>The array of unsigned 32bit integers read.</returns>
+        public uint[] ReadUInt32s(ref uint[] array)
+        {
+            if (Position + 4 > Length)
+                throw new EndOfStreamException($"Failed to read as the reader does not have enough data remaining. Expected 4 byte array length header but reader only has {Length - Position} bytes remaining.");
+
+            int length = BigEndianHelper.ReadInt32(buffer.Buffer, buffer.Offset + Position);
+
+            if (Position + 4 + length * 4 > Length)
+                throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length * 4} bytes but reader only has {Length - Position - 4} bytes remaining.");
+
             for (int i = 0, j = buffer.Offset + Position + 4; i < length; i++, j += 4)
                 array[i] = BigEndianHelper.ReadUInt32(buffer.Buffer, j);
 
@@ -1143,6 +1163,26 @@ namespace DarkRift
             Position += 4 + length * 8;
 
             return array;
+        }        /// <summary>
+                 ///     Reads an array unsigned 64bit integers from the reader.
+                 /// </summary>
+                 /// <returns>The array of unsigned 64bit integers read.</returns>
+        public void ReadUInt64s(ref ulong[] array)
+        {
+            if (Position + 4 > Length)
+                throw new EndOfStreamException($"Failed to read as the reader does not have enough data remaining. Expected 4 byte array length header but reader only has {Length - Position} bytes remaining.");
+
+            int length = BigEndianHelper.ReadInt32(buffer.Buffer, buffer.Offset + Position);
+
+            if (Position + 4 + length * 8 > Length)
+                throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length * 8} bytes but reader only has {Length - Position - 4} bytes remaining.");
+
+            array = new ulong[length];
+            for (int i = 0, j = buffer.Offset + Position + 4; i < length; i++, j += 8)
+                array[i] = BigEndianHelper.ReadUInt64(buffer.Buffer, j);
+
+            Position += 4 + length * 8;
+
         }
 
         /// <summary>
@@ -1192,7 +1232,7 @@ namespace DarkRift
             T[] array = new T[length];
             for (int i = 0; i < length; i++)
                 array[i] = ReadSerializable<T>();
-            
+
             return array;
         }
 
@@ -1219,7 +1259,7 @@ namespace DarkRift
             int length = BigEndianHelper.ReadInt32(buffer.Buffer, buffer.Offset + Position);
 
             Position += 4;
-            
+
             for (int i = 0; i < length; i++)
                 destination[i + offset] = ReadSerializable<T>();
         }
@@ -1240,7 +1280,21 @@ namespace DarkRift
 
             return raw;
         }
+        /// <summary>
+        ///     Reads an array of raw bytes from the reader.
+        /// </summary>
+        /// <param name="length">The number of bytes to read.</param>
+        /// <param name="raw"></param>
+        /// <returns>The array of bytes read.</returns>
+        public byte[] ReadRaw(int length, ref byte[] raw)
+        {
+            if (Position + length > Length)
+                throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length} bytes but reader only has {Length - Position} bytes remaining.");
 
+            ReadRawInto(raw, 0, length);
+
+            return raw;
+        }
         /// <summary>
         ///     Reads an array of raw bytes from the reader into the given array.
         /// </summary>
