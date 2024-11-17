@@ -9,6 +9,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

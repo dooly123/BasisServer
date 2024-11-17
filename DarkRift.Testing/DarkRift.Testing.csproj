@@ -10,6 +10,7 @@
     <NoWarn>NU1701</NoWarn>
     <IsPackable>false</IsPackable>
     <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
+    <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -20,7 +21,7 @@
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
   </ItemGroup>
 
   <ItemGroup>

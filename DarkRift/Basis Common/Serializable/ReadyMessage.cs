@@ -3,20 +3,20 @@ public static partial class SerializableDarkRift
 {
     public struct ReadyMessage : IDarkRiftSerializable
     {
-        public LocalAvatarSyncMessage localAvatarSyncMessage;
-        public ClientAvatarChangeMessage clientAvatarChangeMessage;
         public PlayerMetaDataMessage playerMetaDataMessage;
+        public ClientAvatarChangeMessage clientAvatarChangeMessage;
+        public LocalAvatarSyncMessage localAvatarSyncMessage;
         public void Deserialize(DeserializeEvent e)
         {
-            localAvatarSyncMessage.Deserialize(e);
-            clientAvatarChangeMessage.Deserialize(e);
             playerMetaDataMessage.Deserialize(e);
+            clientAvatarChangeMessage.Deserialize(e);
+            localAvatarSyncMessage.Deserialize(e);
         }
         public void Serialize(SerializeEvent e)
         {
-            localAvatarSyncMessage.Serialize(e);
-            clientAvatarChangeMessage.Serialize(e);
             playerMetaDataMessage.Serialize(e);
+            clientAvatarChangeMessage.Serialize(e);
+            localAvatarSyncMessage.Serialize(e);
         }
     }
     public struct ServerReadyMessage : IDarkRiftSerializable

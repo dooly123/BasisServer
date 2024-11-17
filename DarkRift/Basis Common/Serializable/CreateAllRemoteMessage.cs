@@ -1,25 +1,55 @@
 ﻿using DarkRift;
+using System;
 using System.Collections.Generic;
+
 public static partial class SerializableDarkRift
 {
     public struct CreateAllRemoteMessage : IDarkRiftSerializable
     {
         public ServerReadyMessage[] serverSidePlayer;
+
         public void Deserialize(DeserializeEvent e)
         {
-            List<ServerReadyMessage> temp = new List<ServerReadyMessage>();
-            while (e.Reader.Length != e.Reader.Position)
+            // Ensure the reader is not null and has content to read
+            if (e.Reader != null && e.Reader.Length > e.Reader.Position)
             {
-                e.Reader.Read(out ServerReadyMessage serverReadyMessage);
-                temp.Add(serverReadyMessage);
+                Console.WriteLine("Deserialization started.");
+
+                List<ServerReadyMessage> temp = new List<ServerReadyMessage>();
+                while (e.Reader.Length != e.Reader.Position)
+                {
+                    // Ensure that the reader is capable of reading the expected type
+                    e.Reader.Read(out ServerReadyMessage serverReadyMessage);
+                    temp.Add(serverReadyMessage);
+                    Console.WriteLine($"Deserialized ServerReadyMessage at position: {e.Reader.Position}");
+                }
+                serverSidePlayer = temp.ToArray();
+                Console.WriteLine($"Deserialization complete. Total ServerReadyMessages: {serverSidePlayer.Length}");
             }
-            serverSidePlayer = temp.ToArray();
+            else
+            {
+                // Handle the case where the reader is invalid or empty
+                Console.WriteLine("Reader is invalid or empty. No deserialization occurred.");
+                serverSidePlayer = new ServerReadyMessage[0];
+            }
         }
+
         public void Serialize(SerializeEvent e)
         {
-            for (int index = 0; index < serverSidePlayer.Length; index++)
+            // Ensure serverSidePlayer is not null before attempting to serialize
+            if (serverSidePlayer != null)
             {
-                serverSidePlayer[index].Serialize(e);
+                for (int index = 0; index < serverSidePlayer.Length; index++)
+                {
+                    serverSidePlayer[index].Serialize(e);
+                }
+
+                Console.WriteLine("Serialization complete.");
+            }
+            else
+            {
+                // Log if serverSidePlayer is null
+                Console.WriteLine("serverSidePlayer array is null. Nothing to serialize.");
             }
         }
     }

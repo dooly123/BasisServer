@@ -9,6 +9,7 @@
     <!-- MSTest.TestAdapter package is for .NET Framework 4.6.1 so throws errors on .NET Standard build -->
     <NoWarn>NU1701</NoWarn>
     <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
+    <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

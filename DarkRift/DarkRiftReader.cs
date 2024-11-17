@@ -1305,14 +1305,12 @@ namespace DarkRift
         /// <param name="length">The number of bytes to read.</param>
         /// <param name="raw"></param>
         /// <returns>The array of bytes read.</returns>
-        public byte[] ReadRaw(int length, ref byte[] raw)
+        public void ReadRaw(int length, ref byte[] raw)
         {
             if (Position + length > Length)
                 throw new EndOfStreamException($"Failed to read data from reader as the reader does not have enough data remaining. Expected {length} bytes but reader only has {Length - Position} bytes remaining.");
 
             ReadRawInto(raw, 0, length);
-
-            return raw;
         }
         /// <summary>
         ///     Reads an array of raw bytes from the reader into the given array.

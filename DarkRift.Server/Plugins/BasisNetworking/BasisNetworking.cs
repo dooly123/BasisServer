@@ -247,6 +247,14 @@ namespace DarkRift.Server.Plugins.Commands
                 {
                     ReadyClients.TryAdd(e.Client.ID, e.Client);
                 }
+                if(string.IsNullOrWhiteSpace(readyMessage.playerMetaDataMessage.playerDisplayName))
+                {
+                    Console.WriteLine("Player " + e.Client.ID + " had empty playerDisplayName");
+                }
+                if (string.IsNullOrWhiteSpace(readyMessage.playerMetaDataMessage.playerUUID))
+                {
+                    Console.WriteLine("Player " + e.Client.ID + " had empty playerUUID");
+                }
                 SendRemoteSpawnMessage(e.Client, readyMessage, EventsChannel);
             }
         }
@@ -286,8 +294,20 @@ namespace DarkRift.Server.Plugins.Commands
         }
         private void SendClientListToNewClient(IClient authClient, byte channel)
         {
+            if (authClient == null)
+            {
+                Console.WriteLine("authClient is null. Aborting.");
+                return;
+            }
+
             using (DarkRiftWriter writer = DarkRiftWriter.Create())
             {
+                if (ReadyClients == null)
+                {
+                    Console.WriteLine("ReadyClients is null. Aborting.");
+                    return;
+                }
+
                 if (ReadyClients.Count > ushort.MaxValue)
                 {
                     Console.WriteLine($"authenticatedClients count exceeds {ushort.MaxValue}");
@@ -296,27 +316,55 @@ namespace DarkRift.Server.Plugins.Commands
 
                 List<ServerReadyMessage> copied = new List<ServerReadyMessage>();
 
-                var clientsToNotify = ReadyClients.Values.Where(client => client != authClient);
+                // Ensure ReadyClients.Values is not null
+                var clientsToNotify = ReadyClients.Values?.Where(client => client != authClient) ?? Enumerable.Empty<IClient>();
 
                 foreach (IClient client in clientsToNotify)
                 {
+                    if (client == null)
+                    {
+                        Console.WriteLine("Encountered null client in ReadyClients. Skipping.");
+                        continue;
+                    }
+
                     ServerReadyMessage serverReadyMessage = new ServerReadyMessage();
 
+                    // Check if BasisNetworking.Instance is null
+                    if (BasisNetworking.Instance == null)
+                    {
+                        Console.WriteLine("BasisNetworking.Instance is null. Aborting.");
+                        return;
+                    }
+
+                    // Check if basisSavedState is null
+                    if (BasisNetworking.Instance.basisSavedState == null)
+                    {
+                        Console.WriteLine("basisSavedState is null. Aborting.");
+                        return;
+                    }
+
+                    // Get the last data for the client
                     if (BasisNetworking.Instance.basisSavedState.GetLastData(client, out StoredData sspm))
                     {
-                        //  Console.WriteLine("Created LocalReadyMessage with avatar | " + sspm.LastAvatarChangeState.avatarID);
+                        // Ensure sspm is not null before accessing properties
                         serverReadyMessage.localReadyMessage = new ReadyMessage
                         {
                             localAvatarSyncMessage = sspm.LastAvatarSyncState,
                             clientAvatarChangeMessage = sspm.LastAvatarChangeState,
                             playerMetaDataMessage = sspm.PlayerMetaDataMessage,
                         };
-                        serverReadyMessage.playerIdMessage = new PlayerIdMessage() { playerID = client.ID };
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage()
+                        {
+                            playerID = client.ID
+                        };
                     }
                     else
                     {
                         Console.WriteLine("Unable to get last Data Creating Fake");
-                        serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
+                        serverReadyMessage.playerIdMessage = new PlayerIdMessage
+                        {
+                            playerID = client.ID
+                        };
                         serverReadyMessage.localReadyMessage = new ReadyMessage
                         {
                             localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },

@@ -4,6 +4,7 @@
         <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
         <Configurations>Debug;Release</Configurations>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Platforms>AnyCPU;ARM64</Platforms>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">
