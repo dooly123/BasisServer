@@ -1,32 +1,41 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading;
+using DarkRift;
+using DarkRift.Server;
+using DarkRift.Server.Plugins.Commands;
 using static SerializableDarkRift;
 public class BasisServerReductionSystem
 {
     // Default interval in milliseconds for the timer
     public static int MillisecondDefaultInterval = 100;
-    public static ConcurrentDictionary<ushort, SyncedToPlayerPulse> PlayerSync = new ConcurrentDictionary<ushort, SyncedToPlayerPulse>();
-    public static void AddOrUpdatePlayer(ushort playerID, ServerSideSyncPlayerMessage playerToUpdate)
+    public static ConcurrentDictionary<IClient, SyncedToPlayerPulse> PlayerSync = new ConcurrentDictionary<IClient, SyncedToPlayerPulse>();
+    /// <summary>
+    /// add the new client
+    /// then update all existing clients arrays
+    /// </summary>
+    /// <param name="playerID"></param>
+    /// <param name="playerToUpdate"></param>
+    /// <param name="serverSideSyncPlayer"></param>
+    public static void AddOrUpdatePlayer(IClient playerID, ServerSideSyncPlayerMessage playerToUpdate,IClient serverSideSyncPlayer)
     {
         if (PlayerSync.TryGetValue(playerID, out SyncedToPlayerPulse playerData))
         {
             // Update the player's message
-            playerData.SupplyNewData(playerToUpdate.playerIdMessage.playerID, playerToUpdate);
+            playerData.SupplyNewData(serverSideSyncPlayer, playerToUpdate);
         }
         else
         {
             SyncedToPlayerPulse syncedToPlayerPulse = new SyncedToPlayerPulse
             {
                 playerID = playerID,
-                queuedPlayerMessages = new ConcurrentDictionary<ushort, ServerSideReducablePlayer>()
+                queuedPlayerMessages = new ConcurrentDictionary<IClient, ServerSideReducablePlayer>()
             };
             if (PlayerSync.TryAdd(playerID, syncedToPlayerPulse))
             {
-                playerData.SupplyNewData(playerToUpdate.playerIdMessage.playerID, playerToUpdate);
+                playerData.SupplyNewData(serverSideSyncPlayer, playerToUpdate);
             }
         }
     }
-    public static void RemovePlayer(ushort playerID)
+    public static void RemovePlayer(IClient playerID)
     {
         if (PlayerSync.TryRemove(playerID, out SyncedToPlayerPulse pulse))
         {
@@ -49,20 +58,20 @@ public class BasisServerReductionSystem
     public class SyncedToPlayerPulse
     {
         // The player ID to which the data is being sent
-        public ushort playerID;
+        public IClient playerID;
 
         /// <summary>
         /// Dictionary to hold queued messages for each player.
         /// Key: Player ID, Value: Server-side player data
         /// </summary>
-        public ConcurrentDictionary<ushort, ServerSideReducablePlayer> queuedPlayerMessages = new ConcurrentDictionary<ushort, ServerSideReducablePlayer>();
+        public ConcurrentDictionary<IClient, ServerSideReducablePlayer> queuedPlayerMessages = new ConcurrentDictionary<IClient, ServerSideReducablePlayer>();
 
         /// <summary>
         /// Supply new data to a specific player.
         /// </summary>
         /// <param name="playerID">The ID of the player</param>
         /// <param name="serverSideSyncPlayerMessage">The message to be synced</param>
-        public void SupplyNewData(ushort playerID, ServerSideSyncPlayerMessage serverSideSyncPlayerMessage)
+        public void SupplyNewData(IClient playerID, ServerSideSyncPlayerMessage serverSideSyncPlayerMessage)
         {
             if (queuedPlayerMessages.TryGetValue(playerID, out ServerSideReducablePlayer playerData))
             {
@@ -83,14 +92,14 @@ public class BasisServerReductionSystem
         /// </summary>
         /// <param name="playerID">The ID of the player</param>
         /// <param name="serverSideSyncPlayerMessage">The initial message to be sent</param>
-        public void AddPlayer(ushort playerID, ServerSideSyncPlayerMessage serverSideSyncPlayerMessage)
+        public void AddPlayer(IClient playerID, ServerSideSyncPlayerMessage serverSideSyncPlayerMessage)
         {
             ServerSideReducablePlayer newPlayer = new ServerSideReducablePlayer
             {
                 serverSideSyncPlayerMessage = serverSideSyncPlayerMessage,
                 syncRateMultiplier = 1.0f, // Default to full sync rate
                 newDataExists = true,
-                timer = new Timer(SendPlayerData, playerID, MillisecondDefaultInterval, MillisecondDefaultInterval)
+                timer = new System.Threading.Timer(SendPlayerData, playerID, MillisecondDefaultInterval, MillisecondDefaultInterval)
             };
 
             queuedPlayerMessages[playerID] = newPlayer;
@@ -100,7 +109,7 @@ public class BasisServerReductionSystem
         /// Removes a player from the queue and disposes of their timer.
         /// </summary>
         /// <param name="playerID">The ID of the player to remove</param>
-        public void RemovePlayer(ushort playerID)
+        public void RemovePlayer(IClient playerID)
         {
             if (queuedPlayerMessages.TryRemove(playerID, out ServerSideReducablePlayer playerData))
             {
@@ -115,13 +124,19 @@ public class BasisServerReductionSystem
         /// <param name="state">The player ID (passed from the timer)</param>
         private void SendPlayerData(object state)
         {
-            if (state is ushort playerID && queuedPlayerMessages.TryGetValue(playerID, out ServerSideReducablePlayer playerData))
+            if (state is IClient playerID && queuedPlayerMessages.TryGetValue(playerID, out ServerSideReducablePlayer playerData))
             {
                 if (playerData.newDataExists)
                 {
-                    // Send out data
-                    //   Console.WriteLine($"Sending data to player {playerID}: {playerData.serverSideSyncPlayerMessage.Data}");
+                    using (DarkRiftWriter writer = DarkRiftWriter.Create())
+                    {
+                        writer.Write(playerData.serverSideSyncPlayerMessage);
 
+                        using (Message message = Message.Create(BasisTags.AvatarGenericMessage, writer))
+                        {
+                            playerID.SendMessage(message, BasisNetworking.MovementChannel, DeliveryMethod.Sequenced);
+                        }
+                    }
                     // Adjust the timer interval based on the sync rate multiplier
                     int adjustedInterval = (int)(MillisecondDefaultInterval * playerData.syncRateMultiplier);
                     playerData.timer.Change(adjustedInterval, adjustedInterval);
@@ -136,7 +151,7 @@ public class BasisServerReductionSystem
     public struct ServerSideReducablePlayer
     {
         public System.Threading.Timer timer;//create a new timer
-        public float syncRateMultiplier; //0 to 1
+        public float syncRateMultiplier; //0 to 1 to under 0.1s 1 to 100 to go slower
         public bool newDataExists;
         public ServerSideSyncPlayerMessage serverSideSyncPlayerMessage;
     }

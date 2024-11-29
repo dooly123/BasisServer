@@ -55,6 +55,7 @@ namespace DarkRift.Server.Plugins.Commands
             ownershipManagement.RemovePlayerOwnership(e.Client.ID);
             basisSavedState.RemovePlayer(e.Client);
             ReadyClients.TryRemove(e.Client.ID, out IClient removedclient);
+            BasisServerReductionSystem.RemovePlayer(e.Client);
             ClientDisconnection.ClientDisconnect(e, EventsChannel, ReadyClients);
         }
         public void MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -220,6 +221,16 @@ namespace DarkRift.Server.Plugins.Commands
                 reader.Read(out LocalAvatarSyncMessage local);
                 basisSavedState.AddLastData(e.Client, local);
                 ServerSideSyncPlayerMessage ssspm = CreateServerSideSyncPlayerMessage(local, e.Client.ID);
+
+                foreach (IClient client in ReadyClients.Values)
+                {
+                    if (client.ID == e.Client.ID)
+                    {
+                        continue;
+                    }
+                    BasisServerReductionSystem.AddOrUpdatePlayer(client, ssspm, e.Client);
+                }
+                /*
                 using (DarkRiftWriter writer = DarkRiftWriter.Create())
                 {
                     writer.Write(ssspm);
@@ -228,6 +239,7 @@ namespace DarkRift.Server.Plugins.Commands
                         PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, ReadyClients);
                     }
                 }
+                */
             }
         }
         private ServerSideSyncPlayerMessage CreateServerSideSyncPlayerMessage(LocalAvatarSyncMessage local, ushort clientId)

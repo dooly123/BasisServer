@@ -1,4 +1,5 @@
 ﻿using System;
+using DarkRift.Server.Plugins;
 namespace Basis.Scripts.Networking.Compression
 {
     [Serializable]
@@ -21,14 +22,14 @@ namespace Basis.Scripts.Networking.Compression
         }
         public ushort Compress(float value)
         {
-            value = Clamp(value, MinValue, MaxValue);
+            value = MathExtensions.Clamp(value, MinValue, MaxValue);
             float normalizedValue = (value - MinValue) * InversePrecision;
             return (ushort)((ushort)(normalizedValue + 0.5f) & Mask);
         }
         public float Decompress(ushort compressedValue)
         {
             float decompressedValue = ((float)compressedValue * Precision) + MinValue;
-            return Clamp(decompressedValue, MinValue, MaxValue);
+            return MathExtensions.Clamp(decompressedValue, MinValue, MaxValue);
         }
         private int CalculateRequiredBits()
         {
@@ -51,20 +52,5 @@ namespace Basis.Scripts.Networking.Compression
             0, 9, 1, 10, 13, 21, 2, 29, 11, 14, 16, 18, 22, 25, 3, 30,
             8, 12, 20, 28, 15, 17, 24, 7, 19, 27, 23, 6, 26, 5, 4, 31
         };
-        /// <summary>
-        /// Clamps a value between a minimum and a maximum.
-        /// </summary>
-        /// <param name="value">The value to clamp.</param>
-        /// <param name="min">The minimum value.</param>
-        /// <param name="max">The maximum value.</param>
-        /// <returns>The clamped value.</returns>
-        public static float Clamp(float value, float min, float max)
-        {
-            if (value < min)
-                return min;
-            else if (value > max)
-                return max;
-            return value;
-        }
     }
 }
