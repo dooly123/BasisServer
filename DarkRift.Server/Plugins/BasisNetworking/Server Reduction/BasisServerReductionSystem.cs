@@ -15,7 +15,7 @@ public class BasisServerReductionSystem
     /// <param name="playerID"></param>
     /// <param name="playerToUpdate"></param>
     /// <param name="serverSideSyncPlayer"></param>
-    public static void AddOrUpdatePlayer(IClient playerID, ServerSideSyncPlayerMessage playerToUpdate,IClient serverSideSyncPlayer)
+    public static void AddOrUpdatePlayer(IClient playerID, ServerSideSyncPlayerMessage playerToUpdate, IClient serverSideSyncPlayer)
     {
         if (PlayerSync.TryGetValue(playerID, out SyncedToPlayerPulse playerData))
         {
@@ -24,12 +24,12 @@ public class BasisServerReductionSystem
         }
         else
         {
-            SyncedToPlayerPulse syncedToPlayerPulse = new SyncedToPlayerPulse
+            playerData = new SyncedToPlayerPulse
             {
                 playerID = playerID,
                 queuedPlayerMessages = new ConcurrentDictionary<IClient, ServerSideReducablePlayer>()
             };
-            if (PlayerSync.TryAdd(playerID, syncedToPlayerPulse))
+            if (PlayerSync.TryAdd(playerID, playerData))
             {
                 playerData.SupplyNewData(serverSideSyncPlayer, playerToUpdate);
             }
