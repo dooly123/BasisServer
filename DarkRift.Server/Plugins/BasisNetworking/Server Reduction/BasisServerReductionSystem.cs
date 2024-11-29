@@ -159,7 +159,7 @@ public class BasisServerReductionSystem
                         float activeDistance = Distance(from, to);
                         // Adjust the timer interval based on the new syncRateMultiplier
                         int adjustedInterval = (int)(MillisecondDefaultInterval * (BaseMultiplier + (activeDistance * IncreaseRate)));
-                        Console.WriteLine("Adjusted Interval is" + adjustedInterval);
+                      //  Console.WriteLine("Adjusted Interval is" + adjustedInterval);
                         playerData.timer.Change(adjustedInterval, adjustedInterval);
                     }
                     else
