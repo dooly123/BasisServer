@@ -214,6 +214,7 @@ namespace DarkRift.Server.Plugins.Commands
                 client.Value.SendMessage(message, channel, deliveryMethod);
             }
         }
+        public static bool UsesReductionSystem = true;
         private void HandleAvatarMovement(Message message, MessageReceivedEventArgs e)
         {
             using (DarkRiftReader reader = message.GetReader())
@@ -221,25 +222,28 @@ namespace DarkRift.Server.Plugins.Commands
                 reader.Read(out LocalAvatarSyncMessage local);
                 basisSavedState.AddLastData(e.Client, local);
                 ServerSideSyncPlayerMessage ssspm = CreateServerSideSyncPlayerMessage(local, e.Client.ID);
-
-                foreach (IClient client in ReadyClients.Values)
+                if (UsesReductionSystem)
                 {
-                    if (client.ID == e.Client.ID)
+                    foreach (IClient client in ReadyClients.Values)
                     {
-                        continue;
-                    }
-                    BasisServerReductionSystem.AddOrUpdatePlayer(client, ssspm, e.Client);
-                }
-                /*
-                using (DarkRiftWriter writer = DarkRiftWriter.Create())
-                {
-                    writer.Write(ssspm);
-                    using (Message ssspmMessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
-                    {
-                        PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, ReadyClients);
+                        if (client.ID == e.Client.ID)
+                        {
+                            continue;
+                        }
+                        BasisServerReductionSystem.AddOrUpdatePlayer(client, ssspm, e.Client);
                     }
                 }
-                */
+                else
+                {
+                    using (DarkRiftWriter writer = DarkRiftWriter.Create())
+                    {
+                        writer.Write(ssspm);
+                        using (Message ssspmMessage = Message.Create(BasisTags.AvatarMuscleUpdateTag, writer))
+                        {
+                            PositionSync.BroadcastPositionUpdate(e.Client, MovementChannel, ssspmMessage, ReadyClients);
+                        }
+                    }
+                }
             }
         }
         private ServerSideSyncPlayerMessage CreateServerSideSyncPlayerMessage(LocalAvatarSyncMessage local, ushort clientId)

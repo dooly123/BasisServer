@@ -8,9 +8,9 @@ using static SerializableDarkRift;
 public class BasisServerReductionSystem
 {
     // Default interval in milliseconds for the timer
-    public static int MillisecondDefaultInterval = 50;
+    public static int MillisecondDefaultInterval = 33;
     public static float BaseMultiplier = 1f; // Starting multiplier.
-  public static float IncreaseRate = 0.01f; // Rate of increase per unit distance.
+  public static float IncreaseRate = 0.0075f; // Rate of increase per unit distance.
     public static ConcurrentDictionary<IClient, SyncedToPlayerPulse> PlayerSync = new ConcurrentDictionary<IClient, SyncedToPlayerPulse>();
     /// <summary>
     /// add the new client
@@ -24,7 +24,7 @@ public class BasisServerReductionSystem
         //stage 1 lets update whoever send us this datas last player information
         if (PlayerSync.TryGetValue(serverSideSyncPlayer, out SyncedToPlayerPulse playerData))
         {
-            playerData.LastPlayerInformation = playerToUpdate;
+            playerData.lastPlayerInformation = playerToUpdate;
         }
         //ok now we can try to schedule sending out this data!
         if (PlayerSync.TryGetValue(playerID, out playerData))
@@ -39,7 +39,7 @@ public class BasisServerReductionSystem
             {
                 playerID = playerID,
                 queuedPlayerMessages = new ConcurrentDictionary<IClient, ServerSideReducablePlayer>(),
-                LastPlayerInformation = playerToUpdate,
+                lastPlayerInformation = playerToUpdate,
             };
             //ok now we can try to schedule sending out this data!
             if (PlayerSync.TryAdd(playerID, playerData))
@@ -72,7 +72,7 @@ public class BasisServerReductionSystem
     {
         // The player ID to which the data is being sent
         public IClient playerID;
-        public ServerSideSyncPlayerMessage LastPlayerInformation;
+        public ServerSideSyncPlayerMessage lastPlayerInformation;
         /// <summary>
         /// Dictionary to hold queued messages for each player.
         /// Key: Player ID, Value: Server-side player data
@@ -153,7 +153,7 @@ public class BasisServerReductionSystem
                 {
                     if (PlayerSync.TryGetValue(playerID.localClient, out SyncedToPlayerPulse pulse))
                     {
-                        Vector3 from = BasisBitPackerExtensions.DecompressAndProcessAvatar(pulse.LastPlayerInformation);
+                        Vector3 from = BasisBitPackerExtensions.DecompressAndProcessAvatar(pulse.lastPlayerInformation);
                         Vector3 to = BasisBitPackerExtensions.DecompressAndProcessAvatar(playerData.serverSideSyncPlayerMessage);
                         // Calculate the distance between the two points
                         float activeDistance = Distance(from, to);
