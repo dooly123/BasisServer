@@ -1,10 +1,26 @@
 ﻿using DarkRift;
 using DarkRift.Basis_Common;
 using System;
+using static SerializableDarkRift;
 namespace Basis.Scripts.Networking.Compression
 {
     public static partial class BasisBitPackerExtensions
     {
+        /// <summary>
+        /// Single API to handle all avatar decompression tasks.
+        /// </summary>
+        public static Vector3 DecompressAndProcessAvatar(ServerSideSyncPlayerMessage syncMessage)
+        {
+            // Update receiver state
+          //  baseReceiver.LASM = syncMessage.avatarSerialization;
+          //  AvatarBuffer avatarBuffer = new AvatarBuffer();
+            int Offset = 0;
+            return BasisBitPackerExtensions.ReadVectorFloatFromBytes(ref syncMessage.avatarSerialization.array, ref Offset);
+          //  avatarBuffer.Scale = BasisBitPackerExtensions.ReadUshortVectorFloatFromBytes(ref syncMessage.avatarSerialization.array, BasisNetworkReceiver.ScaleRanged, ref Offset);
+            //avatarBuffer.rotation = BasisBitPackerExtensions.ReadQuaternionFromBytes(ref syncMessage.avatarSerialization.array, BasisNetworkSendBase.RotationCompression, ref Offset);
+           // BasisBitPackerExtensions.ReadMusclesFromBytes(ref syncMessage.avatarSerialization.array, ref avatarBuffer.Muscles, ref Offset);
+         //   baseReceiver.AvatarDataBuffer.Add(avatarBuffer);
+        }
         public static void WriteUshortFloat(DarkRiftWriter bitPacker, float value, BasisRangedUshortFloatData compressor)
         {
             bitPacker.Write(compressor.Compress(value));
@@ -91,17 +107,22 @@ namespace Basis.Scripts.Networking.Compression
             Packer.WriteRaw(StoredBytes, 0, LengthBytes);
         }
         // Decompress the byte array back into the muscle data
+        /// <summary>
+        /// disabled some of the code
+        /// </summary>
+        /// <param name="Packer"></param>
+        /// <param name="BasisAvatarData"></param>
         public static void DecompressMuscles(DarkRiftReader Packer, ref AvatarBuffer BasisAvatarData)
         {
             // Read the raw byte array from the Packer
             Packer.ReadRaw(LengthBytes, ref StoredBytes);
 
-            if (BasisAvatarData.Muscles == null)
-            {
-                BasisAvatarData.Muscles = new float[LengthSize];
-            }
+           // if (BasisAvatarData.Muscles == null)
+           // {
+           //     BasisAvatarData.Muscles = new float[LengthSize];
+           //}
             // Convert the byte array back to the float array using Buffer.BlockCopy
-            Buffer.BlockCopy(StoredBytes, 0, BasisAvatarData.Muscles, 0, LengthBytes);
+          //  Buffer.BlockCopy(StoredBytes, 0, BasisAvatarData.Muscles, 0, LengthBytes);
         }
 
         public static void WriteUshortFloatToBytes(float value, BasisRangedUshortFloatData compressor, ref byte[] bytes, ref int offset)
