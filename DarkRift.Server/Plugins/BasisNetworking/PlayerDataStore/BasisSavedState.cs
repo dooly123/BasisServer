@@ -19,53 +19,66 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
         {
             serverSideLastState.TryRemove(client.ID, out _);
         }
-
-        /// <summary>
-        /// Adds or updates the last avatar sync message for a player.
-        /// </summary>
-        /// <param name="client">The client representing the player.</param>
-        /// <param name="avatarSyncMessage">The last avatar sync message of the player.</param>
         public void AddLastData(IClient client, LocalAvatarSyncMessage avatarSyncMessage)
         {
-            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarSyncState = avatarSyncMessage },
+            serverSideLastState.AddOrUpdate(client.ID,
+                new StoredData { lastAvatarSyncState = avatarSyncMessage },
                 (key, oldValue) =>
                 {
-                    oldValue.LastAvatarSyncState = avatarSyncMessage;
+                    oldValue.lastAvatarSyncState = avatarSyncMessage;
                     return oldValue;
                 });
         }
+
         public void AddLastData(IClient client, LocalAvatarSyncMessage avatarSyncMessage, ClientAvatarChangeMessage avatarChangeMessage)
         {
-            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarSyncState = avatarSyncMessage, LastAvatarChangeState = avatarChangeMessage },
+            serverSideLastState.AddOrUpdate(client.ID,
+                new StoredData { lastAvatarSyncState = avatarSyncMessage, lastAvatarChangeState = avatarChangeMessage },
                 (key, oldValue) =>
                 {
-                    oldValue.LastAvatarSyncState = avatarSyncMessage;
-                    oldValue.LastAvatarChangeState = avatarChangeMessage;
+                    oldValue.lastAvatarSyncState = avatarSyncMessage;
+                    oldValue.lastAvatarChangeState = avatarChangeMessage;
                     return oldValue;
                 });
         }
+
         public void AddLastData(IClient client, ReadyMessage readyMessage)
         {
-            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarSyncState = readyMessage.localAvatarSyncMessage, LastAvatarChangeState = readyMessage.clientAvatarChangeMessage, PlayerMetaDataMessage = readyMessage.playerMetaDataMessage },
+            serverSideLastState.AddOrUpdate(client.ID,
+                new StoredData
+                {
+                    lastAvatarSyncState = readyMessage.localAvatarSyncMessage,
+                    lastAvatarChangeState = readyMessage.clientAvatarChangeMessage,
+                    playerMetaDataMessage = readyMessage.playerMetaDataMessage
+                },
                 (key, oldValue) =>
                 {
-                    oldValue.LastAvatarSyncState = readyMessage.localAvatarSyncMessage;
-                    oldValue.LastAvatarChangeState = readyMessage.clientAvatarChangeMessage;
+                    oldValue.lastAvatarSyncState = readyMessage.localAvatarSyncMessage;
+                    oldValue.lastAvatarChangeState = readyMessage.clientAvatarChangeMessage;
+                    oldValue.playerMetaDataMessage = readyMessage.playerMetaDataMessage;
                     return oldValue;
                 });
-            Console.WriteLine("added " + client.ID + " With AvatarID " + readyMessage.clientAvatarChangeMessage.byteArray);
+            Console.WriteLine("Added " + client.ID + " with AvatarID " + readyMessage.clientAvatarChangeMessage.byteArray);
         }
-        /// <summary>
-        /// Adds or updates the last avatar change message for a player.
-        /// </summary>
-        /// <param name="client">The client representing the player.</param>
-        /// <param name="avatarChangeMessage">The last avatar change message of the player.</param>
-        public void AddLastData(IClient client, ClientAvatarChangeMessage avatarChangeMessage)
+
+        public void AddLastData(IClient client, VoiceReceiversMessage voiceReceiversMessage)
         {
-            serverSideLastState.AddOrUpdate(client.ID, new StoredData { LastAvatarChangeState = avatarChangeMessage },
+            serverSideLastState.AddOrUpdate(client.ID,new StoredData { voiceReceiversMessage = voiceReceiversMessage },
                 (key, oldValue) =>
                 {
-                    oldValue.LastAvatarChangeState = avatarChangeMessage;
+                    oldValue.voiceReceiversMessage = voiceReceiversMessage;
+                    return oldValue;
+                });
+          //  Console.WriteLine("Voice from " + client.ID + " has updated who they're talking to");
+        }
+
+        public void AddLastData(IClient client, ClientAvatarChangeMessage avatarChangeMessage)
+        {
+            serverSideLastState.AddOrUpdate(client.ID,
+                new StoredData { lastAvatarChangeState = avatarChangeMessage },
+                (key, oldValue) =>
+                {
+                    oldValue.lastAvatarChangeState = avatarChangeMessage;
                     return oldValue;
                 });
         }
@@ -83,9 +96,10 @@ namespace DarkRift.Server.Plugins.BasisNetworking.PlayerDataStore
 
         public struct StoredData
         {
-            public LocalAvatarSyncMessage LastAvatarSyncState; // pos 1 & 2, rot, scale, muscles
-            public ClientAvatarChangeMessage LastAvatarChangeState; // last avatar state
-            public PlayerMetaDataMessage PlayerMetaDataMessage;
+            public LocalAvatarSyncMessage lastAvatarSyncState; // pos 1 & 2, rot, scale, muscles
+            public ClientAvatarChangeMessage lastAvatarChangeState; // last avatar state
+            public PlayerMetaDataMessage playerMetaDataMessage;
+            public VoiceReceiversMessage voiceReceiversMessage;
         }
     }
 }

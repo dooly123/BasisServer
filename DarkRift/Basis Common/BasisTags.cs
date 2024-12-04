@@ -29,5 +29,7 @@
         // New additions for Recipients but No Payload
         public const ushort AvatarGenericMessage_Recipients_NoPayload = 20;
         public const ushort SceneGenericMessage_Recipients_NoPayload = 21;
+
+        public const ushort AudioCommunication = 22;
     }
 }

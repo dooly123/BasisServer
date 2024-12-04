@@ -10,7 +10,7 @@ public class BasisServerReductionSystem
     // Default interval in milliseconds for the timer
     public static int MillisecondDefaultInterval = 33;
     public static float BaseMultiplier = 1f; // Starting multiplier.
-  public static float IncreaseRate = 0.0075f; // Rate of increase per unit distance.
+    public static float IncreaseRate = 0.0075f; // Rate of increase per unit distance.
     public static ConcurrentDictionary<IClient, SyncedToPlayerPulse> PlayerSync = new ConcurrentDictionary<IClient, SyncedToPlayerPulse>();
     /// <summary>
     /// add the new client
@@ -153,13 +153,13 @@ public class BasisServerReductionSystem
                 {
                     if (PlayerSync.TryGetValue(playerID.localClient, out SyncedToPlayerPulse pulse))
                     {
-                        Vector3 from = BasisBitPackerExtensions.DecompressAndProcessAvatar(pulse.lastPlayerInformation);
-                        Vector3 to = BasisBitPackerExtensions.DecompressAndProcessAvatar(playerData.serverSideSyncPlayerMessage);
+                        Vector3 from = BasisCompressionExtensions.DecompressAndProcessAvatar(pulse.lastPlayerInformation);
+                        Vector3 to = BasisCompressionExtensions.DecompressAndProcessAvatar(playerData.serverSideSyncPlayerMessage);
                         // Calculate the distance between the two points
                         float activeDistance = Distance(from, to);
                         // Adjust the timer interval based on the new syncRateMultiplier
                         int adjustedInterval = (int)(MillisecondDefaultInterval * (BaseMultiplier + (activeDistance * IncreaseRate)));
-                      //  Console.WriteLine("Adjusted Interval is" + adjustedInterval);
+                        //  Console.WriteLine("Adjusted Interval is" + adjustedInterval);
                         playerData.timer.Change(adjustedInterval, adjustedInterval);
                     }
                     else

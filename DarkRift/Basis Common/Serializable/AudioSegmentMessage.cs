@@ -41,4 +41,33 @@ public static partial class SerializableDarkRift
             }
         }
     }
+
+    public struct VoiceReceiversMessage : IDarkRiftSerializable
+    {
+        public ushort[] users;
+
+        public void Deserialize(DeserializeEvent e)
+        {
+            // Calculate the number of ushorts based on the remaining bytes
+            int remainingBytes = (int)(e.Reader.Length - e.Reader.Position);
+            int ushortCount = remainingBytes / sizeof(ushort);
+
+            // Initialize the array with the calculated size
+            users = new ushort[ushortCount];
+
+            // Read each ushort value into the array
+            for (int index = 0; index < ushortCount; index++)
+            {
+                users[index] = e.Reader.ReadUInt16();
+            }
+        }
+
+        public void Serialize(SerializeEvent e)
+        {
+            foreach (ushort v in users)
+            {
+                e.Writer.Write(v);
+            }
+        }
+    }
 }
