@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using DarkRift;
+﻿using DarkRift;
 public static partial class SerializableDarkRift
 {
     public struct AudioSegmentMessage : IDarkRiftSerializable
@@ -25,7 +24,7 @@ public static partial class SerializableDarkRift
             else
             {
                 wasSilentData = false;
-                e.Reader.Read(out audioSegmentData);
+                audioSegmentData.Deserialize(e.Reader.deserializeEventSingleton);
             }
         }
 
@@ -72,7 +71,6 @@ public static partial class SerializableDarkRift
 
         public void Dispose()
         {
-            ArrayPool<ushort>.Shared.Return(users);
         }
 
         public void Serialize(SerializeEvent e)

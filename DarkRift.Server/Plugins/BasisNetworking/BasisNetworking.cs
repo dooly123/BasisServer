@@ -382,7 +382,7 @@ namespace DarkRift.Server.Plugins.Commands
                         serverReadyMessage.playerIdMessage = new PlayerIdMessage { playerID = client.ID };
                         serverReadyMessage.localReadyMessage = new ReadyMessage
                         {
-                            localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[] { } },
+                            localAvatarSyncMessage = new LocalAvatarSyncMessage() { array = new byte[390] },
                             clientAvatarChangeMessage = new ClientAvatarChangeMessage() { byteArray = new byte[] { }, byteLength = 0 },
                             playerMetaDataMessage = new PlayerMetaDataMessage() { playerDisplayName = "Error", playerUUID = string.Empty },
                         };

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Buffers;
-using DarkRift;
+﻿using DarkRift;
 public static partial class SerializableDarkRift
 {
     public struct AudioSegmentDataMessage : IDarkRiftSerializable
     {
         public byte[] buffer;
+        public int size;
         public void Deserialize(DeserializeEvent e)
         {
-            e.Reader.Read(out buffer);
+            e.Reader.ReadBytes(ref buffer,out size);
         }
         public void Dispose()
         {
-            ArrayPool<byte>.Shared.Return(buffer);
         }
 
         public void Serialize(SerializeEvent e)

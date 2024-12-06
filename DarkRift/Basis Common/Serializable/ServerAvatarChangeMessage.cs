@@ -1,4 +1,4 @@
-﻿using System.Buffers;
+﻿
 using DarkRift;
 public static partial class SerializableDarkRift
 {
@@ -52,7 +52,6 @@ public static partial class SerializableDarkRift
 
         public void Dispose()
         {
-            ArrayPool<byte>.Shared.Return(byteArray);
         }
 
         public void Serialize(SerializeEvent e)

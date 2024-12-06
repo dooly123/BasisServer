@@ -1,4 +1,4 @@
-﻿using System.Buffers;
+﻿
 using System;
 using DarkRift;
 
@@ -41,8 +41,6 @@ public static partial class SerializableDarkRift
 
         public void Dispose()
         {
-            ArrayPool<byte>.Shared.Return(payload);
-            ArrayPool<ushort>.Shared.Return(recipients);
         }
 
         public void Serialize(SerializeEvent e)
@@ -106,7 +104,6 @@ public static partial class SerializableDarkRift
 
         public void Dispose()
         {
-            ArrayPool<byte>.Shared.Return(payload);
         }
 
         public void Serialize(SerializeEvent e)

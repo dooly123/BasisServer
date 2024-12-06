@@ -1,25 +1,18 @@
-﻿using System.Buffers;
+﻿
 using DarkRift;
 public static partial class SerializableDarkRift
 {
     public struct LocalAvatarSyncMessage : IDarkRiftSerializable
     {
         public byte[] array;
+        public int size;
         public void Deserialize(DeserializeEvent e)
         {
-            if (array == null || array.Length == 0)
-            {
-                e.Reader.Read(out array);
-            }
-            else
-            {
-                e.Reader.ReadBytes(ref array);
-            }
+            e.Reader.ReadBytes(ref array,out size);
         }
 
         public void Dispose()
         {
-            ArrayPool<byte>.Shared.Return(array);
         }
 
         public void Serialize(SerializeEvent e)
