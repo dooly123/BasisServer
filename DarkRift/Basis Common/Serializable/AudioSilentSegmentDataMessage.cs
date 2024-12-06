@@ -6,6 +6,11 @@ public static partial class SerializableDarkRift
         public void Deserialize(DeserializeEvent e)
         {
         }
+
+        public void Dispose()
+        {
+        }
+
         public void Serialize(SerializeEvent e)
         {
         }

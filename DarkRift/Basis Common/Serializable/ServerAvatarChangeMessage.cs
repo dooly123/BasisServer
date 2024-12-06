@@ -1,4 +1,5 @@
-﻿using DarkRift;
+﻿using System.Buffers;
+using DarkRift;
 public static partial class SerializableDarkRift
 {
     public struct ServerAvatarChangeMessage : IDarkRiftSerializable
@@ -10,6 +11,13 @@ public static partial class SerializableDarkRift
             uShortPlayerId.Deserialize(e);
             e.Reader.Read(out clientAvatarChangeMessage);
         }
+
+        public void Dispose()
+        {
+            uShortPlayerId.Dispose();
+            clientAvatarChangeMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             uShortPlayerId.Serialize(e);
@@ -40,6 +48,11 @@ public static partial class SerializableDarkRift
             {
                 byteArray[index] = e.Reader.ReadByte();
             }
+        }
+
+        public void Dispose()
+        {
+            ArrayPool<byte>.Shared.Return(byteArray);
         }
 
         public void Serialize(SerializeEvent e)

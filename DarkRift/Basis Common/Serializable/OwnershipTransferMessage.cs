@@ -12,6 +12,11 @@ namespace DarkRift.Basis_Common.Serializable
             e.Reader.Read(out ownershipID);
         }
 
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             playerIdMessage.Serialize(e);

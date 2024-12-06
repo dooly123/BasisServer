@@ -15,6 +15,15 @@ public static partial class SerializableDarkRift
             }
             serverSidePlayer = temp.ToArray();
         }
+
+        public void Dispose()
+        {
+            foreach (var item in serverSidePlayer)
+            {
+                item.Dispose();
+            }
+        }
+
         public void Serialize(SerializeEvent e)
         {
             for (int index = 0; index < serverSidePlayer.Length; index++)

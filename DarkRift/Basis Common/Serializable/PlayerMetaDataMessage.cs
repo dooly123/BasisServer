@@ -12,6 +12,11 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out playerUUID);
             e.Reader.Read(out playerDisplayName);
         }
+
+        public void Dispose()
+        {
+        }
+
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(playerUUID);

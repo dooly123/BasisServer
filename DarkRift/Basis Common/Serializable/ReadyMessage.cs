@@ -12,6 +12,14 @@ public static partial class SerializableDarkRift
             clientAvatarChangeMessage.Deserialize(e);
             playerMetaDataMessage.Deserialize(e);
         }
+
+        public void Dispose()
+        {
+            localAvatarSyncMessage.Dispose();
+            clientAvatarChangeMessage.Dispose();
+            playerMetaDataMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             localAvatarSyncMessage.Serialize(e);
@@ -28,6 +36,13 @@ public static partial class SerializableDarkRift
             playerIdMessage.Deserialize(e);
              localReadyMessage.Deserialize(e);
         }
+
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            localReadyMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             playerIdMessage.Serialize(e);

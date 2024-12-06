@@ -1,4 +1,5 @@
-﻿using DarkRift;
+﻿using System.Buffers;
+using DarkRift;
 public static partial class SerializableDarkRift
 {
     public struct AudioSegmentMessage : IDarkRiftSerializable
@@ -26,6 +27,13 @@ public static partial class SerializableDarkRift
                 wasSilentData = false;
                 e.Reader.Read(out audioSegmentData);
             }
+        }
+
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            silentData.Dispose();
+            audioSegmentData.Dispose();
         }
 
         public void Serialize(SerializeEvent e)
@@ -60,6 +68,11 @@ public static partial class SerializableDarkRift
             {
                 users[index] = e.Reader.ReadUInt16();
             }
+        }
+
+        public void Dispose()
+        {
+            ArrayPool<ushort>.Shared.Return(users);
         }
 
         public void Serialize(SerializeEvent e)

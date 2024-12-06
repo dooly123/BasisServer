@@ -27,5 +27,7 @@ namespace DarkRift
         /// </summary>
         /// <param name="e">Details about the serialization.</param>
         void Serialize(SerializeEvent e);
+
+        void Dispose();
     }
 }

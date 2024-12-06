@@ -1,4 +1,6 @@
-﻿using DarkRift;
+﻿using System.Buffers;
+using System;
+using DarkRift;
 
 public static partial class SerializableDarkRift
 {
@@ -37,6 +39,12 @@ public static partial class SerializableDarkRift
             }
         }
 
+        public void Dispose()
+        {
+            ArrayPool<byte>.Shared.Return(payload);
+            ArrayPool<ushort>.Shared.Return(recipients);
+        }
+
         public void Serialize(SerializeEvent e)
         {
             // Write the messageIndex and buffer
@@ -71,6 +79,12 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out sceneDataMessage);
         }
 
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            sceneDataMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             // Write the playerIdMessage and sceneDataMessage
@@ -88,6 +102,11 @@ public static partial class SerializableDarkRift
             // Read messageIndex and payload
             e.Reader.Read(out messageIndex);
             e.Reader.Read(out payload);
+        }
+
+        public void Dispose()
+        {
+            ArrayPool<byte>.Shared.Return(payload);
         }
 
         public void Serialize(SerializeEvent e)
@@ -110,6 +129,12 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out sceneDataMessage);
         }
 
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            sceneDataMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             // Write the playerIdMessage and sceneDataMessage
@@ -125,6 +150,10 @@ public static partial class SerializableDarkRift
         {
             // Read only messageIndex
             e.Reader.Read(out messageIndex);
+        }
+
+        public void Dispose()
+        {
         }
 
         public void Serialize(SerializeEvent e)
@@ -144,6 +173,12 @@ public static partial class SerializableDarkRift
             // Read the playerIdMessage and sceneDataMessage
             e.Reader.Read(out playerIdMessage);
             e.Reader.Read(out sceneDataMessage);
+        }
+
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            sceneDataMessage.Dispose();
         }
 
         public void Serialize(SerializeEvent e)

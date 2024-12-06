@@ -1,4 +1,6 @@
 ﻿using DarkRift;
+using System.Buffers;
+using System;
 using System.IO;
 public static partial class SerializableDarkRift
 {
@@ -52,6 +54,13 @@ public static partial class SerializableDarkRift
             }
         }
 
+        public void Dispose()
+        {
+            ArrayPool<ushort>.Shared.Return(recipients);
+            ArrayPool<byte>.Shared.Return(payload);
+            playerIdMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             // Write the playerIdMessage and messageIndex first
@@ -95,6 +104,13 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out avatarDataMessage);
 
         }
+
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            avatarDataMessage.Dispose();
+        }
+
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(playerIdMessage);
@@ -122,6 +138,11 @@ public static partial class SerializableDarkRift
             e.Writer.Write(messageIndex);
             e.Writer.Write(payload);
         }
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            ArrayPool<byte>.Shared.Return(payload);
+        }
     }
 
     public struct ServerAvatarDataMessage_NoRecipients : IDarkRiftSerializable
@@ -142,6 +163,12 @@ public static partial class SerializableDarkRift
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(avatarDataMessage);
         }
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            avatarDataMessage.Dispose();
+        }
+
     }
     public struct AvatarDataMessage_NoRecipients_NoPayload : IDarkRiftSerializable
     {
@@ -161,6 +188,11 @@ public static partial class SerializableDarkRift
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(messageIndex);
         }
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+        }
+
     }
 
     public struct ServerAvatarDataMessage_NoRecipients_NoPayload : IDarkRiftSerializable
@@ -181,6 +213,12 @@ public static partial class SerializableDarkRift
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(avatarDataMessage);
         }
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            avatarDataMessage.Dispose();
+        }
+
     }
     public struct SceneDataMessage_Recipients_NoPayload : IDarkRiftSerializable
     {
@@ -194,7 +232,7 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out messageIndex);
             e.Reader.Read(out recipientsSize);
             recipients = new ushort[recipientsSize];
-            for (int index = 0; index < recipients.Length; index++)
+            for (int index = 0; index < recipientsSize; index++)
             {
                 e.Reader.Read(out recipients[index]);
             }
@@ -208,12 +246,18 @@ public static partial class SerializableDarkRift
             recipientsSize = (ushort)recipients.Length;
             e.Writer.Write(recipientsSize);
 
-            for (int index = 0; index < recipients.Length; index++)
+            for (int index = 0; index < recipientsSize; index++)
             {
                 ushort recipient = recipients[index];
                 e.Writer.Write(recipient);
             }
         }
+        public void Dispose()
+        {
+            ArrayPool<ushort>.Shared.Return(recipients);
+            playerIdMessage.Dispose();
+        }
+
     }
 
     public struct ServerSceneDataMessage_Recipients_NoPayload : IDarkRiftSerializable
@@ -232,6 +276,12 @@ public static partial class SerializableDarkRift
             e.Writer.Write(playerIdMessage);
             e.Writer.Write(sceneDataMessage);
         }
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            sceneDataMessage.Dispose();
+        }
+
     }
 
     public struct AvatarDataMessage_Recipients_NoPayload : IDarkRiftSerializable
@@ -254,6 +304,12 @@ public static partial class SerializableDarkRift
                 e.Reader.Read(out recipients[index]);
             }
         }
+        public void Dispose()
+        {
+            ArrayPool<ushort>.Shared.Return(recipients);
+            playerIdMessage.Dispose();
+        }
+
 
         public void Serialize(SerializeEvent e)
         {
@@ -275,6 +331,11 @@ public static partial class SerializableDarkRift
     {
         public PlayerIdMessage playerIdMessage;
         public AvatarDataMessage_Recipients_NoPayload avatarDataMessage;
+        public void Dispose()
+        {
+            playerIdMessage.Dispose();
+            avatarDataMessage.Dispose();
+        }
 
         public void Deserialize(DeserializeEvent e)
         {

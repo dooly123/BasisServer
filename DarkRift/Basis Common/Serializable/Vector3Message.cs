@@ -24,5 +24,9 @@ public static partial class SerializableDarkRift
             e.Writer.Write(y);
             e.Writer.Write(z);
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

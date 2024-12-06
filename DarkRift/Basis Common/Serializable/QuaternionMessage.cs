@@ -11,6 +11,12 @@ public static partial class SerializableDarkRift
             e.Reader.Read(out compressedRotation);
             Compression.DecompressQuaternion(compressedRotation);
         }
+
+        public void Dispose()
+        {
+
+        }
+
         public void Serialize(SerializeEvent e)
         {
             compressedRotation = Compression.CompressQuaternion(rotation);

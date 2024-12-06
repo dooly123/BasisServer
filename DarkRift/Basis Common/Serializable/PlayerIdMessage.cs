@@ -8,6 +8,11 @@ public static partial class SerializableDarkRift
         {
             e.Reader.Read(out playerID);
         }
+
+        public void Dispose()
+        {
+        }
+
         public void Serialize(SerializeEvent e)
         {
             e.Writer.Write(playerID);
