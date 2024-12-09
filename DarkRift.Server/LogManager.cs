@@ -56,7 +56,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="server">The server we belong to.</param>
         /// <param name="settings">The settings to load writers from.</param>
-        internal LogManager(DarkRiftServer server, ServerSpawnData.LoggingSettings settings)
+        internal LogManager(DarkRiftServer server, ServerConfiguration.LoggingSettings settings)
         {
             this.server = server;
 
@@ -94,7 +94,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="settings">The settings to load writers from.</param>
         /// <param name="pluginFactory">The server's plugin factory.</param>
-        internal void LoadWriters(ServerSpawnData.LoggingSettings settings, PluginFactory pluginFactory)
+        internal void LoadWriters(ServerConfiguration.LoggingSettings settings, PluginFactory pluginFactory)
         {
             if (logWriters != null)
                 throw new InvalidOperationException("Cannot load writers if writers are already present. This suggests that writers have already been loaded into the server.\n\nThis is likely an internal DR issue, please consider creating an issue here: https://github.com/DarkRiftNetworking/DarkRift/issues");
@@ -109,7 +109,7 @@ namespace DarkRift.Server
 
             for (int i = 0; i < settings.LogWriters.Count; i++)
             {
-                ServerSpawnData.LoggingSettings.LogWriterSettings s = settings.LogWriters[i];
+                ServerConfiguration.LoggingSettings.LogWriterSettings s = settings.LogWriters[i];
                 
                 //Create a load data object and backup
                 LogWriterLoadData loadData = new LogWriterLoadData(s.Name, server, s.Settings, GetLoggerFor(nameof(s.Name)));

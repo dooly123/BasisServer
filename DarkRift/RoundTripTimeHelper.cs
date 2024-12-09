@@ -18,12 +18,6 @@ namespace DarkRift
         /// <summary>
         ///     Returns the smoothed round trip time to the remote and back in seconds.
         /// </summary>
-        [Obsolete("Use SmoothedRtt instead.")]
-        public float SmothedRtt => SmoothedRtt;
-
-        /// <summary>
-        ///     Returns the smoothed round trip time to the remote and back in seconds.
-        /// </summary>
         public float SmoothedRtt => movingAverage.Average;
 
         /// <summary>

@@ -21,19 +21,6 @@ namespace DarkRift.Server
         ///     The <see cref="Client"/> object for the new client.
         /// </summary>
         public IClient Client { get; private set; }
-
-        /// <summary>
-        ///     The remote end point of the TCP connection to this client.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndpoint(\"TCP\") instead")]
-        public IPEndPoint RemoteTcpEndPoint => Client.RemoteTcpEndPoint;
-
-        /// <summary>
-        ///     The remote end point of the UDP connection to this client.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndpoint(\"UDP\") instead")]
-        public IPEndPoint RemoteUdpEndPoint => Client.RemoteUdpEndPoint;
-
         /// <summary>
         ///     The collection of end points this client is connected to.
         /// </summary>

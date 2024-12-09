@@ -102,17 +102,6 @@ namespace DarkRift.Server.Plugins.Commands
             Logger.Warning("This is a test message at Warning level.", new Exception("This is a test exception at Warning level."));
             Logger.Error("This is a test message at Error level.", new Exception("This is a test exception at Error level."));
             Logger.Fatal("This is a test message at Fatal level.", new Exception("This is a test exception at Fatal level."));
-
-            if (e.HasFlag("l"))
-            {
-#pragma warning disable CS0618 // Type or member is obsolete
-                WriteEvent("This is a test message at Trace level.", LogType.Trace, new Exception("This is a test exception at Trace level."));
-                WriteEvent("This is a test message at Info level.", LogType.Info, new Exception("This is a test exception at Info level."));
-                WriteEvent("This is a test message at Warning level.", LogType.Warning, new Exception("This is a test exception at Warning level."));
-                WriteEvent("This is a test message at Error level.", LogType.Error, new Exception("This is a test exception at Error level."));
-                WriteEvent("This is a test message at Fatal level.", LogType.Fatal, new Exception("This is a test exception at Fatal level."));
-#pragma warning restore CS0618 // Type or member is obsolete
-            }
         }
     }
 }

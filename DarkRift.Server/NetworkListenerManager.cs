@@ -52,9 +52,9 @@ namespace DarkRift.Server
         ///     Loads the plugins found by the plugin factory.
         /// </summary>
         /// <param name="settings">The settings to load plugins with.</param>
-        internal void LoadNetworkListeners(ServerSpawnData.ListenersSettings settings)
+        internal void LoadNetworkListeners(ServerConfiguration.ListenersSettings settings)
         {
-            foreach (ServerSpawnData.ListenersSettings.NetworkListenerSettings s in settings.NetworkListeners)
+            foreach (ServerConfiguration.ListenersSettings.NetworkListenerSettings s in settings.NetworkListeners)
             {
                 NetworkListenerLoadData loadData = new NetworkListenerLoadData(
                     s.Name,

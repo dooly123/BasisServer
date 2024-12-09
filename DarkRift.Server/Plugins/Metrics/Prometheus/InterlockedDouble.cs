@@ -25,7 +25,7 @@ namespace DarkRift.Server.Plugins.Metrics.Prometheus
         public static double Read(ref double location)
         {
             // TODO DR3 Use Volitile.Read
-            return Interlocked.CompareExchange(ref location, 0, 0);
+            return Volatile.Read(ref location);
         }
 
         /// <summary>

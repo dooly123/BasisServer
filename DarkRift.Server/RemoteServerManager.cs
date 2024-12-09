@@ -22,7 +22,7 @@ namespace DarkRift.Server
         ///     The group the server is in.
         /// </summary>
         public string Group { get; }
-        
+
         /// <summary>
         ///     The visibility of the server.
         /// </summary>
@@ -75,7 +75,7 @@ namespace DarkRift.Server
         /// <param name="logManager">The server's log manager.</param>
         /// <param name="logger">The logger to use.</param>
         /// <param name="metricsManager">The server's metrics manager.</param>
-        internal RemoteServerManager(ServerSpawnData.ServerSettings serverSettings, ServerSpawnData.ServerRegistrySettings serverRegistrySettings, ClusterSpawnData clusterSpawnData, NetworkListenerManager networkListenerManager, DarkRiftThreadHelper threadHelper, ServerRegistryConnectorManager serverRegistryConnectorManager, LogManager logManager, Logger logger, MetricsManager metricsManager)
+        internal RemoteServerManager(ServerConfiguration.ServerSettings serverSettings, ServerConfiguration.ServerRegistrySettings serverRegistrySettings, ClusterSpawnData clusterSpawnData, NetworkListenerManager networkListenerManager, DarkRiftThreadHelper threadHelper, ServerRegistryConnectorManager serverRegistryConnectorManager, LogManager logManager, Logger logger, MetricsManager metricsManager)
         {
             this.AdvertisedHost = serverRegistrySettings.AdvertisedHost;
             this.AdvertisedPort = serverRegistrySettings.AdvertisedPort;
@@ -331,8 +331,10 @@ namespace DarkRift.Server
 
                 lock (pendingDownstreamServers)
                 {
-                    foreach (PendingDownstreamRemoteServer pendingDownstreamServer in pendingDownstreamServers)
-                        pendingDownstreamServer.Dispose();
+                    for (int index = 0; index < pendingDownstreamServers.Count; index++)
+                    {
+                        pendingDownstreamServers[index].Dispose();
+                    }
                 }
             }
         }

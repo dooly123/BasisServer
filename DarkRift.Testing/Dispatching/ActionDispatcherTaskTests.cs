@@ -19,7 +19,7 @@ namespace DarkRift.Testing.Dispatching
         {
             //Object cache needs to be initialized for create
 #pragma warning disable CS0618      // We don't care about using Server/Client specific cache settings
-            ObjectCache.Initialize(ObjectCacheSettings.DontUseCache);
+            ObjectCache.Initialize(new ObjectCacheSettings());
 #pragma warning restore CS0618
         }
 

@@ -40,13 +40,6 @@ namespace DarkRift.Server
         ///     The manager for all listeners.
         /// </summary>
         public INetworkListenerManager NetworkListenerManager => networkListenerManager;
-
-        /// <summary>
-        ///     The manager for databases.
-        /// </summary>
-        [Obsolete("No direct replacement.")]
-        public IDatabaseManager DatabaseManager { get; }
-
         /// <summary>
         ///     The server's dispatcher.
         /// </summary>
@@ -161,7 +154,7 @@ namespace DarkRift.Server
         ///     Creates a new server given spawn details and a default cluster.
         /// </summary>
         /// <param name="spawnData">The details of how to start the server.</param>
-        public DarkRiftServer(ServerSpawnData spawnData)
+        public DarkRiftServer(ServerConfiguration spawnData)
             : this (spawnData, ClusterSpawnData.CreateDefault())
         {
 
@@ -172,7 +165,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="spawnData">The details of how to start the server.</param>
         /// <param name="clusterSpawnData">The details of the cluster this server is part of.</param>
-        public DarkRiftServer(ServerSpawnData spawnData, ClusterSpawnData clusterSpawnData)
+        public DarkRiftServer(ServerConfiguration spawnData, ClusterSpawnData clusterSpawnData)
         {
             //Initialize log manager and set initial writer
             logManager = new LogManager(this, spawnData.Logging);
@@ -279,11 +272,6 @@ namespace DarkRift.Server
                 metricsManager.GetMetricsCollectorFor(nameof(ClientManager)),
                 metricsManager.GetPerMessageMetricsCollectorFor(nameof(Client))
             );
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            DatabaseManager = new DatabaseManager(spawnData.Databases);
-#pragma warning restore CS0618 // Type or member is obsolete
-
             // Now we have the prerequisites loaded we can start loading plugins
             InternalPluginManager = new PluginManager(
                 this,
@@ -322,22 +310,6 @@ namespace DarkRift.Server
                 InternalRemoteServerManager.SubscribeToListeners();
 
                 logger.Warning("Server clustering is in beta and is not currently considered suitable for production use.");
-            }
-        }
-
-        /// <summary>
-        ///     Starts the server.
-        /// </summary>
-        [Obsolete("User StartServer instead for better error propagation.")]
-        public void Start()
-        {
-            try
-            {
-                StartServer();
-            }
-            catch (Exception)
-            {
-                return;
             }
         }
 

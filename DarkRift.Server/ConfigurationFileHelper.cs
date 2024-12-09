@@ -98,54 +98,6 @@ namespace DarkRift.Server
                 throw new XmlConfigurationException($"<{element.Name}> attribute '{attributeName}' not a valid IP address.", $"{configurationDocsRoot}{element.Name}.html", attribute, e);
             }
         }
-
-        /// <summary>
-        ///     Reads an IP version value from the XML element supplied.
-        /// </summary>
-        /// <param name="element">The element to read from.</param>
-        /// <param name="attributeName">The name of the attribute to read.</param>
-        /// <returns>The ip version read.</returns>
-        [Obsolete("Use IPAddress.Family instead.")]
-        internal IPVersion ReadIPVersionAttribute(XElement element, string attributeName)
-        {
-            var attribute = element.Attribute(attributeName);
-
-            if (attribute == null)
-                throw new XmlConfigurationException($"<{element.Name}> elements must contain an attribute with name '{attributeName}'.", $"{configurationDocsRoot}{element.Name}.html", attribute);
-
-            string value = ResolveVariables(attribute.Value, attribute).ToLower();
-            if (value == "ipv4")
-                return IPVersion.IPv4;
-            else if (value == "ipv6")
-                return IPVersion.IPv6;
-            else
-                throw new XmlConfigurationException($"<{element.Name}> attribute '{attributeName}' not an acceptable IP version. Expected 'ipv4' or'ipv6'.", $"{configurationDocsRoot}{element.Name}.html", attribute);
-        }
-
-        /// <summary>
-        ///     Reads an IP version value from the XML element supplied.
-        /// </summary>
-        /// <param name="element">The element to read from.</param>
-        /// <param name="attributeName">The name of the attribute to read.</param>
-        /// <param name="defaultValue">The default value if none is provided.</param>
-        /// <returns>The ip version read.</returns>
-        [Obsolete("Use IPAddress.Family instead.")]
-        internal IPVersion ReadIPVersionAttributeOrDefault(XElement element, string attributeName, IPVersion defaultValue)
-        {
-            var attribute = element.Attribute(attributeName);
-
-            if (attribute == null)
-                return defaultValue;
-
-            string value = ResolveVariables(attribute.Value, attribute).ToLower();
-            if (value == "ipv4")
-                return IPVersion.IPv4;
-            else if (value == "ipv6")
-                return IPVersion.IPv6;
-            else
-                throw new XmlConfigurationException($"<{element.Name}> attribute '{attributeName}' not an acceptable IP version. Expected 'ipv4' or'ipv6'.", $"{configurationDocsRoot}{element.Name}.html", attribute);
-        }
-
         /// <summary>
         ///     Reads a Boolean value from the XML element supplied.
         /// </summary>
@@ -474,11 +426,7 @@ namespace DarkRift.Server
             while ((match = pattern.Match(str)).Success)
             {
                 string key = match.Groups[1].Value;
-                string value = Variables[key];
-
-                if (value == null)
-                    throw new XmlConfigurationException("Unable to find variable for '" + key + "'.", variablesDocsPage, lineInfo);
-
+                string value = Variables[key] ?? throw new XmlConfigurationException("Unable to find variable for '" + key + "'.", variablesDocsPage, lineInfo);
                 str = str.Substring(0, match.Index) + value + str.Substring(match.Index + match.Length);
             }
 

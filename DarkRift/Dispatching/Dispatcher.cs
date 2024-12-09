@@ -307,7 +307,7 @@ namespace DarkRift.Dispatching
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-        private void Dispose(bool disposing)        //TODO 1 dispose items in queue and possibly throw ObjectDisposedExceptions
+        private void Dispose(bool disposing)
         {
             if (!disposedValue)
             {

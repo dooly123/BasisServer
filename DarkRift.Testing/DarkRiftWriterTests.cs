@@ -23,7 +23,7 @@ namespace DarkRift.Testing
         {
             // GIVEN the object cache is disabled
 #pragma warning disable CS0618      // We don't care about using Server/Client specific cache settings
-            ObjectCache.Initialize(ObjectCacheSettings.DontUseCache);
+            ObjectCache.Initialize(new ObjectCacheSettings());
 #pragma warning restore CS0618
 
             // AND a DarkRiftWriter under test

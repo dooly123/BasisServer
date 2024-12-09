@@ -54,19 +54,5 @@ namespace DarkRift.Server
             : base(name, settings, serverInfo, threadHelper, logger)
         {
         }
-
-        /// <summary>
-        ///     Creates new load data for a <see cref="NetworkListener"/>.
-        /// </summary>
-        /// <param name="name">The name of the listener.</param>
-        /// <param name="settings">The settings to pass the listener.</param>
-        /// <param name="serverInfo">The runtime details about the server.</param>
-        /// <param name="threadHelper">The server's thread helper.</param>
-        /// <param name="writeEventHandler"><see cref="WriteEventHandler"/> for logging.</param>
-        [Obsolete("Use the constructor accepting Logger instead. This is kept for plugins using the legacy WriteEvent methods only.")]
-        public NetworkListenerLoadData(string name, NameValueCollection settings, DarkRiftInfo serverInfo, DarkRiftThreadHelper threadHelper, WriteEventHandler writeEventHandler)
-            : base(name, settings, serverInfo, threadHelper, writeEventHandler)
-        {
-        }
     }
 }

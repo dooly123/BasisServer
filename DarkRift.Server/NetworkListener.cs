@@ -58,18 +58,6 @@ namespace DarkRift.Server
         }
 
         /// <summary>
-        ///     Writes an event to the server's logs.
-        /// </summary>
-        /// <param name="message">The message to write.</param>
-        /// <param name="logType">The type of message to write.</param>
-        /// <param name="exception">The exception that occurred (if there was one).</param>
-        [Obsolete("Use the Logger class to write logs. Use the Logger property to continue using your plugin's default logger or see ILogManager.GetLoggerFor(string) to create a logger for a specific purpose.")]
-        protected void WriteEvent(string message, LogType logType, Exception exception = null)
-        {
-            Logger.Log(message, logType, exception);
-        }
-
-        /// <summary>
         ///     Registers a new connection to the server.
         /// </summary>
         /// <param name="connection">The new connection.</param>

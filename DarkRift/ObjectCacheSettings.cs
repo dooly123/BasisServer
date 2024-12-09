@@ -4,17 +4,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace DarkRift
 {
     /// <summary>
     ///     Configuration for the <see cref="ObjectCache"/>.
     /// </summary>
-    //TODO DR3 make abstract
     public class ObjectCacheSettings
     {
         /// <summary>
@@ -101,11 +95,5 @@ namespace DarkRift
         ///     The maximum number of extra large memory blocks stored per thread.
         /// </summary>
         public int MaxExtraLargeMemoryBlocks { get; set; }
-
-        /// <summary>
-        ///     Return settings so no objects are cached.
-        /// </summary>
-        [Obsolete("Use DontUseCache property on ClientObjectCacheSettings or ServerObjectCacheSettings instead.")]
-        public static readonly ObjectCacheSettings DontUseCache = new ObjectCacheSettings();
     }
 }

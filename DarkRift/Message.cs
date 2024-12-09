@@ -229,33 +229,6 @@ namespace DarkRift
         }
 
         /// <summary>
-        ///     Creates a new message with the given tag and serializable object.
-        /// </summary>
-        /// <param name="tag">The tag the message has.</param>
-        /// <param name="obj">The initial object in the message data.</param>
-        [Obsolete("Use Create<T>(ushort tag, T serializable) instead.")]
-        public static Message Create(ushort tag, IDarkRiftSerializable obj)
-        {
-            Message message = ObjectCache.GetMessage();
-
-            message.isCurrentlyLoungingInAPool = false;
-
-            message.IsReadOnly = false;
-
-            using (DarkRiftWriter writer = DarkRiftWriter.Create())
-            {
-                writer.Write(obj);
-
-                message.buffer = writer.ToBuffer();
-            }
-
-            message.tag = tag;
-            message.flags = 0;
-            message.PingCode = 0;
-            return message;
-        }
-
-        /// <summary>
         ///     Creates a new message from the given buffer.
         /// </summary>
         /// <param name="buffer">The buffer containing the message.</param>
@@ -349,25 +322,6 @@ namespace DarkRift
         {
             using (DarkRiftReader reader = GetReader())
                 reader.ReadSerializableInto<T>(ref t);
-        }
-
-        /// <summary>
-        ///     Serializes an object into the data of this message.
-        /// </summary>
-        /// <param name="obj">The object to serialize.</param>
-        /// <exception cref="AccessViolationException">If the message is readonly.</exception>
-        [Obsolete("Use Serialize<T>(T obj) instead.")]
-        public void Serialize(IDarkRiftSerializable obj)
-        {
-            if (IsReadOnly)
-                throw new AccessViolationException("Message is read-only. This property can only be set when IsReadOnly is false. You may want to create a writable instance of this Message using Message.Clone().");
-
-            using (DarkRiftWriter writer = DarkRiftWriter.Create())
-            {
-                writer.Write(obj);
-
-                Serialize(writer);
-            }
         }
 
         /// <summary>

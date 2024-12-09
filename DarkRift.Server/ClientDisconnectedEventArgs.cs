@@ -24,18 +24,6 @@ namespace DarkRift.Server
         public IClient Client { get; private set; }
 
         /// <summary>
-        ///     The remote end point of the TCP connection to this client.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndpoint(\"TCP\") instead")]
-        public IPEndPoint RemoteTcpEndPoint => Client.GetRemoteEndPoint("tcp");
-
-        /// <summary>
-        ///     The remote end point of the UDP connection to this client.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndpoint(\"UDP\") instead")]
-        public IPEndPoint RemoteUdpEndPoint => Client.GetRemoteEndPoint("udp");
-
-        /// <summary>
         ///     The collection of end points this client is connected to.
         /// </summary>
         public IEnumerable<IPEndPoint> RemoteEndPoints => Client.RemoteEndPoints;

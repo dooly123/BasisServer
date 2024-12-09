@@ -28,13 +28,6 @@ namespace DarkRift.Server
         /// The root URL of the server's documentation.
         /// </summary>
         public string DocumentationRoot => $"https://www.darkriftnetworking.com/DarkRift2/Docs/{Version.ToString(3)}/";
-
-        /// <summary>
-        ///     The type of server running.
-        /// </summary>
-        [Obsolete("Server is always pro now")]
-        public ServerType Type => ServerType.Pro;
-
         /// <summary>
         ///     The type of server.
         /// </summary>

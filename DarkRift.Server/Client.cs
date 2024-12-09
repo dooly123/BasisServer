@@ -36,10 +36,6 @@ namespace DarkRift.Server
         public IPEndPoint RemoteUdpEndPoint => connection.GetRemoteEndPoint("udp");
 
         /// <inheritdoc/>
-        [Obsolete("Use Client.ConnectionState instead.")]
-        public bool IsConnected => connection.ConnectionState == ConnectionState.Connected;
-
-        /// <inheritdoc/>
         public ConnectionState ConnectionState => connection.ConnectionState;
 
         /// <inheritdoc/>
@@ -139,22 +135,22 @@ namespace DarkRift.Server
         /// <param name="threadHelper">The thread helper this client will use.</param>
         /// <param name="logger">The logger this client will use.</param>
         /// <param name="metricsCollector">The metrics collector this client will use.</param>
-        private Client(NetworkServerConnection connection, ushort id, ClientManager clientManager, DarkRiftThreadHelper threadHelper, Logger logger, MetricsCollector metricsCollector)
+        /// <param name="rttsamplecount"></param>
+        /// <param name="pingbacklogsize"></param>
+        private Client(NetworkServerConnection connection, ushort id, ClientManager clientManager, DarkRiftThreadHelper threadHelper, Logger logger, MetricsCollector metricsCollector,int rttsamplecount = 10,int pingbacklogsize = 10)
         {
             this.connection = connection;
             this.ID = id;
             this.clientManager = clientManager;
             this.threadHelper = threadHelper;
             this.logger = logger;
-
-            // TODO make a UTC version of this as this is local date time
-            this.ConnectionTime = DateTime.Now;
+            this.ConnectionTime = DateTime.UtcNow;
 
             connection.MessageReceived = HandleIncomingDataBuffer;
             connection.Disconnected = Disconnected;
 
             //TODO make configurable
-            this.RoundTripTime = new RoundTripTimeHelper(10, 10);
+            this.RoundTripTime = new RoundTripTimeHelper(rttsamplecount, pingbacklogsize);
 
             messagesSentCounter = metricsCollector.Counter("messages_sent", "The number of messages sent to clients.");
             messagesReceivedCounter = metricsCollector.Counter("messages_received", "The number of messages received from clients.");

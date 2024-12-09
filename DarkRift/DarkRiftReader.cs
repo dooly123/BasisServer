@@ -66,7 +66,7 @@ namespace DarkRift
             reader.isCurrentlyLoungingInAPool = false;
 
             reader.buffer = buffer;
-            reader.Encoding = Encoding.Unicode;     // TODO DR3 Default to UTF-8
+            reader.Encoding = Encoding.UTF8;
             reader.Position = 0;
 
             return reader;

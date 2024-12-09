@@ -27,21 +27,11 @@ namespace DarkRift.Server
         ///     The metrics collector this plugin will use.
         /// </summary>
         public MetricsCollector MetricsCollector { get; set; }
-
-        /// <summary>
-        ///     The handler for writing events via <see cref="ExtendedPluginBase.WriteEvent(string, LogType, Exception)"/>.
-        /// </summary>
-        [Obsolete("Use Logger instead. This is kept for plugins using the legacy WriteEvent methods only.")]
-        public WriteEventHandler WriteEventHandler { get; set; }
         
         internal ExtendedPluginBaseLoadData(string name, DarkRiftServer server, NameValueCollection settings, Logger logger, MetricsCollector metricsCollector
             )
             : base(name, server, settings, logger)
         {
-#pragma warning disable CS0618 // Implementing obsolete functionality
-            if (logger != null)
-                WriteEventHandler = logger.Log;
-#pragma warning restore CS0618
 
             this.MetricsManager = server.MetricsManager;
             MetricsCollector = metricsCollector;
@@ -61,27 +51,8 @@ namespace DarkRift.Server
         public ExtendedPluginBaseLoadData(string name, NameValueCollection settings, DarkRiftInfo serverInfo, DarkRiftThreadHelper threadHelper, Logger logger)
             : base(name, settings, serverInfo, threadHelper)
         {
-#pragma warning disable CS0618 // Implementing obsolete functionality
-            if (logger != null)
-                WriteEventHandler = logger.Log;
-#pragma warning restore CS0618
 
             Logger = logger;
-        }
-
-        /// <summary>
-        ///     Creates new load data with the given properties.
-        /// </summary>
-        /// <param name="name">The name of the plugin.</param>
-        /// <param name="settings">The settings to pass the plugin.</param>
-        /// <param name="serverInfo">The runtime details about the server.</param>
-        /// <param name="threadHelper">The server's thread helper.</param>
-        /// <param name="writeEventHandler"><see cref="WriteEventHandler"/> for logging.</param>
-        [Obsolete("Use the constructor accepting Logger instead. This is kept for plugins using the legacy WriteEvent methods only.")]
-        public ExtendedPluginBaseLoadData(string name, NameValueCollection settings, DarkRiftInfo serverInfo, DarkRiftThreadHelper threadHelper, WriteEventHandler writeEventHandler)
-            : base(name, settings, serverInfo, threadHelper)
-        {
-            WriteEventHandler = writeEventHandler;
         }
     }
 }

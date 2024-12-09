@@ -370,18 +370,14 @@ namespace DarkRift.Server.Plugins.Metrics.Prometheus
             writer.Write(' ');
             writer.WriteLine(value.ToString(CultureInfo.InvariantCulture));     // Use invarient culture otherwise decimal points will be decimal commas in some places!
         }
-
         /// <summary>
-        /// Calculates the currently unix timestamp in millis since epoch.
+        /// Calculates the current Unix timestamp in milliseconds since the epoch.
         /// </summary>
-        /// <returns>The Unix timstamp.</returns>
+        /// <returns>The Unix timestamp.</returns>
         internal static long GetTimestamp()
         {
-            // TODO when not supporting net35 just use DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-            DateTimeOffset epoch = new DateTimeOffset(1970, 01, 01, 00, 00, 00, TimeSpan.Zero);
-            DateTimeOffset now = DateTimeOffset.UtcNow;
-
-            return (long) now.Subtract(epoch).TotalMilliseconds;
+            // Simplified using DateTimeOffset's built-in method
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         /// <summary>

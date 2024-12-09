@@ -6,12 +6,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
-using System.Text;
-using System.Xml;
-using System.Configuration;
-using System.IO;
 
 using System.Net;
 using System.Collections.Specialized;
@@ -22,8 +17,7 @@ namespace DarkRift.Server
     ///     Details of how to start a new server.
     /// </summary>
     [Serializable]
-    // TODO DR3 rename to ServerConfiguration
-    public class ServerSpawnData
+    public class ServerConfiguration
     {
         /// <summary>
         ///     The general settings for the server.
@@ -49,12 +43,6 @@ namespace DarkRift.Server
         ///     The settings for resolving and loading plugins.
         /// </summary>
         public PluginsSettings Plugins { get; set; } = new PluginsSettings();
-
-        /// <summary>
-        ///     The settings for database connections.
-        /// </summary>
-        [Obsolete("Use configuration settings under the plugin that requires the database connection string.")]
-        public DatabaseSettings Databases { get; set; } = new DatabaseSettings();
 
         /// <summary>
         ///     The settings for the object cache.
@@ -486,83 +474,6 @@ namespace DarkRift.Server
         }
 
         /// <summary>
-        ///     Holds settings related to loading databases for plugins.
-        /// </summary>
-        [Serializable]
-        [Obsolete("Use configuration settings under the plugin that requires the database connection string.")]
-        public class DatabaseSettings
-        {
-            /// <summary>
-            ///     The databases to connect to.
-            /// </summary>
-            public List<DatabaseConnectionData> Databases { get; } = new List<DatabaseConnectionData>();
-
-            /// <summary>
-            ///     Holds data relating to a specific connection.
-            /// </summary>
-            [Serializable]
-            [Obsolete("Use configuration settings under the plugin that requires the database connection string.")]
-            public class DatabaseConnectionData
-            {
-                /// <summary>
-                ///     The name of the connection.
-                /// </summary>
-                public string Name { get; set; }
-
-                /// <summary>
-                ///     The connection string to create the connection with.
-                /// </summary>
-                public string ConnectionString { get; set; }
-
-                /// <summary>
-                ///     Creates a new Database Connection data object.
-                /// </summary>
-                /// <param name="name">The name of the connection.</param>
-                /// <param name="connectionString">The connection string for the connection.</param>
-                public DatabaseConnectionData(string name, string connectionString)
-                {
-                    this.Name = name;
-                    this.ConnectionString = connectionString;
-                }
-            }
-
-            /// <summary>
-            ///     Loads the database settings from the specified XML element.
-            /// </summary>
-            /// <param name="element">The XML element to load from.</param>
-            /// <param name="helper">The XML configuration helper being used.</param>
-            internal void LoadFromXmlElement(XElement element, ConfigurationFileHelper helper)
-            {
-                if (element == null)
-                    return;
-
-                //Load databases
-                helper.ReadElementCollectionTo(
-                    element,
-                    "database",
-                    e =>
-                    {
-                        string name = helper.ReadStringAttribute(
-                            e,
-                            "name"
-                        );
-
-                        string connectionString = helper.ReadStringAttribute(
-                            e,
-                            "connectionString"
-                        );
-                        
-                        return new DatabaseConnectionData(
-                            name,
-                            connectionString
-                        );
-                    },
-                    Databases
-                );
-            }
-        }
-
-        /// <summary>
         ///     Holds settings related to the object cache.
         /// </summary>
         [Serializable]
@@ -620,44 +531,6 @@ namespace DarkRift.Server
             {
                 get => ServerObjectCacheSettings.MaxAutoRecyclingArrays;
                 set => ServerObjectCacheSettings.MaxAutoRecyclingArrays = value;
-            }
-
-            /// <summary>
-            ///     The settings for the object cache.
-            /// </summary>
-            [Obsolete("Use ServerObjectCacheSettings instead.")]
-            public ObjectCacheSettings ObjectCacheSettings
-            {
-                get => ServerObjectCacheSettings;
-                set
-                {
-                    if (value is ServerObjectCacheSettings)
-                    {
-                        ServerObjectCacheSettings = (ServerObjectCacheSettings)value;
-                    }
-                    else
-                    {
-                        ServerObjectCacheSettings.MaxWriters = value.MaxWriters;
-                        ServerObjectCacheSettings.MaxReaders = value.MaxReaders;
-                        ServerObjectCacheSettings.MaxMessages = value.MaxMessages;
-                        ServerObjectCacheSettings.MaxMessageBuffers = value.MaxMessageBuffers;
-                        ServerObjectCacheSettings.MaxSocketAsyncEventArgs = value.MaxSocketAsyncEventArgs;
-                        ServerObjectCacheSettings.MaxActionDispatcherTasks = value.MaxActionDispatcherTasks;
-                        ServerObjectCacheSettings.MaxAutoRecyclingArrays = value.MaxAutoRecyclingArrays;
-                        ServerObjectCacheSettings.MaxMessageReceivedEventArgs = 4;
-
-                        ServerObjectCacheSettings.ExtraSmallMemoryBlockSize = value.ExtraSmallMemoryBlockSize;
-                        ServerObjectCacheSettings.MaxExtraSmallMemoryBlocks = value.MaxExtraSmallMemoryBlocks;
-                        ServerObjectCacheSettings.SmallMemoryBlockSize = value.SmallMemoryBlockSize;
-                        ServerObjectCacheSettings.MaxSmallMemoryBlocks = value.MaxSmallMemoryBlocks;
-                        ServerObjectCacheSettings.MediumMemoryBlockSize = value.MediumMemoryBlockSize;
-                        ServerObjectCacheSettings.MaxMediumMemoryBlocks = value.MaxMediumMemoryBlocks;
-                        ServerObjectCacheSettings.LargeMemoryBlockSize = value.LargeMemoryBlockSize;
-                        ServerObjectCacheSettings.MaxLargeMemoryBlocks = value.MaxLargeMemoryBlocks;
-                        ServerObjectCacheSettings.ExtraLargeMemoryBlockSize = value.ExtraLargeMemoryBlockSize;
-                        ServerObjectCacheSettings.MaxExtraLargeMemoryBlocks = value.MaxExtraLargeMemoryBlocks;
-                    }
-                }
             }
 
             /// <summary>
@@ -764,10 +637,18 @@ namespace DarkRift.Server
                 /// <summary>
                 ///     Creates a new NetworkListenerSettings object.
                 /// </summary>
-                // TODO add constructors to these objects
                 public NetworkListenerSettings()
                 {
 
+                }
+
+                public NetworkListenerSettings(string name, string type, IPAddress address, ushort port, NameValueCollection settings)
+                {
+                    Name = name;
+                    Type = type;
+                    Address = address;
+                    Port = port;
+                    Settings = settings;
                 }
 
                 /// <summary>
@@ -1027,7 +908,7 @@ namespace DarkRift.Server
         /// <param name="filePath">The path of the XML file.</param>
         /// <param name="variables">The variables to inject into the configuration.</param>
         /// <returns>The ServerSpawnData created.</returns>
-        public static ServerSpawnData CreateFromXml(string filePath, NameValueCollection variables)
+        public static ServerConfiguration CreateFromXml(string filePath, NameValueCollection variables)
         {
             return CreateFromXml(XDocument.Load(filePath, LoadOptions.SetLineInfo), variables);
         }
@@ -1037,7 +918,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="filePath">The path of the XML file.</param>
         /// <returns>The ServerSpawnData created.</returns>
-        public static ServerSpawnData CreateFromXml(string filePath)
+        public static ServerConfiguration CreateFromXml(string filePath)
         {
             return CreateFromXml(filePath, new NameValueCollection());
         }
@@ -1048,10 +929,10 @@ namespace DarkRift.Server
         /// <param name="document">The XML file.</param>
         /// <param name="variables">The variables to inject into the configuration.</param>
         /// <returns>The ServerSpawnData created.</returns>
-        public static ServerSpawnData CreateFromXml(XDocument document, NameValueCollection variables)
+        public static ServerConfiguration CreateFromXml(XDocument document, NameValueCollection variables)
         {
             //Create a new server spawn data.
-            ServerSpawnData spawnData = new ServerSpawnData();
+            ServerConfiguration spawnData = new ServerConfiguration();
 
             ConfigurationFileHelper helper = new ConfigurationFileHelper(variables, $"{new DarkRiftInfo(DateTime.Now).DocumentationRoot}configuration/server/", $"{new DarkRiftInfo(DateTime.Now).DocumentationRoot}advanced/configuration_variables.html");
 
@@ -1062,9 +943,6 @@ namespace DarkRift.Server
             spawnData.Data.LoadFromXmlElement(root.Element("data"), helper);
             spawnData.Logging.LoadFromXmlElement(helper.GetRequiredElement(root, "logging"), helper);
             spawnData.Plugins.LoadFromXmlElement(helper.GetRequiredElement(root, "plugins"), helper);
-#pragma warning disable CS0618 // Type or member is obsolete
-            spawnData.Databases.LoadFromXmlElement(root.Element("databases"), helper);
-#pragma warning restore CS0618 // Type or member is obsolete
             spawnData.ServerRegistry.LoadFromXmlElement(root.Element("serverRegistry"), helper);
             spawnData.Cache.LoadFromXmlElement(root.Element("cache"), helper);
             spawnData.Listeners.LoadFromXmlElement(helper.GetRequiredElement(root, "listeners"), helper);
@@ -1079,7 +957,7 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="document">The XML file.</param>
         /// <returns>The ServerSpawnData created.</returns>
-        public static ServerSpawnData CreateFromXml(XDocument document)
+        public static ServerConfiguration CreateFromXml(XDocument document)
         {
             return CreateFromXml(document, new NameValueCollection());
         }
@@ -1087,7 +965,7 @@ namespace DarkRift.Server
         /// <summary>
         ///     Default constructor.
         /// </summary>
-        public ServerSpawnData()
+        public ServerConfiguration()
         {
 
         }

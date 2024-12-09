@@ -71,7 +71,7 @@ namespace DarkRift
         /// </summary>
         public static DarkRiftWriter Create()
         {
-           return Create(16, Encoding.Unicode);     // TODO DR3 Default to UTF-8
+           return Create(16, Encoding.UTF8);
         }
 
         /// <summary>
@@ -278,16 +278,6 @@ namespace DarkRift
             encoding.GetBytes(value, 0, value.Length, buffer.Buffer, Position + 4);
             Position += 4 + length;
             buffer.Count = Math.Max(Length, Position);
-        }
-
-        /// <summary>
-        ///     Writes a single serializable object to the writer.
-        /// </summary>
-        /// <param name="serializable">The serializable object to write.</param>
-        [Obsolete("Use Write<T>(T serializable) instead.")]
-        public void Write(IDarkRiftSerializable serializable)
-        {
-            serializable.Serialize(serializeEventSingleton);
         }
 
         /// <summary>

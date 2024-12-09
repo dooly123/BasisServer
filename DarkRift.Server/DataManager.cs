@@ -145,7 +145,7 @@ namespace DarkRift.Server
             }
         }
 
-        internal DataManager(ServerSpawnData.DataSettings settings, Logger logger)
+        internal DataManager(ServerConfiguration.DataSettings settings, Logger logger)
         {
             this.dataDirectory = settings.Directory;
             this.logger = logger;

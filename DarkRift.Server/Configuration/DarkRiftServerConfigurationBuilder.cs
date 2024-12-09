@@ -19,7 +19,7 @@ namespace DarkRift.Server.Configuration
         /// <summary>
         /// The <see cref="ServerSpawnData"/> being constructed.
         /// </summary>
-        public ServerSpawnData ServerSpawnData { get; }
+        public ServerConfiguration ServerSpawnData { get; }
 
         // TODO Cache (not added yet as likely to change in an upcoming version)
 
@@ -27,7 +27,7 @@ namespace DarkRift.Server.Configuration
 
         // TODO test
 
-        private DarkRiftServerConfigurationBuilder(ServerSpawnData serverSpawnData)
+        private DarkRiftServerConfigurationBuilder(ServerConfiguration serverSpawnData)
         {
             ServerSpawnData = serverSpawnData;
         }
@@ -38,7 +38,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The created builder.</returns>
         public static DarkRiftServerConfigurationBuilder Create()
         {
-            return new DarkRiftServerConfigurationBuilder(new ServerSpawnData());
+            return new DarkRiftServerConfigurationBuilder(new ServerConfiguration());
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The created builder.</returns>
         public static DarkRiftServerConfigurationBuilder CreateFromXml(string path, NameValueCollection variables)
         {
-            return new DarkRiftServerConfigurationBuilder(ServerSpawnData.CreateFromXml(path, variables));
+            return new DarkRiftServerConfigurationBuilder(ServerConfiguration.CreateFromXml(path, variables));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddListener(string name, string type, IPAddress address, ushort port, NameValueCollection settings)
         {
-            ServerSpawnData.ListenersSettings.NetworkListenerSettings networkListenerSettings = new ServerSpawnData.ListenersSettings.NetworkListenerSettings
+            ServerConfiguration.ListenersSettings.NetworkListenerSettings networkListenerSettings = new ServerConfiguration.ListenersSettings.NetworkListenerSettings
             {
                 Name = name,
                 Type = type,
@@ -172,7 +172,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddLogWriter(string name, string type, NameValueCollection settings, params LogType[] logLevels)
         {
-            ServerSpawnData.LoggingSettings.LogWriterSettings logWriterSettings = new ServerSpawnData.LoggingSettings.LogWriterSettings
+            ServerConfiguration.LoggingSettings.LogWriterSettings logWriterSettings = new ServerConfiguration.LoggingSettings.LogWriterSettings
             {
                 Name = name,
                 Type = type,
@@ -255,7 +255,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddPlugin(string type, NameValueCollection settings)
         {
-            ServerSpawnData.PluginsSettings.PluginSettings pluginSettings = new ServerSpawnData.PluginsSettings.PluginSettings
+            ServerConfiguration.PluginsSettings.PluginSettings pluginSettings = new ServerConfiguration.PluginsSettings.PluginSettings
             {
                 Type = type,
                 Load = true
@@ -276,7 +276,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder ExceptPlugin(string type)
         {
-            ServerSpawnData.PluginsSettings.PluginSettings pluginSettings = new ServerSpawnData.PluginsSettings.PluginSettings
+            ServerConfiguration.PluginsSettings.PluginSettings pluginSettings = new ServerConfiguration.PluginsSettings.PluginSettings
             {
                 Type = type,
                 Load = false
@@ -294,7 +294,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddPluginSearchPath(string source)
         {
-            ServerSpawnData.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerSpawnData.PluginSearchSettings.PluginSearchPath
+            ServerConfiguration.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerConfiguration.PluginSearchSettings.PluginSearchPath
             {
                 Source = source
             };
@@ -312,7 +312,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddPluginSearchPath(string source, bool createDirectory)
         {
-            ServerSpawnData.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerSpawnData.PluginSearchSettings.PluginSearchPath
+            ServerConfiguration.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerConfiguration.PluginSearchSettings.PluginSearchPath
             {
                 Source = source,
                 CreateDirectory = createDirectory
@@ -331,7 +331,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddPluginSearchPath(string source, DependencyResolutionStrategy dependencyResolutionStrategy)
         {
-            ServerSpawnData.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerSpawnData.PluginSearchSettings.PluginSearchPath
+            ServerConfiguration.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerConfiguration.PluginSearchSettings.PluginSearchPath
             {
                 Source = source,
                 DependencyResolutionStrategy = dependencyResolutionStrategy
@@ -351,7 +351,7 @@ namespace DarkRift.Server.Configuration
         /// <returns>The configuration builder to continue construction.</returns>
         public DarkRiftServerConfigurationBuilder AddPluginSearchPath(string source, DependencyResolutionStrategy dependencyResolutionStrategy, bool createDirectory)
         {
-            ServerSpawnData.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerSpawnData.PluginSearchSettings.PluginSearchPath
+            ServerConfiguration.PluginSearchSettings.PluginSearchPath pluginSearchPath = new ServerConfiguration.PluginSearchSettings.PluginSearchPath
             {
                 Source = source,
                 DependencyResolutionStrategy = dependencyResolutionStrategy,

@@ -30,7 +30,7 @@ namespace DarkRift.Server.Metrics
         /// </summary>
         /// <param name="server">The server we belong to.</param>
         /// <param name="settings">The settings to load from.</param>
-        internal MetricsManager(DarkRiftServer server, ServerSpawnData.MetricsSettings settings)
+        internal MetricsManager(DarkRiftServer server, ServerConfiguration.MetricsSettings settings)
         {
             this.server = server;
             this.EnablePerMessageMetrics = settings.EnablePerMessageMetrics;
@@ -42,7 +42,7 @@ namespace DarkRift.Server.Metrics
         /// <param name="settings">The settings to load the writer from.</param>
         /// <param name="pluginFactory">The server's plugin factory.</param>
         /// <param name="logManager">The server's log manager.</param>
-        internal void LoadWriters(ServerSpawnData.MetricsSettings settings, PluginFactory pluginFactory, LogManager logManager)
+        internal void LoadWriters(ServerConfiguration.MetricsSettings settings, PluginFactory pluginFactory, LogManager logManager)
         {
             if (MetricsWriter != null)
                 throw new InvalidOperationException("Cannot load writers if writer is already present. This suggests that writers have already been loaded into the server.\n\nThis is likely an internal DR issue, please consider creating an issue here: https://github.com/DarkRiftNetworking/DarkRift/issues");

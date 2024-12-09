@@ -57,7 +57,7 @@ namespace DarkRift.Server
         ///     Loads the plugins found by the plugin factory.
         /// </summary>
         /// <param name="settings">The settings to load plugins with.</param>
-        internal void LoadPlugins(ServerSpawnData.ServerRegistrySettings settings)
+        internal void LoadPlugins(ServerConfiguration.ServerRegistrySettings settings)
         {
             if (settings.ServerRegistryConnector?.Type != null)
             {

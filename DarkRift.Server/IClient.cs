@@ -28,24 +28,6 @@ namespace DarkRift.Server
         ushort ID { get; }
 
         /// <summary>
-        ///     The remote end point we are connected to on TCP.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndPoint(\"TCP\") instead.")]
-        IPEndPoint RemoteTcpEndPoint { get; }
-
-        /// <summary>
-        ///     The remote end point we are connected to UDP.
-        /// </summary>
-        [Obsolete("Use GetRemoteEndPoint(\"UDP\") instead.")]
-        IPEndPoint RemoteUdpEndPoint { get; }
-
-        /// <summary>
-        ///     Is this client still available?
-        /// </summary>
-        [Obsolete("Use IClient.ConnectionState instead.")]
-        bool IsConnected { get; }
-
-        /// <summary>
         ///     The state of the connection;
         /// </summary>
         ConnectionState ConnectionState { get; }

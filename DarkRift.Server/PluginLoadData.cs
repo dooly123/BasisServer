@@ -77,21 +77,5 @@ namespace DarkRift.Server
         {
             this.ResourceDirectory = resourceDirectory;
         }
-
-        /// <summary>
-        ///     Creates new load data with the given properties.
-        /// </summary>
-        /// <param name="name">The name of the plugin.</param>
-        /// <param name="settings">The settings to pass the plugin.</param>
-        /// <param name="serverInfo">The runtime details about the server.</param>
-        /// <param name="threadHelper">The server's thread helper.</param>
-        /// <param name="writeEventHandler"><see cref="WriteEventHandler"/> for logging.</param>
-        /// <param name="resourceDirectory">The directory to place this plugin's resources.</param>
-        [Obsolete("Use the constructor accepting Logger instead. This is kept for plugins using the legacy WriteEvent methods only.")]
-        public PluginLoadData(string name, NameValueCollection settings, DarkRiftInfo serverInfo, DarkRiftThreadHelper threadHelper, WriteEventHandler writeEventHandler, string resourceDirectory)
-            : base(name, settings, serverInfo, threadHelper, writeEventHandler)
-        {
-            this.ResourceDirectory = resourceDirectory;
-        }
     }
 }

@@ -70,7 +70,7 @@ namespace DarkRift.Server
         ///     Loads the plugins found by the plugin factory.
         /// </summary>
         /// <param name="settings">The settings to load plugins with.</param>
-        internal void LoadPlugins(ServerSpawnData.PluginsSettings settings)
+        internal void LoadPlugins(ServerConfiguration.PluginsSettings settings)
         {
             Type[] types = pluginFactory.GetAllSubtypes(typeof(Plugin));
             

@@ -24,12 +24,6 @@ namespace DarkRift.Server
         public string Name { get; }
 
         /// <summary>
-        ///     The database manager to pass to the plugin.
-        /// </summary>
-        [Obsolete("Use plugin configuration settings.")]
-        public IDatabaseManager DatabaseManager { get; set; }
-
-        /// <summary>
         ///     The dispatcher to pass to the plugin.
         /// </summary>
         public IDispatcher Dispatcher { get; set; }
@@ -67,9 +61,6 @@ namespace DarkRift.Server
         internal PluginBaseLoadData(string name, DarkRiftServer server, NameValueCollection settings, Logger logger)
             : this(name, settings, server.ServerInfo, server.ThreadHelper)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            DatabaseManager = server.DatabaseManager;
-#pragma warning restore CS0618 // Type or member is obsolete
             Dispatcher = server.Dispatcher;
             LogManager = server.LogManager;
             Logger = logger;

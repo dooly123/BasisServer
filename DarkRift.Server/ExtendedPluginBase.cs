@@ -47,35 +47,14 @@ namespace DarkRift.Server
         protected MetricsCollector MetricsCollector { get; }
 
         /// <summary>
-        ///     The handler for writing events.
-        /// </summary>
-        private readonly WriteEventHandler writeEventHandler;
-
-        /// <summary>
         ///     Constructor taking extended load data.
         /// </summary>
         /// <param name="pluginLoadData">The load data for the plugins.</param>
-        public ExtendedPluginBase(ExtendedPluginBaseLoadData pluginLoadData)
-            : base(pluginLoadData)
+        public ExtendedPluginBase(ExtendedPluginBaseLoadData pluginLoadData) : base(pluginLoadData)
         {
-#pragma warning disable CS0618 // Implementing obsolete functionality
-            writeEventHandler = pluginLoadData.WriteEventHandler;
-#pragma warning restore CS0618
 
             MetricsManager = pluginLoadData.MetricsManager;
             MetricsCollector= pluginLoadData.MetricsCollector;
-        }
-
-        /// <summary>
-        ///     Writes an event to the server's logs.
-        /// </summary>
-        /// <param name="message">The message to write.</param>
-        /// <param name="logType">The type of message to write.</param>
-        /// <param name="exception">The exception that occurred (if there was one).</param>
-        [Obsolete("Use the Logger class to write logs. Use the Logger property to continue using your plugin's default logger or see ILogManager.GetLoggerFor(string) to create a logger for a specific purpose.")]
-        protected void WriteEvent(string message, LogType logType, Exception exception = null)
-        {
-            writeEventHandler(message, logType, exception);
         }
 
         /// <summary>

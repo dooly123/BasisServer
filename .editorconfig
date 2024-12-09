@@ -263,3 +263,4 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = suggestion
+csharp_prefer_system_threading_lock = true:suggestion

@@ -7,14 +7,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
-using DarkRift.Server.Plugins.Listeners.Bichannel;
 using DarkRift.Dispatching;
 using System.Diagnostics;
 using DarkRift.Server.Metrics;
-using System.Xml.Schema;
 
 namespace DarkRift.Server
 {
@@ -138,7 +134,7 @@ namespace DarkRift.Server
         /// <param name="clientLogger">The logger clients will use.</param>
         /// <param name="metricsCollector">The metrics collector to use.</param>
         /// <param name="clientMetricsCollector">The metrics collector clients will use.</param>
-        internal ClientManager(ServerSpawnData.ServerSettings settings, NetworkListenerManager networkListenerManager, DarkRiftThreadHelper threadHelper, Logger logger, Logger clientLogger, MetricsCollector metricsCollector, MetricsCollector clientMetricsCollector)
+        internal ClientManager(ServerConfiguration.ServerSettings settings, NetworkListenerManager networkListenerManager, DarkRiftThreadHelper threadHelper, Logger logger, Logger clientLogger, MetricsCollector metricsCollector, MetricsCollector clientMetricsCollector)
         {
             this.MaxStrikes = settings.MaxStrikes;
             this.networkListenerManager = networkListenerManager;

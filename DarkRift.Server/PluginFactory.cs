@@ -40,11 +40,11 @@ namespace DarkRift.Server
         ///     Adds plugins based on the plugins settings supplied.
         /// </summary>
         /// <param name="settings">The settings defining where to find plugins.</param>
-        internal void AddFromSettings(ServerSpawnData.PluginSearchSettings settings)
+        internal void AddFromSettings(ServerConfiguration.PluginSearchSettings settings)
         {
             AddTypes(settings.PluginTypes);
 
-            foreach (ServerSpawnData.PluginSearchSettings.PluginSearchPath path in settings.PluginSearchPaths)
+            foreach (ServerConfiguration.PluginSearchSettings.PluginSearchPath path in settings.PluginSearchPaths)
             {
                 if (File.Exists(path.Source))
                 {

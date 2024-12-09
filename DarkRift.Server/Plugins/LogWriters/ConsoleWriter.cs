@@ -25,7 +25,10 @@ namespace DarkRift.Server.Plugins.LogWriters
 
         //TODO 3 expose colours to settings
 
-        private const string ANSI_RESET_COLOR_CODE = "\u001b[0m";
+        /// <summary>
+        /// Reset Color Code
+        /// </summary>
+        public string aNSI_RESET_COLOR_CODE = "\u001b[0m";
 
         /// <summary>
         ///     The lookup table for the foreground colors to print with.
@@ -108,7 +111,7 @@ namespace DarkRift.Server.Plugins.LogWriters
         private void WriteWithAnsiColorCodes(WriteEventArgs args)
         {
             // Add colour codes
-            string coloredMessage = ansiColours[(int)args.LogType] + args.FormattedMessage + ANSI_RESET_COLOR_CODE;
+            string coloredMessage = ansiColours[(int)args.LogType] + args.FormattedMessage + aNSI_RESET_COLOR_CODE;
 
             // Output
             if (args.LogType == LogType.Error)
