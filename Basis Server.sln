@@ -40,6 +40,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DarkRift.Testing", "DarkRift.Testing\DarkRift.Testing.csproj", "{2F91D65B-FC87-4742-A95A-61AF36BD33E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteNetLibListenerPlugin", "LiteNetLibPlugin\LiteNetLibListenerPlugin.csproj", "{9BE7FDA8-C016-4731-B7D9-26ECF838884C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E71C99D6-EC26-442D-8269-75B6A9E0FDE3} = {E71C99D6-EC26-442D-8269-75B6A9E0FDE3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetLib", "LiteNetLib\LiteNetLib.csproj", "{E71C99D6-EC26-442D-8269-75B6A9E0FDE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetLib.Tests", "LiteNetLib.Tests\LiteNetLib.Tests.csproj", "{235A85F5-31C0-49F6-B873-06393CC9B7E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +84,14 @@ Global
 		{9BE7FDA8-C016-4731-B7D9-26ECF838884C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BE7FDA8-C016-4731-B7D9-26ECF838884C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BE7FDA8-C016-4731-B7D9-26ECF838884C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71C99D6-EC26-442D-8269-75B6A9E0FDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71C99D6-EC26-442D-8269-75B6A9E0FDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71C99D6-EC26-442D-8269-75B6A9E0FDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71C99D6-EC26-442D-8269-75B6A9E0FDE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{235A85F5-31C0-49F6-B873-06393CC9B7E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{235A85F5-31C0-49F6-B873-06393CC9B7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{235A85F5-31C0-49F6-B873-06393CC9B7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{235A85F5-31C0-49F6-B873-06393CC9B7E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

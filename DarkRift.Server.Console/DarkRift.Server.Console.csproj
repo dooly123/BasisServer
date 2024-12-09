@@ -10,7 +10,7 @@
         <StartupObject>DarkRift.Server.Console.Program</StartupObject>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <!-- Specify the TargetFramework -->
-        <TargetFrameworks>net471;net8.0</TargetFrameworks>
+        <TargetFrameworks>net471;net9.0</TargetFrameworks>
         <BaseOutputPath>$(ProjectDir)..\..\Basis\$(MSBuildProjectName)\bin\</BaseOutputPath>
     </PropertyGroup>
 
@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <!-- Conditional properties for different target frameworks -->
-    <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
+    <PropertyGroup Condition="'$(TargetFramework)'=='net9.0'">
         <!-- Specific settings for .NET 8.0 -->
         <OutputType>Exe</OutputType>
         <UseAppHost>true</UseAppHost>
