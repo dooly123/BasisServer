@@ -47,9 +47,14 @@ public class LiteNetLibListenerPlugin : NetworkListener
         listener.ConnectionRequestEvent += request =>
         {
             if (server.ConnectedPeersCount < PeerLimit)
+            {
                 request.AcceptIfKey(authenticationKey);
+            }
             else
+            {
                 request.Reject();
+                Console.WriteLine("cant accept new connections exceeded peer limit");
+            }
         };
 
         listener.PeerConnectedEvent += peer =>

@@ -7,21 +7,14 @@ using LiteNetLib.Utils;
 using LiteNetLib;
 public class LiteNetLibClientConnection : NetworkClientConnection
 {
-    public string IP;
-    public int port;
     public NetManager client;
     public EventBasedNetListener listener;
     public NetPeer peer;
     public bool disposedValue = false;
-    public readonly IPEndPoint[] remoteEndPoints;
+    public IPEndPoint[] remoteEndPoints;
     public DarkRift.ConnectionState state;
-    public string authenticationKey = "basis18072024";
-    public LiteNetLibClientConnection(string ip, int port)
+    public LiteNetLibClientConnection()
     {
-        this.IP = ip;
-        this.port = port;
-
-        remoteEndPoints = new[] { new IPEndPoint(IPAddress.Parse(ip), port) };
 
         listener = new EventBasedNetListener();
         client = new NetManager(listener)
@@ -33,6 +26,7 @@ public class LiteNetLibClientConnection : NetworkClientConnection
             BroadcastReceiveEnabled = true,
             UseNativeSockets = false,
             ChannelsCount = 7,
+            EnableStatistics = false,
 
         };
 
@@ -49,8 +43,13 @@ public class LiteNetLibClientConnection : NetworkClientConnection
             HandleDisconnection(new ArgumentException("LiteNetLib disconnected"));
         };
         listener.NetworkReceiveEvent += DeliveryMessage;
+        listener.NetworkLatencyUpdateEvent += NetworkLatencyEvent;
     }
 
+    private void NetworkLatencyEvent(NetPeer peer, int latency)
+    {
+
+    }
     public void DeliveryMessage(NetPeer peer, NetPacketReader reader, byte channel, LiteNetLib.DeliveryMethod deliveryMethod)
     {
         HandleLiteNetLibMessageReceived(reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
@@ -65,14 +64,16 @@ public class LiteNetLibClientConnection : NetworkClientConnection
     {
         throw new ArgumentException("Not a valid endpoint name!");
     }
-
-    public override void Connect()
+    public override void Connect(string ip, int port, byte[] array)
     {
+        remoteEndPoints = new[] { new IPEndPoint(IPAddress.Parse(ip), port) };
         client.Start();
-        peer = client.Connect(IP, port, authenticationKey);
+        NetDataWriter netDataWriter = new NetDataWriter();
+        netDataWriter.Put(array);
+        peer = client.Connect(ip, port, netDataWriter);
     }
 
-    public override bool SendMessageToReceiver(MessageBuffer message,byte channel, DarkRift.DeliveryMethod sendMode)
+    public override bool SendMessageToReceiver(MessageBuffer message, byte channel, DarkRift.DeliveryMethod sendMode)
     {
         peer.Send(message.Buffer, message.Offset, message.Count, channel, (LiteNetLib.DeliveryMethod)sendMode);
         message.Dispose();
@@ -113,7 +114,6 @@ public class LiteNetLibClientConnection : NetworkClientConnection
         HandleMessageReceived(message, channel, mode);
         message.Dispose();
     }
-
     public void PerformUpdate()
     {
         client.PollEvents();

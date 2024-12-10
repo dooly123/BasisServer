@@ -63,7 +63,7 @@ namespace DarkRift.Client
         /// <summary>
         ///     Connects to a remote device.
         /// </summary>
-        public abstract void Connect();
+        public abstract void Connect(string ip, int port, byte[] array);
 
         /// <summary>
         ///     Sends a message using the appropriate protocol.

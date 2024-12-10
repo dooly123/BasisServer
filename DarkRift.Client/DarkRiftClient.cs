@@ -119,7 +119,9 @@ namespace DarkRift.Client
             setupMutex.Reset();
 
             if (this.Connection != null)
+            {
                 this.Connection.Dispose();
+            }
 
             this.Connection = connection;
             connection.MessageReceived = MessageReceivedHandler;

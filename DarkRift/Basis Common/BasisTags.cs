@@ -3,7 +3,6 @@
     public class BasisTags
     {
         // CommandCode 0 & 1 are reserved for future use to avoid conflicts
-        public const ushort PingTag = 0;
         public const ushort AuthSuccess = 3;
         public const ushort DisconnectTag = 5;
         public const ushort CreateRemotePlayerTag = 6;
