@@ -80,8 +80,9 @@ public class LiteNetLibClientConnection : NetworkClientConnection
         return true;
     }
 
-    public override bool Disconnect()
+    public override bool Disconnect(string reason)
     {
+        Console.WriteLine(reason);
         peer?.Disconnect();
         client.Stop();
         return true;
@@ -98,7 +99,7 @@ public class LiteNetLibClientConnection : NetworkClientConnection
 
         if (disposing)
         {
-            Disconnect();
+            Disconnect("Disposing of LiteNetLib");
         }
 
         disposedValue = true;

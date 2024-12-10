@@ -4,6 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,8 +34,9 @@ namespace DarkRift.Server.Plugins.Commands
             this.outputData = outputData;
         }
 
-        public override bool Disconnect()
+        public override bool Disconnect(string reason)
         {
+            Console.WriteLine(reason);
             clientCommand.HandleDisconnection(this);
             return true;
         }

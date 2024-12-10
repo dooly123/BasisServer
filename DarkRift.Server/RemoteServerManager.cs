@@ -289,9 +289,7 @@ namespace DarkRift.Server
             }
             catch (KeyNotFoundException)
             {
-                pendingServer.Connection.Disconnect();
-
-                logger.Trace($"Server at [{pendingServer.Connection.RemoteEndPoints.Format()} connected and identified itself as server {id} however the registry has not yet propgated information about that server. The connection has been dropped.");
+                pendingServer.Connection.Disconnect($"Server at [{pendingServer.Connection.RemoteEndPoints.Format()} connected and identified itself as server {id} however the registry has not yet propgated information about that server. The connection has been dropped.");
             }
             finally
             {

@@ -194,9 +194,9 @@ namespace DarkRift.Server
         }
 
         /// <inheritdoc/>
-        public bool Disconnect()
+        public bool Disconnect(string reason)
         {
-            if (!connection.Disconnect())
+            if (!connection.Disconnect(reason))
                 return false;
 
             clientManager.HandleDisconnection(this, true, SocketError.Disconnecting, null);
@@ -207,11 +207,11 @@ namespace DarkRift.Server
         /// <summary>
         ///     Disconnects the connection without invoking events for plugins.
         /// </summary>
-        internal bool DropConnection()
+        internal bool DropConnection(string reason)
         {
             clientManager.DropClient(this);
 
-            return connection.Disconnect();
+            return connection.Disconnect(reason);
         }
 
         /// <inheritdoc/>
@@ -398,8 +398,7 @@ namespace DarkRift.Server
         private void EnforceStrike(StrikeReason reason, string message, int weight)
         {
             logger.Trace($"Client received strike of weight {weight} for {reason}{(message == null ? "" : ": " + message)}.");
-            Disconnect();
-            logger.Info($"Client was disconnected as the total weight of accumulated strikes exceeded the allowed number");
+            Disconnect($"Client was disconnected due to the strike");
         }
 #endregion
 

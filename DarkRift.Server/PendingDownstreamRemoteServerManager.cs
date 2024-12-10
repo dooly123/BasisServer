@@ -179,7 +179,7 @@ namespace DarkRift.Server
 
             Dropped.Invoke(this);
 
-            return Connection.Disconnect();
+            return Connection.Disconnect("Droping pending server");
         }
 
         /// <summary>

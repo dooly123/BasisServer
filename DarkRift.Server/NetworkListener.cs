@@ -70,9 +70,7 @@ namespace DarkRift.Server
             }
             else
             {
-                Logger.Error("A connection was registered by the network listener while no hooks were subscribed to handle the registration. The connection has been dropped. This suggests the network listener is erroneously accepting connections before the StartListening() method has been called.");
-
-                connection.Disconnect();
+                connection.Disconnect("A connection was registered by the network listener while no hooks were subscribed to handle the registration. The connection has been dropped. This suggests the network listener is erroneously accepting connections before the StartListening() method has been called.");
             }
         }
 

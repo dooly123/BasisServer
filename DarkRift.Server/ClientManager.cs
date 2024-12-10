@@ -177,9 +177,7 @@ namespace DarkRift.Server
             }
             catch (InvalidOperationException)
             {
-                logger.Info($"New client could not be connected as there were no IDs available to allocate to them [{connection.RemoteEndPoints.Format()}].");
-
-                connection.Disconnect();
+                connection.Disconnect($"New client could not be connected as there were no IDs available to allocate to them [{connection.RemoteEndPoints.Format()}].");
 
                 return;
             }
@@ -199,9 +197,7 @@ namespace DarkRift.Server
             }
             catch (Exception e)
             {
-                logger.Error("An exception ocurred while connecting a client. The client has been dropped.", e);
-
-                connection.Disconnect();
+                connection.Disconnect("An exception ocurred while connecting a client. The client has been dropped.");
 
                 DeallocateID(id, out int _);
 
@@ -230,9 +226,7 @@ namespace DarkRift.Server
                         }
                         catch (Exception e)
                         {
-                            logger.Error("A plugin encountered an error whilst handling the ClientConnected event. The client will be disconnected. (See logs for exception)", e);
-
-                            client.DropConnection();
+                            client.DropConnection("A plugin encountered an error whilst handling the ClientConnected event. The client will be disconnected. (See logs for exception)");
 
                             clientConnectedEventFailuresCounter.Increment();
 

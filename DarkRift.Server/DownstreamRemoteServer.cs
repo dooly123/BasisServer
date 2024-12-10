@@ -319,7 +319,7 @@ namespace DarkRift.Server
         /// </summary>
         internal bool DropConnection()
         {
-            return connection.Disconnect();
+            return connection.Disconnect("A Server has been dropped");
         }
 
         private bool disposed = false;

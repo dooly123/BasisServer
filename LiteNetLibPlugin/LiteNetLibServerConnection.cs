@@ -36,8 +36,9 @@ public class LiteNetLibServerConnection : NetworkServerConnection
         // No explicit start listening needed in LiteNetLib
     }
 
-    public override bool Disconnect()
+    public override bool Disconnect(string DisconnectionReason)
     {
+        Console.WriteLine(DisconnectionReason);
         peer.Disconnect();
         connectionState = DarkRift.ConnectionState.Disconnected;
         return true;

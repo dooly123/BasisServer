@@ -84,7 +84,7 @@ namespace DarkRift.Server
         ///     Disconnects this client from the remote host.
         /// </summary>
         /// <returns>Whether the disconnect was successful.</returns>
-        public abstract bool Disconnect();
+        public abstract bool Disconnect(string reason);
 
         // TODO might be good to have a Drop() method that calls Disconnect by default but is overridable if the listener wants to
 

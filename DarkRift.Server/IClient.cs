@@ -61,7 +61,7 @@ namespace DarkRift.Server
         ///     Disconnects this client from the server.
         /// </summary>
         /// <returns>Whether the disconnect was successful.</returns>
-        bool Disconnect();
+        bool Disconnect(string reason);
 
         /// <summary>
         ///     Gets the remote end point with the given name.
@@ -77,13 +77,6 @@ namespace DarkRift.Server
         /// </summary>
         /// <param name="message">A message describing the reason for the strike.</param>
         void Strike(string message = null);
-
-        /// <summary>
-        ///     Strikes this client.
-        /// </summary>
-        /// <param name="message">A message describing the reason for the strike.</param>
-        /// <param name="weight">The number of strikes this accounts for.</param>
-        void Strike(string message = null, int weight = 1);
 
         #endregion
     }

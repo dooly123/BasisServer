@@ -145,7 +145,7 @@ namespace DarkRift.Client
             //On timeout disconnect
             if (!setupMutex.WaitOne(10000))
             {
-                Connection.Disconnect();
+                Connection.Disconnect("Timeout!");
             }
         }
         /// <summary>
@@ -174,12 +174,12 @@ namespace DarkRift.Client
         ///     Disconnects this client from the server.
         /// </summary>
         /// <returns>Whether the disconnect was successful.</returns>
-        public bool Disconnect()
+        public bool Disconnect(string DisconnectionReason)
         {
             if (Connection == null)
                 return false;
 
-            if (!Connection.Disconnect())
+            if (!Connection.Disconnect(DisconnectionReason))
                 return false;
 
             Disconnected?.Invoke(this, new DisconnectedEventArgs(true, SocketError.Disconnecting, null));

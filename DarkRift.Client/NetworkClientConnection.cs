@@ -86,7 +86,7 @@ namespace DarkRift.Client
         ///     Disconnects this client from the remote host.
         /// </summary>
         /// <returns>Whether the disconnect was successful.</returns>
-        public abstract bool Disconnect();
+        public abstract bool Disconnect(string reason);
 
         /// <summary>
         ///     Gets the endpoint with the given name.
