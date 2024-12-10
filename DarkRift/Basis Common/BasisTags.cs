@@ -2,7 +2,10 @@
 {
     public class BasisTags
     {
-        // CommandCode 0 & 1 are reserved for future use to avoid conflicts
+        // CommandCode 0 & 1 are reserved for future use to avoid conflicts   Configure = 0,    Identify = 1,
+        public const ushort Configure = 0;
+        public const ushort Identify = 1;
+
         public const ushort AuthSuccess = 3;
         public const ushort DisconnectTag = 5;
         public const ushort CreateRemotePlayerTag = 6;

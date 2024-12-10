@@ -14,7 +14,6 @@ public class LiteNetLibListenerPlugin : NetworkListener
     public static ushort SetPort = 4296;
     public static LiteNetLibListenerPlugin Instance;
     public static bool UseNativeSockets = false;
-    public string authenticationKey = "basis18072024";
     public LiteNetLibListenerPlugin(NetworkListenerLoadData pluginLoadData) : base(pluginLoadData)
     {
         Console.WriteLine("LiteNetLibListenerPlugin Is Being loaded....");
@@ -48,7 +47,8 @@ public class LiteNetLibListenerPlugin : NetworkListener
         {
             if (server.ConnectedPeersCount < PeerLimit)
             {
-                request.AcceptIfKey(authenticationKey);
+                byte[] array = request.Data.GetRemainingBytes();
+                request.Accept();
             }
             else
             {

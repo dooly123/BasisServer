@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
+using DarkRift.Server.Plugins.Commands;
 
 namespace DarkRift.Server
 {
@@ -132,9 +133,9 @@ namespace DarkRift.Server
         /// <param name="message">The message that was received.</param>
         private void HandleCommand(Message message)
         {
-            switch ((CommandCode)message.Tag)
+            switch (message.Tag)
             {
-                case CommandCode.Identify:
+                case BasisTags.Identify:
                     HandleIdentification(message);
                     break;
 

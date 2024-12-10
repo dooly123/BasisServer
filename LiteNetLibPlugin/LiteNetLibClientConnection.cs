@@ -13,9 +13,27 @@ public class LiteNetLibClientConnection : NetworkClientConnection
     public bool disposedValue = false;
     public IPEndPoint[] remoteEndPoints;
     public DarkRift.ConnectionState state;
-    public LiteNetLibClientConnection()
+
+    private void NetworkLatencyEvent(NetPeer peer, int latency)
     {
 
+    }
+    public void DeliveryMessage(NetPeer peer, NetPacketReader reader, byte channel, LiteNetLib.DeliveryMethod deliveryMethod)
+    {
+        HandleLiteNetLibMessageReceived(reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
+        reader.Recycle();
+    }
+
+    public override DarkRift.ConnectionState ConnectionState => state;
+
+    public override IEnumerable<IPEndPoint> RemoteEndPoints => remoteEndPoints;
+
+    public override IPEndPoint GetRemoteEndPoint(string name)
+    {
+        throw new ArgumentException("Not a valid endpoint name!");
+    }
+    public override void Connect(string ip, int port, byte[] array)
+    {
         listener = new EventBasedNetListener();
         client = new NetManager(listener)
         {
@@ -44,28 +62,10 @@ public class LiteNetLibClientConnection : NetworkClientConnection
         };
         listener.NetworkReceiveEvent += DeliveryMessage;
         listener.NetworkLatencyUpdateEvent += NetworkLatencyEvent;
-    }
 
-    private void NetworkLatencyEvent(NetPeer peer, int latency)
-    {
 
-    }
-    public void DeliveryMessage(NetPeer peer, NetPacketReader reader, byte channel, LiteNetLib.DeliveryMethod deliveryMethod)
-    {
-        HandleLiteNetLibMessageReceived(reader, channel, (DarkRift.DeliveryMethod)deliveryMethod);
-        reader.Recycle();
-    }
 
-    public override DarkRift.ConnectionState ConnectionState => state;
 
-    public override IEnumerable<IPEndPoint> RemoteEndPoints => remoteEndPoints;
-
-    public override IPEndPoint GetRemoteEndPoint(string name)
-    {
-        throw new ArgumentException("Not a valid endpoint name!");
-    }
-    public override void Connect(string ip, int port, byte[] array)
-    {
         remoteEndPoints = new[] { new IPEndPoint(IPAddress.Parse(ip), port) };
         client.Start();
         NetDataWriter netDataWriter = new NetDataWriter();

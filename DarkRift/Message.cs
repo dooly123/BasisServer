@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DarkRift.Server.Plugins.Commands;
 
 namespace DarkRift
 {
@@ -19,20 +20,6 @@ namespace DarkRift
     /// </remarks>
     public sealed class Message : IDisposable
     {
-        /// <summary>
-        ///     Bitmask for the command message flag.
-        /// </summary>
-        private const byte COMMAND_FLAG_MASK = 0b10000000;
-
-        /// <summary>
-        ///     Bitmask for the ping message flag.
-        /// </summary>
-        private const byte IS_PING_FLAG_MASK = 0b01000000;
-
-        /// <summary>
-        ///     Bitmask for the type of ping message flag.
-        /// </summary>
-        private const byte PING_TYPE_FLAG_MASK = 0b00100000;
 
         /// <summary>
         ///     The buffer behind the message.
@@ -49,86 +36,6 @@ namespace DarkRift
         /// </summary>
         // TODO Readonly isn't really needed now that we return copied instances from event args
         public bool IsReadOnly { get; private set; }
-
-        /// <summary>
-        ///     Indicates whether this message is a command message or not.
-        /// </summary>
-        /// <exception cref="AccessViolationException">If the message is readonly.</exception>
-        internal bool IsCommandMessage
-        {
-            get => (flags & COMMAND_FLAG_MASK) != 0;
-
-            set
-            {
-                if (IsReadOnly)
-                {
-                    throw new AccessViolationException("Message is read-only. This property can only be set when IsReadOnly is false. You may want to create a writable instance of this Message using Message.Clone().");
-                }
-                else
-                {
-                    if (value)
-                        flags |= COMMAND_FLAG_MASK;
-                    else
-                        flags &= byte.MaxValue ^ COMMAND_FLAG_MASK;        //XOR over simple bitwise NOT to avoid entering negative values and ints!
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Indicates whether this message is a ping message or not.
-        /// </summary>
-        public bool IsPingMessage
-        {
-            get => (flags & IS_PING_FLAG_MASK) != 0 && (flags & PING_TYPE_FLAG_MASK) == 0;
-
-            internal set
-            {
-                if (value)
-                {
-                    flags |= IS_PING_FLAG_MASK;
-                    flags &= byte.MaxValue ^ PING_TYPE_FLAG_MASK;       //XOR over simple bitwise NOT to avoid entering negative values and ints!
-                }
-                else
-                {
-                    flags &= byte.MaxValue ^ IS_PING_FLAG_MASK ^ PING_TYPE_FLAG_MASK;       //XOR over simple bitwise NOT to avoid entering negative values and ints!
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Indicates whether this message is a ping acknowledegment message or not.
-        /// </summary>
-        public bool IsPingAcknowledgementMessage
-        {
-            get => (flags & IS_PING_FLAG_MASK) != 0 && (flags & PING_TYPE_FLAG_MASK) != 0;
-
-            private set
-            {
-                if (value)
-                {
-                    flags |= IS_PING_FLAG_MASK | PING_TYPE_FLAG_MASK;
-                }
-                else
-                {
-                    flags &= byte.MaxValue ^ IS_PING_FLAG_MASK ^ PING_TYPE_FLAG_MASK;       //XOR over simple bitwise NOT to avoid entering negative values and ints!
-                }
-            }
-        }
-
-        /// <summary>
-        ///     The flags attached to this message.
-        /// </summary>
-        /// <remarks>
-        ///     8th bit - Is Command
-        ///     7th bit - Is Ping Attached
-        ///     6th bit - Ping (0)/Ping Acknowledgement (1)
-        ///     5th bit - Not used
-        ///     4th bit - Not used
-        ///     3rd bit - Not used
-        ///     2nd bit - Not used
-        ///     1st bit - Not used
-        /// </remarks>
-        private byte flags;
 
         /// <summary>
         ///     The tag of the message.
@@ -148,11 +55,6 @@ namespace DarkRift
         }
 
         private ushort tag;
-
-        /// <summary>
-        ///     Code to identify pings and acknowledgements.
-        /// </summary>
-        internal ushort PingCode { get; private set; }
 
         /// <summary>
         ///     Random number generator for each thread.
@@ -178,8 +80,6 @@ namespace DarkRift
             message.IsReadOnly = false;
             message.buffer = MessageBuffer.Create(0);
             message.tag = tag;
-            message.flags = 0;
-            message.PingCode = 0;
             return message;
         }
 
@@ -197,8 +97,6 @@ namespace DarkRift
             message.IsReadOnly = false;
             message.buffer = writer.ToBuffer();
             message.tag = tag;
-            message.flags = 0;
-            message.PingCode = 0;
             return message;
         }
 
@@ -223,8 +121,6 @@ namespace DarkRift
             }
 
             message.tag = tag;
-            message.flags = 0;
-            message.PingCode = 0;
             return message;
         }
 
@@ -232,28 +128,25 @@ namespace DarkRift
         ///     Creates a new message from the given buffer.
         /// </summary>
         /// <param name="buffer">The buffer containing the message.</param>
-        /// <param name="isReadOnly">Whether the message should be created read only or not.</param>
+        /// <param name="isReadOnly">Whether the message should be created read-only or not.</param>
         internal static Message Create(IMessageBuffer buffer, bool isReadOnly)
         {
             Message message = ObjectCache.GetMessage();
 
             message.isCurrentlyLoungingInAPool = false;
 
-            // We clone the message buffer so we can modify it's properties safely
+            // We clone the message buffer so we can modify its properties safely
             message.buffer = buffer.Clone();
-            
-            //Get flags first so we can query it
-            message.flags = buffer.Buffer[buffer.Offset];
 
-            //Ping messages have an extra 2 byte header
-            int headerLength = message.IsPingMessage || message.IsPingAcknowledgementMessage ? 5 : 3;
+            // Adjust buffer offset and count
+            int headerLength = 3; // Previously depended on ping messages, now fixed
             message.buffer.Offset = buffer.Offset + headerLength;
             message.buffer.Count = buffer.Count - headerLength;
 
             message.IsReadOnly = isReadOnly;
 
             message.tag = BigEndianHelper.ReadUInt16(buffer.Buffer, buffer.Offset + 1);
-            message.PingCode = (ushort)(message.IsPingMessage || message.IsPingAcknowledgementMessage ? BigEndianHelper.ReadUInt16(buffer.Buffer, buffer.Offset + 3) : 0);
+
             return message;
         }
 
@@ -341,31 +234,7 @@ namespace DarkRift
                 Serialize(writer);
             }
         }
-
-        /// <summary>
-        ///     Makes this a ping message and generates it a random ping identification.
-        /// </summary>
-        public void MakePingMessage()
-        {
-            IsPingMessage = true;
-
-            if (random == null)
-                random = new Random();
-            PingCode = (ushort)random.Next();
-        }
-
-        /// <summary>
-        ///     Makes this a ping acknowledgement message for the given ping message.
-        /// </summary>
-        /// <exception cref="ArgumentException">If the message passed is not a ping message.</exception>
-        public void MakePingAcknowledgementMessage(Message acknowledging)
-        {
-            if (!acknowledging.IsPingMessage)
-                throw new ArgumentException("Message to acknowledge is not a ping message so cannot be used here. You can check if a message is a ping message using the Message.IsPingMessage property.");
-
-            IsPingAcknowledgementMessage = true;
-            PingCode = acknowledging.PingCode;
-        }
+        public bool IsCommandMessage => Tag == BasisTags.Configure || Tag == BasisTags.Identify;
 
         /// <summary>
         ///     Converts this message into a buffer.
@@ -374,19 +243,14 @@ namespace DarkRift
         //TODO DR3 Make this return an IMessageBuffer
         internal MessageBuffer ToBuffer()
         {
-            int headerLength = IsPingMessage || IsPingAcknowledgementMessage ? 5 : 3;
+            int headerLength = 3; // Fixed header length, no conditional logic needed
             int totalLength = headerLength + DataLength;
 
             MessageBuffer buffer = MessageBuffer.Create(totalLength);
             buffer.Count = totalLength;
-
-            buffer.Buffer[buffer.Offset] = flags;
             BigEndianHelper.WriteBytes(buffer.Buffer, buffer.Offset + 1, tag);
 
-            if (IsPingMessage || IsPingAcknowledgementMessage)
-                BigEndianHelper.WriteBytes(buffer.Buffer, buffer.Offset + 3, PingCode);
-
-            //Due to poor design, here's un unavoidable memory copy! Hooray!
+            // Due to poor design, here's an unavoidable memory copy! Hooray!
             Buffer.BlockCopy(this.buffer.Buffer, this.buffer.Offset, buffer.Buffer, buffer.Offset + headerLength, this.buffer.Count);
 
             return buffer;
@@ -402,10 +266,7 @@ namespace DarkRift
 
             //We don't want to give a reference to our buffer so we need to clone it
             message.buffer = buffer.Clone();
-            
-            message.flags = flags;
             message.tag = tag;
-            message.PingCode = PingCode;
             return message;
         }
 

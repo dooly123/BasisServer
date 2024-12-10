@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using DarkRift.Server.Plugins.Commands;
 
 namespace DarkRift.Client
 {
@@ -53,11 +54,6 @@ namespace DarkRift.Client
         ///     The connection to the remote server.
         /// </summary>
         public NetworkClientConnection Connection { get; private set; }
-
-        /// <summary>
-        ///     The round trip time helper for this client.
-        /// </summary>
-        public RoundTripTimeHelper RoundTripTime { get; }
 
         /// <summary>
         ///     Mutex that is triggered once the connection is completely setup.
@@ -107,14 +103,31 @@ namespace DarkRift.Client
         {
             ObjectCache.Initialize(objectCacheSettings);
             ClientObjectCache.Initialize(objectCacheSettings);
+        }
+        public void ConnectInBackground(NetworkClientConnection connection, string ip, int port, byte[] array, ConnectCompleteHandler callback = null)
+        {
+            new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        Connect(connection, ip,port,array);
+                    }
+                    catch (Exception e)
+                    {
+                        callback?.Invoke(e);
+                        return;
+                    }
 
-            this.RoundTripTime = new RoundTripTimeHelper(10, 10);
+                    callback?.Invoke(null);
+                }
+            ).Start();
         }
         /// <summary>
         ///     Connects the client using the given connection.
         /// </summary>
         /// <param name="connection">The connection to use to connect to the server.</param>
-        public void Connect(NetworkClientConnection connection)
+        private void Connect(NetworkClientConnection connection, string ip, int port, byte[] array)
         {
             setupMutex.Reset();
 
@@ -127,32 +140,14 @@ namespace DarkRift.Client
             connection.MessageReceived = MessageReceivedHandler;
             connection.Disconnected = DisconnectedHandler;
 
-            connection.Connect();
+            connection.Connect(ip, port, array);
 
             //On timeout disconnect
             if (!setupMutex.WaitOne(10000))
+            {
                 Connection.Disconnect();
+            }
         }
-        public void ConnectInBackground(NetworkClientConnection connection, ConnectCompleteHandler callback = null)
-        {
-            new Thread(
-                delegate ()
-                {
-                    try
-                    {
-                        Connect(connection);
-                    }
-                    catch (Exception e)
-                    {
-                        callback?.Invoke(e);
-                        return;
-                    }
-
-                    callback?.Invoke(null);
-                }
-            ).Start();
-        }
-
         /// <summary>
         ///     Sends a message to the server.
         /// </summary>
@@ -162,9 +157,6 @@ namespace DarkRift.Client
         /// <returns>Whether the send was successful.</returns>
         public bool SendMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
-            if (message.IsPingMessage)
-                RoundTripTime.RecordOutboundPing(message.PingCode);
-
             return Connection.SendMessage(message.ToBuffer(), channel, sendMode);
         }
 
@@ -205,40 +197,24 @@ namespace DarkRift.Client
         {
             using (Message message = Message.Create(buffer, true))
             {
-                //Record any ping acknowledgements
-                if (message.IsPingAcknowledgementMessage)
+                switch (message.Tag)
                 {
-                    try
-                    {
-                        RoundTripTime.RecordInboundPing(message.PingCode);
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        //Nothing we can really do about this
-                    }
-                }
+                    case BasisTags.Configure:
+                        using (DarkRiftReader reader = message.GetReader())
+                        {
+                            ID = reader.ReadUInt16();
+                        }
+                        break;
+                    case BasisTags.Identify:
+                        using (DarkRiftReader reader = message.GetReader())
+                        {
+                            ID = reader.ReadUInt16();
 
-                if (message.IsCommandMessage)
-                    HandleCommand(message);
-                else
-                    HandleMessage(message, sendMode);
-            }
-        }
-
-        /// <summary>
-        ///     Handles a command received.
-        /// </summary>
-        /// <param name="message">The message that was received.</param>
-        private void HandleCommand(Message message)
-        {
-            using (DarkRiftReader reader = message.GetReader())
-            {
-                switch ((CommandCode)message.Tag)
-                {
-                    case CommandCode.Configure:
-                        ID = reader.ReadUInt16();
-
-                        setupMutex.Set();
+                            setupMutex.Set();
+                        }
+                        break;
+                    default:
+                        HandleMessage(message, sendMode);
                         break;
                 }
             }

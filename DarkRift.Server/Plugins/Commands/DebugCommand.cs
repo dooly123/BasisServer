@@ -86,10 +86,6 @@ namespace DarkRift.Server.Plugins.Commands
                 builder.Append(" | ");
                 builder.Append(client.RemoteEndPoints.First().ToString().PadRight(20));
                 builder.Append(" | ");
-                builder.Append((client.RoundTripTime.LatestRtt.ToString() + "ms").PadRight(16));
-                builder.Append(" | ");
-                builder.Append((client.RoundTripTime.SmoothedRtt.ToString() + "ms").PadRight(16));
-                builder.Append(" |");
             }
 
             Logger.Info(builder.ToString());

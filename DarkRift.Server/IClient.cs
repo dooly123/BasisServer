@@ -33,18 +33,6 @@ namespace DarkRift.Server
         ConnectionState ConnectionState { get; }
 
         /// <summary>
-        ///     The number of illegal behaviours this client has made.
-        /// </summary>
-        /// <remarks>
-        ///     <legacyBold>Setter only available in Pro.</legacyBold>
-        /// </remarks>
-        byte Strikes
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         ///     The time this client connected to the server.
         /// </summary>
         DateTime ConnectionTime { get; }
@@ -68,11 +56,6 @@ namespace DarkRift.Server
         ///     The collection of end points this client is connected to.
         /// </summary>
         IEnumerable<IPEndPoint> RemoteEndPoints { get; }
-        
-        /// <summary>
-        ///     The round trip time helper for this client.
-        /// </summary>
-        RoundTripTimeHelper RoundTripTime { get; }
 
         /// <summary>
         ///     Disconnects this client from the server.

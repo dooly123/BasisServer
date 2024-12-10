@@ -8,7 +8,6 @@ using System;
 using DarkRift.Client;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
 using DarkRift.Server.Metrics;
 
 namespace DarkRift.Server
@@ -92,7 +91,7 @@ namespace DarkRift.Server
                 {
                     logger.Trace($"Connecting to server {id} on {host}:{port}. Attempt {context.Tries}.");
 
-                    remoteServer.Connect();
+                    remoteServer.Connect(host, port, new byte[] { });
 
                     logger.Info($"Connected to server {id} on {host}:{port}.");
                 },
@@ -143,9 +142,9 @@ namespace DarkRift.Server
             threadHelper.ExponentialBackoff(
                 (context) =>
                 {
-                    logger.Trace($"Reconnecting to server {remoteServer.ID} on {remoteServer.Host}:{remoteServer.Port}. Attempt {context.Tries}.");
+                    logger.Trace($"Reconnecting to server error disabled by dooly! {remoteServer.ID} on {remoteServer.Host}:{remoteServer.Port}. Attempt {context.Tries}.");
 
-                    remoteServer.Connect();
+                  //  remoteServer.Connect(host, port, new byte[] { });
 
                     logger.Info($"Reconnected to server {remoteServer.ID} on {remoteServer.Host}:{remoteServer.Port}.");
                 },

@@ -14,6 +14,7 @@ using DarkRift.Dispatching;
 using System.Diagnostics;
 using DarkRift.DataStructures;
 using DarkRift.Server.Metrics;
+using DarkRift.Server.Plugins.Commands;
 
 namespace DarkRift.Server
 {
@@ -37,38 +38,26 @@ namespace DarkRift.Server
 
         /// <inheritdoc/>
         public ConnectionState ConnectionState => connection.ConnectionState;
-
-        /// <inheritdoc/>
-        public byte Strikes {
-            get => (byte)Thread.VolatileRead(ref strikes);
-            set => Interlocked.Exchange(ref strikes, value);
-        }
-
-        private int strikes;
-
         /// <inheritdoc/>
         public DateTime ConnectionTime { get; }
 
         /// <inheritdoc/>
-        public uint MessagesSent => (uint)Thread.VolatileRead(ref messagesSent);
+        public uint MessagesSent => (uint)Volatile.Read(ref messagesSent);
 
         private int messagesSent;
 
         /// <inheritdoc/>
-        public uint MessagesPushed => (uint)Thread.VolatileRead(ref messagesPushed);
+        public uint MessagesPushed => (uint)Volatile.Read(ref messagesPushed);
 
         private int messagesPushed;
 
         /// <inheritdoc/>
-        public uint MessagesReceived => (uint)Thread.VolatileRead(ref messagesReceived);
+        public uint MessagesReceived => (uint)Volatile.Read(ref messagesReceived);
 
         private int messagesReceived;
 
         /// <inheritdoc/>
         public IEnumerable<IPEndPoint> RemoteEndPoints => connection.RemoteEndPoints;
-
-        /// <inheritdoc/>
-        public RoundTripTimeHelper RoundTripTime { get; }
 
         /// <summary>
         ///     The connection to the client.
@@ -135,9 +124,7 @@ namespace DarkRift.Server
         /// <param name="threadHelper">The thread helper this client will use.</param>
         /// <param name="logger">The logger this client will use.</param>
         /// <param name="metricsCollector">The metrics collector this client will use.</param>
-        /// <param name="rttsamplecount"></param>
-        /// <param name="pingbacklogsize"></param>
-        private Client(NetworkServerConnection connection, ushort id, ClientManager clientManager, DarkRiftThreadHelper threadHelper, Logger logger, MetricsCollector metricsCollector,int rttsamplecount = 10,int pingbacklogsize = 10)
+        private Client(NetworkServerConnection connection, ushort id, ClientManager clientManager, DarkRiftThreadHelper threadHelper, Logger logger, MetricsCollector metricsCollector)
         {
             this.connection = connection;
             this.ID = id;
@@ -148,10 +135,6 @@ namespace DarkRift.Server
 
             connection.MessageReceived = HandleIncomingDataBuffer;
             connection.Disconnected = Disconnected;
-
-            //TODO make configurable
-            this.RoundTripTime = new RoundTripTimeHelper(rttsamplecount, pingbacklogsize);
-
             messagesSentCounter = metricsCollector.Counter("messages_sent", "The number of messages sent to clients.");
             messagesReceivedCounter = metricsCollector.Counter("messages_received", "The number of messages received from clients.");
             messageReceivedEventTimeHistogram = metricsCollector.Histogram("message_received_event_time", "The time taken to execute the MessageReceived event.");
@@ -167,17 +150,18 @@ namespace DarkRift.Server
             {
                 writer.Write(ID);
 
-                using (Message command = Message.Create((ushort)CommandCode.Configure, writer))
+                using (Message command = Message.Create(BasisTags.Configure, writer))
                 {
-                    command.IsCommandMessage = true;
-                    PushBuffer(command.ToBuffer(), defaultMessageChannel, DeliveryMethod.ReliableOrdered);
-
+                    using (MessageBuffer buffer = command.ToBuffer())
+                    {
+                      //  Console.WriteLine("Buffer " + buffer.Buffer.Length);
+                        PushBuffer(buffer, defaultMessageChannel, DeliveryMethod.ReliableOrdered);
+                    }
                     // Make sure we trigger the sent metric still
                     messagesSentCounter.Increment();
                 }
             }
         }
-
         /// <summary>
         /// Starts this client's connecting listening for messages.
         /// </summary>
@@ -201,9 +185,6 @@ namespace DarkRift.Server
             //Send frame
             if (!PushBuffer(message.ToBuffer(), channel, sendMode))
                 return false;
-
-            if (message.IsPingMessage)
-                RoundTripTime.RecordOutboundPing(message.PingCode);
 
             //Increment counter
             Interlocked.Increment(ref messagesSent);
@@ -291,24 +272,11 @@ namespace DarkRift.Server
         internal void HandleIncomingMessage(Message message,byte channel, DeliveryMethod sendMode)
         {
             //Discard any command messages sent from the client since they shouldn't send them
-            if (message.IsCommandMessage)
+            if (message.Tag == BasisTags.Configure || message.Tag == BasisTags.Identify)
             {
                 Strike(StrikeReason.InvalidCommand, "Received a command message from the client. Clients should not sent commands.", 5);
 
                 return;
-            }
-
-            //Record any ping acknowledgements
-            if (message.IsPingAcknowledgementMessage)
-            {
-                try
-                {
-                    RoundTripTime.RecordInboundPing(message.PingCode);
-                }
-                catch (KeyNotFoundException)
-                {
-                    Strike(StrikeReason.UnidentifiedPing, "Received a ping acknowledgement for a ping code that does not exist. This may be because too many sent pings were unanswered at the same time and so some were dropped before this response was returned.", 1);
-                }
             }
 
             // Get another reference to the message so 1. we can control the backing array's lifecycle and thus it won't get disposed of before we dispatch, and
@@ -429,16 +397,9 @@ namespace DarkRift.Server
         /// <param name="weight">The number of strikes this accounts for.</param>
         private void EnforceStrike(StrikeReason reason, string message, int weight)
         {
-            int newValue = Interlocked.Add(ref strikes, weight);
-
             logger.Trace($"Client received strike of weight {weight} for {reason}{(message == null ? "" : ": " + message)}.");
-
-            if (newValue >= clientManager.MaxStrikes)
-            {
-                Disconnect();
-
-                logger.Info($"Client was disconnected as the total weight of accumulated strikes exceeded the allowed number ({newValue}/{clientManager.MaxStrikes}).");
-            }
+            Disconnect();
+            logger.Info($"Client was disconnected as the total weight of accumulated strikes exceeded the allowed number");
         }
 #endregion
 

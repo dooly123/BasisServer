@@ -6,6 +6,7 @@
 
 using DarkRift.Client;
 using DarkRift.Server.Metrics;
+using DarkRift.Server.Plugins.Commands;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -146,7 +147,7 @@ namespace DarkRift.Server
             serverDisconnectedEventFailuresCounter = metricsCollector.Counter("remote_server_disconnected_event_failures", "The number of failures executing the ServerDisconnected event.", "group").WithTags(group.Name);
         }
 
-        internal void Connect()
+        internal void Connect(string ip, int port, byte[] array)
         {
             IEnumerable<IPAddress> addresses = Dns.GetHostEntry(Host).AddressList;
 
@@ -160,7 +161,7 @@ namespace DarkRift.Server
                 c.MessageReceived += MessageReceivedHandler;
                 c.Disconnected += DisconnectedHandler;
 
-                c.Connect();
+                c.Connect( ip,  port, array);
 
                 return c;
             });
@@ -169,9 +170,8 @@ namespace DarkRift.Server
             {
                 writer.Write(remoteServerManager.ServerID);
 
-                using (Message message = Message.Create((ushort)CommandCode.Identify, writer))
+                using (Message message = Message.Create((ushort)BasisTags.Identify, writer))
                 {
-                    message.IsCommandMessage = true;
                     SendMessage(message, 0, DeliveryMethod.ReliableOrdered);
                 }
             }
@@ -256,9 +256,9 @@ namespace DarkRift.Server
         {
             using (DarkRiftReader reader = message.GetReader())
             {
-                switch ((CommandCode)message.Tag)
+                switch (message.Tag)
                 {
-                    case CommandCode.Configure:
+                    case BasisTags.Configure:
                         logger.Warning($"Server {ID} sent an unexpected command message.");
                         break;
                 }
