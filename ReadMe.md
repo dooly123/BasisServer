@@ -1,3 +1,5 @@
+ ### This is the Legacy Server, use the new one found in the directory of the main basis repo [URL](https://github.com/dooly123/Basis)
+ 
  ### Basis let's you set up your own Social VR and Networked VR games with ease.
  ## Find our latest release <a href="https://github.com/dooly123/Basis/releases">here</a>.
 
